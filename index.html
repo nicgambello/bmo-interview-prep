@@ -192,7 +192,10 @@ ul{padding-left:16px}li{margin-bottom:4px}
   <div id="m"></div>
 </div>
 <script>
-const S={xp:0,str:0,mx:0,ok:0,tot:0,ch:-1,st:0,done:new Set(),fcIdx:0};
+// Load saved progress from localStorage
+const _saved=JSON.parse(localStorage.getItem('bmo_prep')||'null');
+const S=_saved?{..._saved,done:new Set(_saved.done)}:{xp:0,str:0,mx:0,ok:0,tot:0,ch:-1,st:0,done:new Set(),fcIdx:0};
+function save(){localStorage.setItem('bmo_prep',JSON.stringify({...S,done:[...S.done]}))};
 const $=id=>document.getElementById(id);
 const M=()=>$('m');
 const upd=()=>{$('xp').textContent=S.xp;$('str').textContent=S.str;$('chdone').textContent=S.done.size+'/'+CH.length;
@@ -201,7 +204,7 @@ let p='';for(let i=0;i<CH.length;i++)p+=`<div class="pip ${S.done.has(i)?'done':
 function toast(msg,type='g'){const t=document.createElement('div');t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
 function ding(ok){S.tot++;if(ok){S.ok++;S.str++;if(S.str>S.mx)S.mx=S.str;const b=Math.min(S.str,5);S.xp+=10+b*2;
 if(S.str===3)toast('3x Streak!','b');if(S.str===5)toast('5x Streak! On fire!','b');if(S.str===8)toast('8x STREAK! UNSTOPPABLE!','b');
-}else S.str=0;upd()}
+}else S.str=0;upd();save()}
 
 function D(w,t){
   const av={you:'YOU',friend:'BFF'};const nm={you:'You',friend:'Your Friend (who works in consumer products)'};
@@ -1000,17 +1003,21 @@ function goMenu(){
     <button class="btn btn-g" onclick="renderFC()">Flashcards (${FC.length})</button>
     <button class="btn btn-b" onclick="condMenu()" style="background:linear-gradient(135deg,var(--purple),var(--blue))">🧠 Conditioning Mode</button></div>`;
   if(S.tot>0){const p=Math.round(S.ok/S.tot*100);
+    const missHist=JSON.parse(localStorage.getItem('bmo_cond_misses')||'{}');
+    const missCount=Object.keys(missHist).length;
     h+=`<div class="bx" style="margin-top:12px"><div class="rs">
       <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">XP</div></div>
       <div class="rs-i"><div class="rs-v" style="color:var(--green)">${p}%</div><div class="rs-l">Accuracy</div></div>
       <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.mx}</div><div class="rs-l">Best Streak</div></div>
-    </div></div>`}
+    </div></div>`;
+    if(missCount>0)h+=`<p style="text-align:center;margin-top:6px;font-size:.78em;color:var(--red)">${missCount} weak spot${missCount>1?'s':''} detected — <a href="#" onclick="event.preventDefault();condMenu()" style="color:var(--red);text-decoration:underline">drill them</a></p>`}
+  h+=`<div style="text-align:center;margin-top:16px"><button style="background:none;border:none;color:var(--dim);font-size:.7em;cursor:pointer;font-family:inherit;text-decoration:underline" onclick="if(confirm('Reset all progress? This cannot be undone.')){localStorage.clear();location.reload()}">Reset Progress</button></div>`;
   M().innerHTML=h;
 }
 function go(i){S.ch=i;S.st=0;upd();rend()}
 function rend(){
   const c=CH[S.ch];
-  if(S.st>=c.steps.length){S.done.add(S.ch);upd();
+  if(S.st>=c.steps.length){S.done.add(S.ch);save();upd();
     const p=S.tot?Math.round(S.ok/S.tot*100):0;
     M().innerHTML=`<div class="bx in tc" style="padding:34px 22px">
       <div style="font-size:2.2em;margin-bottom:6px">${c.icon}</div>
@@ -1129,6 +1136,25 @@ const COND_ITEMS=[
 {q:"Your Why BMO reason #2: The culture ___ is building",a:"Erica",cat:"interview",hints:["Team leader","Person you've met"]},
 {q:"Your Why BMO reason #3: ___ is at the forefront of BMO's strategy",a:"AI",cat:"interview",hints:["Technology","1,000+ models deployed"]},
 {q:"In your Costco pitch, the key metric for loyalty is ___ renewal rate",a:"membership",cat:"interview",hints:["Annual fee","90%+ rate"]},
+{q:"The bear case on Costco is expensive ___",a:"valuation",cat:"interview",hints:["Stock price vs earnings","Is it too pricey?"]},
+{q:"Ben Wood will test if you think like an ___",a:"investor",cat:"interview",hints:["Buy-side perspective","Portfolio thinking"]},
+{q:"Lucas Cohen will test your ___ rigor",a:"analytical",cat:"interview",hints:["CFA mindset","Models and data"]},
+
+// More sector depth
+{q:"Coca-Cola is available in every country except North Korea and ___",a:"Cuba",cat:"sector",hints:["Caribbean island","Communist state"]},
+{q:"Hershey's profits dropped ___% due to cocoa prices doubling",a:"36",cat:"sector",hints:["Over a third","Devastating hit"]},
+{q:"P&G has raised its dividend for ___+ consecutive years",a:"60",cat:"sector",hints:["Over half a century","Dividend aristocrat"]},
+{q:"The consumer staples ETF ticker is ___",a:"XLP",cat:"sector",hints:["Three letters","X-L-..."]},
+{q:"In the revenue formula, growth from selling more units is called ___ growth",a:"volume",cat:"sector",hints:["Not pricing","More units sold"]},
+{q:"When consumers switch from premium to cheaper alternatives, it's called trade-___",a:"down",cat:"sector",hints:["Downward movement","Cheaper options"]},
+{q:"Gross margin measures revenue minus ___ of goods sold",a:"cost",cat:"sector",hints:["Expenses","Ingredients + packaging"]},
+{q:"The ability to raise prices without losing customers is called ___ power",a:"pricing",cat:"sector",hints:["Charge more","Inelastic demand"]},
+
+// More firm
+{q:"BMO was founded in the year ___",a:"1817",cat:"firm",hints:["Before Canada existed","Early 1800s"]},
+{q:"BMO's CEO is named ___",a:"Darryl White",cat:"firm",hints:["First name starts with D","Last name is a color"]},
+{q:"BMO has approximately ___ employees globally",a:"50000",cat:"firm",hints:["Five digits","Fifty thousand"]},
+{q:"BMO is the ___th largest bank in North America",a:"8",cat:"firm",hints:["Single digit","Not top 5"]},
 ];
 
 // Initialize conditioning items with spaced repetition data
@@ -1193,6 +1219,11 @@ function condMenu(){
         <div class="ch-inf"><div class="ch-nm">Full Marathon</div><div class="ch-ds">All modes, interleaved, with spaced repetition. The ultimate conditioning session.</div></div>
         <div class="ch-st nw">Go</div>
       </div>
+      <div class="ch-i" onclick="startCond('weak')">
+        <div class="ch-ic">🎯</div>
+        <div class="ch-inf"><div class="ch-nm">Weak Spots</div><div class="ch-ds">Targets ONLY items you've gotten wrong before. Surgical strike on your gaps.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
     </div>
   </div>`;
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1202,6 +1233,28 @@ function startCond(mode){
   initCond();
   COND.mode=mode;
   COND.round=0;
+  // Weak spots: load miss history from localStorage, force those items to box 0
+  if(mode==='weak'){
+    const hist=JSON.parse(localStorage.getItem('bmo_cond_misses')||'{}');
+    const hasWeaks=COND.items.some(it=>hist[it.q]);
+    if(!hasWeaks){
+      // No history yet -- run everything once first
+      M().innerHTML=`<div class="bx in tc" style="padding:30px 22px">
+        <div style="font-size:2em;margin-bottom:8px">🎯</div>
+        <h2 style="font-size:1.2em">No Weak Spots Yet</h2>
+        <p style="margin-top:8px">Run a Speed Drill or Marathon first -- then Weak Spots will target the items you missed.</p>
+        <div class="br" style="justify-content:center;margin-top:14px">
+          <button class="btn btn-b" onclick="condMenu()">← Back</button>
+        </div>
+      </div>`;
+      return;
+    }
+    // Push weak items to box 0, strong items to box 3 (skip them)
+    COND.items.forEach(it=>{
+      if(hist[it.q])it.box=0;
+      else it.box=3;
+    });
+  }
   nextCondItem();
 }
 
@@ -1235,14 +1288,21 @@ function nextCondItem(){
   const done=COND.items.filter(it=>it.box>=2).length;
   const total=COND.items.length;
   const pct=Math.round(done/total*100);
+  const catColors={firm:'var(--blue)',people:'var(--purple)',sector:'var(--cyan)',themes:'var(--orange)',calls:'var(--green)',interview:'var(--gold)'};
+  const catNames={firm:'FIRM',people:'PEOPLE',sector:'SECTOR',themes:'THEMES',calls:'RATINGS',interview:'INTERVIEW'};
+  const catTag=`<span style="font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:${catColors[picked.cat]||'var(--dim)'}">${catNames[picked.cat]||picked.cat}</span>`;
 
   let topBar=`<div class="br" style="margin-bottom:10px">
     <button class="btn btn-g" onclick="if(COND.timer)clearInterval(COND.timer);condMenu()">← Back</button>
     <span style="flex:1"></span>
-    <span style="color:var(--dim);font-size:.75em;align-self:center">${done}/${total} conditioned (${pct}%)</span>
+    <span style="color:var(--dim);font-size:.75em;align-self:center">${COND.correct+COND.wrong} answered · ${done}/${total} locked</span>
   </div>
   <div class="cm-bar"><div class="cm-fill" style="width:${pct}%"></div></div>
-  <div class="cm-streak-bar">${COND.history.slice(-15).map(h=>`<div class="cm-dot ${h?'hit':'miss'}"></div>`).join('')}</div>`;
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0">
+    ${catTag}
+    <span style="font-size:.7em;color:var(--dim)">Box ${picked.box}/3 ${picked.box===0?'· New':picked.box===1?'· Learning':picked.box===2?'· Known':'· Mastered'}</span>
+  </div>
+  <div class="cm-streak-bar">${COND.history.slice(-20).map(h=>`<div class="cm-dot ${h?'hit':'miss'}"></div>`).join('')}</div>`;
 
   if(presentMode==='speed') renderSpeed(topBar,picked);
   else if(presentMode==='recall') renderRecall(topBar,picked);
@@ -1358,7 +1418,7 @@ window.condRecallSubmit=function(){
 
   // Fuzzy match: check if answer contains the key part
   const answer=item.a.toLowerCase();
-  const ok=val===answer || val.includes(answer) || answer.includes(val) && val.length>=Math.min(3,answer.length);
+  const ok=val===answer || val.includes(answer) || (answer.includes(val) && val.length>=Math.min(3,answer.length)) || (val.replace(/[^a-z0-9]/g,'')===answer.replace(/[^a-z0-9]/g,''));
 
   condAnswer(ok);
   inp.classList.add(ok?'ok':'no');
@@ -1428,6 +1488,13 @@ const INTERVIEW_FRAMES=[
   q=>`Lucas is testing your recall: "${q.replace('___','fill in the blank?')}"`,
   q=>`Ben, ex-Point72, wants to see if you think fast: "${q.replace('___','...')}"`,
   q=>`Lucas, the CFA, probes: "${q.replace('___','what exactly?')}"`,
+  q=>`Ben raises an eyebrow: "If you know our platform, tell me -- ${q.replace('___','what?')}"`,
+  q=>`Lucas checks if you've done your homework: "${q.replace('___','...')}?"`,
+  q=>`Ben smirks: "Every good candidate knows this. ${q.replace('___','what?')}"`,
+  q=>`Lucas, pen in hand, asks casually: "${q.replace('___','remind me?')}"`,
+  q=>`Ben tests your conviction: "You tell me -- ${q.replace('___','what?')}"`,
+  q=>`Lucas pauses mid-note and looks up: "${q.replace('___','go ahead')}"`,
+  q=>`Ben, channeling his Point72 days: "Walk me through it. ${q.replace('___','...')}"`,
 ];
 
 function renderInterview(topBar,item){
@@ -1499,10 +1566,14 @@ function condAnswer(ok){
     if(COND.streak===15)toast('15x!! UNSTOPPABLE NEURAL PATHWAYS!','b');
     if(item.box===3)toast('Item MASTERED! Locked in long-term memory.','g');
   }else{
-    item.box=Math.max(item.box-1,0); // Drop back a box (spaced repetition penalty)
+    item.box=Math.max(item.box-1,0);
     item.timesWrong++;
     COND.wrong++;
     COND.streak=0;
+    // Track misses for Weak Spots mode
+    const hist=JSON.parse(localStorage.getItem('bmo_cond_misses')||'{}');
+    hist[item.q]=(hist[item.q]||0)+1;
+    localStorage.setItem('bmo_cond_misses',JSON.stringify(hist));
   }
   COND.history.push(ok);
   upd();
@@ -1532,8 +1603,14 @@ function condComplete(){
       <strong>What just happened in your brain:</strong><br>
       Every correct retrieval strengthened the neural pathway to that memory. Items you got wrong were re-queued at shorter intervals -- your brain will see them again sooner, which is exactly when the forgetting curve says you need the reinforcement. Run this again in 30-60 minutes for maximum long-term encoding (spacing effect).
     </div>
+    ${(()=>{
+      const weak=COND.items.filter(it=>it.timesWrong>0).sort((a,b)=>b.timesWrong-a.timesWrong).slice(0,5);
+      if(weak.length===0)return '<div class="bx2 gr" style="margin-top:12px"><span class="tag tag-gr">PERFECT SESSION</span><p>Zero misses. Your neural pathways are locked in. You\'re ready.</p></div>';
+      return '<div class="bx2 re" style="margin-top:12px"><span class="tag tag-re">YOUR WEAK SPOTS</span><p style="margin-bottom:8px">These came back to haunt you -- hit "Weak Spots" mode to drill them:</p><ul>'+weak.map(w=>`<li style="font-size:.84em"><strong>${w.q.replace(/___/g,'___')}</strong> → <span style="color:var(--cyan)">${w.a}</span> <span style="color:var(--red);font-size:.8em">(missed ${w.timesWrong}x)</span></li>`).join('')+'</ul></div>';
+    })()}
     <div class="br" style="justify-content:center;margin-top:14px">
       <button class="btn btn-b" onclick="startCond(COND.mode)">Run Again</button>
+      <button class="btn btn-g" onclick="startCond('weak')">Weak Spots</button>
       <button class="btn btn-g" onclick="condMenu()">Change Mode</button>
       <button class="btn btn-g" onclick="goMenu()">Main Menu</button>
     </div>
