@@ -443,9 +443,9 @@ steps:[
   <p><strong>Why investors care:</strong> Staples stocks are "defensive" -- they don't crash as hard during recessions because people keep buying the products. In 2008, while the S&P 500 dropped ~55%, staples held up way better.</p>
   <div class="funny">Staples stocks are a Toyota Camry. Not flashy, won't win a race, but reliable and still running in 15 years. Tech stocks are the sports car -- thrilling when things go well, expensive to fix when they don't.</div>
 </div>
-${mkQ('c1q0','You lost your job. Which of these would you STILL buy?',
-  ['Concert tickets and new sneakers','Toothpaste and cereal','A new TV and designer sunglasses','Vacation flights'],0,'')}
-<div class="hidden" id="c1q0" data-exp="<strong>Toothpaste and cereal.</strong> These are non-negotiable purchases -- classic consumer staples. Everything else gets cut when money is tight. That's why staples companies have predictable revenue even in recessions."></div>
+${mkQ('c1q0','In a recession, consumer staples stocks tend to outperform. But when do they UNDERPERFORM?',
+  ['During bull markets when investors chase higher-growth sectors like tech','During periods of low inflation','When interest rates are falling','They never underperform -- staples always win'],0,'')}
+<div class="hidden" id="c1q0" data-exp="<strong>Bull markets.</strong> When the economy is booming and tech stocks are ripping, nobody wants a boring cereal stock returning 5%. In 2023-2024, staples badly lagged the S&P 500 as AI excitement drove tech higher. Staples also underperform when rates rise because bonds become a competing 'safe' asset. The sector XLP rallied ~13% in early 2026 precisely because tech started looking shaky."></div>
 
 ${mkTF('c1tf1','"Coca-Cola is a consumer discretionary company because soda is a luxury, not a necessity."',false,'')}
 <div class="hidden" id="c1tf1" data-exp="<strong>False!</strong> Even though soda isn't 'essential' like water, Coca-Cola is classified as a consumer staple because people buy it habitually regardless of economic conditions. A $2 Coke is a small daily pleasure people don't cut. A $7 artisanal cold-pressed juice? THAT might be discretionary."></div>`,
@@ -475,8 +475,8 @@ ${mkTF('c1tf1','"Coca-Cola is a consumer discretionary company because soda is a
   <p><strong>Pricing Power:</strong> When wheat prices go up, General Mills can raise Cheerios prices because you're not going to stop buying cereal. You'll grumble, but you'll pay.</p>
   <div class="an">A consumer staples company is like a tollbooth on the only bridge into town. Everyone has to cross it (people need toothpaste), and the company collects a toll (their profit margin) every time. The brand is what keeps you on THEIR bridge instead of swimming across the river (buying generic).</div>
 </div>
-${mkTF('c1tf0','"A company growing revenue 4% entirely through price increases is just as healthy as one growing 4% through selling more units."',false,'')}
-<div class="hidden" id="c1tf0" data-exp="<strong>False!</strong> Growth from price alone is more fragile. If a company is only raising prices (not selling more), customers may eventually push back, trade down to cheaper brands, or switch to store brands. <strong>Volume growth signals genuine demand.</strong> This is one of the most important things analysts watch."></div>`,
+${mkTF('c1tf0','"If a company reports +5% organic growth with +7% price and -2% volume, an analyst should view this positively because revenue is still growing."',false,'')}
+<div class="hidden" id="c1tf0" data-exp="<strong>False -- this is a red flag.</strong> Negative volume means the company is selling FEWER units. They're papering over declining demand with price hikes. This is unsustainable: eventually consumers revolt, trade down, or switch to private label. The +5% headline looks fine, but the -2% volume underneath tells you the franchise is eroding. This is EXACTLY the kind of decomposition analysts like Kelly Bania do every quarter. Volume is truth; price is a lever that eventually breaks."></div>`,
 ]},
 
 // CH2: KEY METRICS
@@ -561,9 +561,9 @@ const pairs=[
   </ul>
   <div class="an">Evaluating a food company is like evaluating a restaurant. Organic growth = are more customers showing up? Gross margin = how much do you keep after paying for ingredients? Input costs = price of beef and vegetables. Market share = what percentage of diners in town eat at YOUR restaurant? Private label = the food truck parked outside offering cheaper food.</div>
 </div>
-${mkQ('c2q0','Private label sales hit a record in 2025. What does this mean for branded food companies like Kraft Heinz?',
-  ['Great news -- more store brands means more demand for food overall','Bad news -- every dollar spent on store brands is a dollar NOT spent on their products','No impact -- private label and name brands serve different customers','Good news -- Kraft Heinz makes the private label products too'],1,'')}
-<div class="hidden" id="c2q0" data-exp="<strong>Direct competition.</strong> When someone buys Kirkland peanut butter instead of Jif, that's revenue Kraft (Jif's parent) lost. Private label reaching record levels is a structural headwind for branded food companies. Over 80% of consumers now rate store brand quality as equal or better than name brands."></div>`,
+${mkQ('c2q0','Private label dollar share rose from 19.1% to 21.3% over 2021-2025. European private label share is 39-47%. If the US follows the European trajectory, what\'s the strategic implication?',
+  ['Branded companies should acquire private label manufacturers','The US will never reach European levels -- different market','Branded food companies face a STRUCTURAL headwind that could last a decade, requiring them to either innovate above store-brand quality or accept permanent margin compression','Private label growth will reverse once inflation cools'],2,'')}
+<div class="hidden" id="c2q0" data-exp="<strong>This is a structural, not cyclical, shift.</strong> Europe shows the ceiling: 39-47% private label share. The US at 21.3% has a long runway to grow. 80%+ of consumers already rate store brands as equal quality. This isn't just a recession trade -- it's a permanent rebalancing. Companies like Kraft Heinz must either innovate meaningfully above store-brand quality (hard) or accept lower volumes and margins (painful). This distinction between cyclical and structural is exactly the kind of nuance an analyst thinks about."></div>`,
 ]},
 
 // CH3: THE BIG THEMES
@@ -681,9 +681,9 @@ steps:[
     <li>Strong private label program -- store brands are a profit driver</li>
   </ul>
 </div>
-${mkQ('c4q0','Why is Costco\'s membership fee so important to its business model?',
-  ['It\'s their biggest expense','It\'s almost pure profit, which lets them sell products at near-cost to keep members loyal','Members get free products','It funds their advertising budget'],1,'')}
-<div class="hidden" id="c4q0" data-exp="<strong>The membership fee IS the business model.</strong> Costco keeps product prices as low as possible (sometimes below competitor cost) because the real profit comes from membership fees. 90%+ renewal rates mean that revenue is incredibly predictable."></div>`,
+${mkQ('c4q0','Costco trades at ~50x P/E while Kroger trades at ~15x. What justifies Costco\'s massive premium?',
+  ['Costco has more stores than Kroger','Costco\'s membership model creates a recurring, high-margin revenue stream with 90%+ renewal rates and pricing power that traditional grocers lack','Costco sells higher-quality food','Kroger is about to go bankrupt'],1,'')}
+<div class="hidden" id="c4q0" data-exp="<strong>The membership moat.</strong> Costco's ~$65-130/year fee is almost pure profit, creating a predictable revenue floor. 90%+ renewals mean this revenue is nearly guaranteed. Traditional grocers like Kroger compete on razor-thin margins with no equivalent recurring income. Investors pay a premium for that visibility and defensibility. That said, 50x IS expensive -- if same-store sales disappoint even slightly, the stock gets punished hard."></div>`,
 
 ()=>`<div class="bx in">
   ${D('you',"What about the dollar stores and food distributors? Kelly covers those too, right?")}
@@ -775,9 +775,9 @@ steps:[
   </ul>
   <p>These companies have the <strong>highest gross margins</strong> in staples (~50% for P&G). Private label is less of a threat here because brand trust matters more for products you put on your body.</p>
 </div>
-${mkQ('c5q0','PepsiCo recently acquired Poppi for nearly $2 billion. Poppi is a:',
-  ['Traditional cola brand','Prebiotic soda brand riding the health/wellness trend','Restaurant chain','Snack food company'],1,'')}
-<div class="hidden" id="c5q0" data-exp="<strong>Poppi is a prebiotic soda brand</strong> -- one of the hottest categories in beverages. PepsiCo paying $2 billion for a trendy gut-health soda signals that even the biggest beverage companies see the future in health-focused drinks, not just traditional sugary sodas."></div>`,
+${mkQ('c5q0','PepsiCo paid ~$2B for Poppi, a prebiotic soda brand. Hershey bought LesserEvil (healthy snacks). What does this M&A pattern tell you about how big food companies view organic innovation vs. acquisition?',
+  ['They prefer building brands in-house because it\'s cheaper','They\'re signaling that internal R&D has failed to keep pace with shifting consumer preferences, so they\'re acquiring the innovation they couldn\'t build -- paying a premium for speed','They only buy companies for tax purposes','Acquisitions are always better than organic growth'],1,'')}
+<div class="hidden" id="c5q0" data-exp="<strong>This is a 'buy vs. build' thesis question</strong> -- exactly what an analyst thinks about. Big CPG companies have massive distribution but slow innovation cycles. Startups have the hot brands but no scale. M&A bridges that gap. PepsiCo paying $2B for Poppi is an admission that their internal innovation couldn't produce a credible prebiotic soda fast enough. The risk? Overpaying. The reward? Plugging Poppi into 200,000+ stores overnight. Expect more of this as GLP-1 trends accelerate."></div>`,
 
 ()=>`<div class="bx in">
   ${D('you',"Any big corporate drama? Acquisitions? Hostile takeovers? Give me the tea.")}
@@ -810,8 +810,8 @@ ${(()=>{window['_sc_c5s1']=[
   <p>This is the classic staples trade: <strong>they shine when everything else looks scary.</strong></p>
   <div class="funny">Consumer staples stocks are the friend who drives a Prius and maxes out their 401k. You make fun of them for 5 years. Then the recession hits and suddenly they're the only one not panicking. "Oh NOW you want to hang out."</div>
 </div>
-${mkTF('c5tf0','"Consumer staples stocks typically underperform during bull markets but outperform when the economy looks shaky."',true,'')}
-<div class="hidden" id="c5tf0" data-exp="<strong>True!</strong> This is the defining characteristic of defensive stocks. When tech is ripping and the economy is booming, nobody wants boring cereal stocks. But when uncertainty rises, investors pile into staples because people keep buying toothpaste and Cheerios regardless. It's the umbrella analogy -- useless on sunny days, essential when it rains."></div>`,
+${mkTF('c5tf0','"Rising interest rates are generally GOOD for consumer staples stocks because staples companies carry low debt."',false,'')}
+<div class="hidden" id="c5tf0" data-exp="<strong>False -- rising rates hurt staples in two ways.</strong> First, staples are valued partly for their dividends (P&G yields ~2.5%). When bond yields rise, investors can get 'safe' income from bonds instead, making staples dividends less attractive by comparison. Money flows out. Second, many staples companies actually carry significant debt from M&A. Higher rates increase their borrowing costs. The low-debt argument is a common misconception. This is why staples sold off in 2022-2023 as rates spiked."></div>`,
 ]},
 
 // CH6: INTERVIEW INTELLIGENCE
@@ -940,16 +940,16 @@ ${(()=>{window['_sc_c7s0']=[
   <h2 style="font-size:1.3em">Final Round: Everything You've Learned</h2>
   <p>Last questions. Let's see what stuck.</p>
 </div>
-${mkQ('fin0','Consumer staples companies make money through:',
-  ['Government subsidies','Revenue = Volume x Price. They sell everyday products and grow by selling more units or charging more per unit.','Subscription fees from consumers','Technology licensing'],1,'')}
-<div class="hidden" id="fin0" data-exp="The core formula: <strong>Revenue = Volume x Price.</strong> Companies grow by selling more stuff (volume) or charging more per unit (price). The healthiest growth comes from both."></div>
+${mkQ('fin0','A food company reports organic growth of +3%: +5% price, -2% volume. Gross margin expanded 50bps. What should concern you?',
+  ['Nothing -- revenue grew and margins expanded, so the business is healthy','The negative volume suggests consumers are pushing back on price increases, and margin expansion was likely driven by price rather than operating leverage -- this is fragile growth','Gross margin expansion is always bad','The company should cut prices immediately'],1,'')}
+<div class="hidden" id="fin0" data-exp="<strong>Fragile growth.</strong> The headline +3% looks okay, but the decomposition tells a different story. Negative volume means fewer people are buying. The margin expansion came from raising prices, not from genuine efficiency gains. If the company can't reverse the volume decline, eventually pricing power runs out too -- especially with private label at record highs. This is the 'volume is truth' principle. An analyst who only looks at top-line growth misses the rot underneath."></div>
 
 ${mkTF('fin1','"Kelly Bania rates Costco as Outperform (buy) and Dollar Tree as Underperform (sell)."',true,'')}
 <div class="hidden" id="fin1" data-exp="<strong>True!</strong> Kelly likes Costco (membership model, Kirkland brand dominance, benefits from trade-down) and is bearish on Dollar Tree (Family Dollar troubles, fixed-price model struggles with inflation). Knowing her specific calls shows you did your research."></div>
 
-${mkQ('fin2','Why did Ben Wood\'s background at Point72 (hedge fund) matter for your interview prep?',
-  ['It doesn\'t matter at all','He\'ll test whether you think like an investor -- not just academically, but about what a stock call actually means for a portfolio','He\'ll only ask about hedge fund strategies','He\'ll be easier on you because hedge funds are less rigorous'],1,'')}
-<div class="hidden" id="fin2" data-exp="<strong>Ben thinks like a portfolio manager.</strong> He came from the buy-side, so he'll test whether you can connect research to actual investment decisions. Not just 'this company is doing well' but 'here's why you should buy/sell the stock.' That's the difference between academic knowledge and investment insight."></div>
+${mkQ('fin2','Ben pushes back on your Costco pitch: "It trades at 50x earnings -- Kroger is 15x and sells the same groceries. Why pay 3x the multiple?" What\'s the strongest rebuttal?',
+  ['Costco has nicer stores','The membership model creates recurring, near-guaranteed revenue with 90%+ renewals that Kroger lacks. Kirkland gives them private-label upside rather than downside. And membership fee increases every 5-7 years are instant margin expansion. The premium reflects a structurally different business model, not just better execution.','Costco stock always goes up','Kroger is about to be acquired so the comparison is irrelevant'],1,'')}
+<div class="hidden" id="fin2" data-exp="<strong>This is a valuation defense question</strong> -- the hardest part of any stock pitch. The answer isn't 'Costco is better.' It's WHY the premium is justified: recurring membership revenue (Kroger has nothing comparable), Kirkland BENEFITS from private label instead of being hurt by it, and fee increases are an embedded catalyst. You're arguing Costco deserves a different multiple because it's a fundamentally different business model. That said, always acknowledge: 'At 50x, there's limited margin for error.' Ben will respect that intellectual honesty."></div>
 
 ${(()=>{window['_sc_fins']=[
   {text:"'Three things. The Canadian analyst bench is a real differentiator -- in consumer staples, where tariffs and cross-border supply chains are the biggest story right now, having Canadian colleagues to lean on is both a learning opportunity and a competitive edge no US-only shop can offer. Second, the people -- everyone I've met so far has been impressive, and the culture Erica is building on this team is something I genuinely want to be part of. And third, I read the annual report cover to cover, and AI is clearly at the forefront of BMO's strategy -- over 1,000 models deployed, the CEO calling it an accelerant to revenue. That tells me this firm is investing in the future.'",result:"OUTSTANDING. This is authentic, specific, and impossible to fake. You connected the Canadian bench to the actual sector dynamics (tariffs!), showed you've built real relationships by naming Erica and the team culture, AND proved you read the annual report by citing specific AI stats. Lucas and Ben will know this isn't rehearsed generic nonsense -- it's YOUR genuine reasons. That's what wins.",quality:'good',xp:20},
@@ -1155,6 +1155,28 @@ const COND_ITEMS=[
 {q:"BMO's CEO is named ___",a:"Darryl White",cat:"firm",hints:["First name starts with D","Last name is a color"]},
 {q:"BMO has approximately ___ employees globally",a:"50000",cat:"firm",hints:["Five digits","Fifty thousand"]},
 {q:"BMO is the ___th largest bank in North America",a:"8",cat:"firm",hints:["Single digit","Not top 5"]},
+
+// Advanced sector -- analytical depth
+{q:"Costco trades at roughly ___x P/E, far above grocery peers",a:"50",cat:"advanced",hints:["Double Walmart's multiple","Membership moat premium"]},
+{q:"Walmart trades at roughly ___x P/E",a:"35",cat:"advanced",hints:["Above Kroger, below Costco","Mid-30s"]},
+{q:"Kroger trades at roughly ___x P/E",a:"15",cat:"advanced",hints:["Cheapest of the three","Mid-teens"]},
+{q:"TD Cowen estimated large-cap food EPS fell ___% YoY in 2025",a:"18",cat:"advanced",hints:["Nearly a fifth","Tariff-driven"]},
+{q:"General Mills organic revenue fell ___% in 2025 due to tariffs",a:"20",cat:"advanced",hints:["One-fifth","Worse than Kraft Heinz"]},
+{q:"Procter & Gamble faces a projected $___ billion pretax tariff burden for FY2026",a:"1",cat:"advanced",hints:["Ten figures","Single digit billions"]},
+{q:"GLP-1 households projected to represent ___% of all food/beverage units by 2030",a:"35",cat:"advanced",hints:["Over a third","Massive share"]},
+{q:"Private label dollar share in Europe is ___-47%, showing where the US could go",a:"39",cat:"advanced",hints:["High thirties","Nearly double US levels"]},
+{q:"___% of consumers now rate private label quality as equal or better than national brands",a:"80",cat:"advanced",hints:["Vast majority","Four out of five"]},
+{q:"Private label dollar share in the US rose from 19.1% to ___% over 2021-2025",a:"21.3",cat:"advanced",hints:["Just above 21%","Two percentage points gained"]},
+{q:"Protein consumption among GLP-1 users is up ___% ",a:"65",cat:"advanced",hints:["Well over half","Nearly two-thirds"]},
+{q:"Walmart's high-margin advertising business is called Walmart ___",a:"Connect",cat:"advanced",hints:["Digital ads","Retail media network"]},
+{q:"Costco raises its membership fee approximately every ___-___ years",a:"5-7",cat:"advanced",hints:["Half a decade or so","Not annual"]},
+{q:"Dollar General's core customer earns under $___,000 per year",a:"40",cat:"advanced",hints:["Below median income","Under forty"]},
+{q:"J.P. Morgan expects staples volumes to accelerate to +___% in FY26",a:"2.7",cat:"advanced",hints:["Low single digits","Just under 3%"]},
+{q:"The 20-year historical average for food-at-home CPI is ___% annually",a:"2.6",cat:"advanced",hints:["Mid two percent","2026 forecast exceeds this"]},
+{q:"M&A activity in consumer staples rose ___% in 2025 with strategic buyers driving ~88% of deals",a:"9",cat:"advanced",hints:["Single digit growth","Nearly a tenth"]},
+{q:"Cocoa prices movement in 2024-2025: roughly ___",a:"doubled",cat:"advanced",hints:["2x increase","Devastating for chocolate"]},
+{q:"When a company buys innovation it can't build fast enough internally, this is the ___ vs build decision",a:"buy",cat:"advanced",hints:["Acquisition strategy","PepsiCo + Poppi"]},
+{q:"A company that has raised its dividend 25+ consecutive years is called a dividend ___",a:"aristocrat",cat:"advanced",hints:["Royalty term","P&G qualifies"]},
 ];
 
 // Initialize conditioning items with spaced repetition data
@@ -1312,7 +1334,7 @@ function nextCondItem(){
 
 // ---- SPEED DRILL ----
 function renderSpeed(topBar,item){
-  const timeLimit=item.box>=2?6:8; // Harder items get more time, mastered items get less (desirable difficulty)
+  const timeLimit=item.box>=2?4:6; // Tighter timers -- you know this sector
   COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
 
   // Generate 3 wrong answers from other items in different categories
@@ -1365,7 +1387,7 @@ window.condSpeedPick=function(idx,picked){
 
 // ---- ACTIVE RECALL ----
 function renderRecall(topBar,item){
-  const timeLimit=15;
+  const timeLimit=10;
   COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
 
   M().innerHTML=`<div class="in">${topBar}
@@ -1498,7 +1520,7 @@ const INTERVIEW_FRAMES=[
 ];
 
 function renderInterview(topBar,item){
-  const timeLimit=12;
+  const timeLimit=8;
   COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
   const frame=INTERVIEW_FRAMES[Math.floor(Math.random()*INTERVIEW_FRAMES.length)](item.q);
 
