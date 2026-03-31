@@ -142,6 +142,37 @@ ul{padding-left:16px}li{margin-bottom:4px}
 .fch{font-size:.72em;color:var(--dim);margin-top:8px}
 .fcbk p{font-size:.86em;line-height:1.7}
 
+/* Conditioning Mode */
+.cm-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:10px 0}
+.cm-fill{height:100%;border-radius:3px;transition:width .3s;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.cm-timer{font-size:2.2em;font-weight:900;font-family:'Playfair Display',serif;text-align:center;margin:8px 0}
+.cm-timer.warn{color:var(--gold);animation:pop .3s}.cm-timer.crit{color:var(--red);animation:shake .4s}
+.cm-prompt{font-size:1.1em;font-weight:700;color:var(--bright);text-align:center;line-height:1.5;margin:14px 0}
+.cm-input{width:100%;padding:14px;border-radius:12px;border:2px solid var(--border);background:var(--card2);color:var(--bright);font-family:inherit;font-size:1em;text-align:center;outline:none;transition:.2s}
+.cm-input:focus{border-color:var(--blue);box-shadow:0 0 16px rgba(59,130,246,.15)}
+.cm-input.ok{border-color:var(--green)!important;background:var(--green-d)!important}
+.cm-input.no{border-color:var(--red)!important;background:var(--red-d)!important;animation:shake .3s}
+.cm-sci{font-size:.7em;color:var(--dim);padding:8px 12px;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.12);border-radius:8px;margin:8px 0;line-height:1.6}
+.cm-sci strong{color:var(--purple)}
+.cm-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.cm-opt{padding:14px 10px;border-radius:12px;border:2px solid var(--border);background:var(--card2);cursor:pointer;font-family:inherit;font-size:.92em;font-weight:600;color:var(--text);text-align:center;transition:.15s}
+.cm-opt:hover:not(.lk){border-color:var(--blue);background:var(--blue-d);transform:translateY(-1px)}
+.cm-opt.ok{border-color:var(--green)!important;background:var(--green-d)!important;color:var(--green)!important;animation:pop .3s}
+.cm-opt.no{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important;animation:shake .3s}
+.cm-opt.lk{cursor:default;opacity:.5}
+.cm-diff{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.cm-diff-btn{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card2);cursor:pointer;font-family:inherit;font-size:.8em;font-weight:600;color:var(--text);transition:.15s}
+.cm-diff-btn:hover{transform:translateY(-1px)}
+.cm-diff-btn.easy{border-color:rgba(52,211,153,.3);color:var(--green)}.cm-diff-btn.easy:hover{background:var(--green-d)}
+.cm-diff-btn.hard{border-color:rgba(248,113,113,.3);color:var(--red)}.cm-diff-btn.hard:hover{background:var(--red-d)}
+.cm-diff-btn.mid{border-color:rgba(251,191,36,.3);color:var(--gold)}.cm-diff-btn.mid:hover{background:var(--gold-d)}
+.cm-streak-bar{display:flex;gap:4px;justify-content:center;margin:8px 0}
+.cm-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:.3s}
+.cm-dot.hit{background:var(--green);box-shadow:0 0 6px var(--green)}.cm-dot.miss{background:var(--red)}
+.cm-phase{font-size:.65em;text-transform:uppercase;letter-spacing:2px;font-weight:700;text-align:center;margin-bottom:4px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.cm-live{animation:pulse 1s infinite}
+
 .hidden{display:none!important}.tc{text-align:center}
 @media(max-width:600px){h2{font-size:1.35em}#app{padding:10px 12px 50px}.match-grid{grid-template-columns:1fr}.rs{grid-template-columns:1fr 1fr}}
 </style>
@@ -365,7 +396,7 @@ ${mkTF('c0tf0',
   <div class="an">Lucas will test if you can do the work. Ben will test if you think like an investor. Lucas = "Can you build the model?" Ben = "Can you tell me what the model means for the stock?"</div>
 </div>
 ${(()=>{window['_sc_c0s0']=[
-  {text:"Mention the Farm to Market Conference, the One Client strategy, Penn Egbert joining from Goldman to build the research platform, and how a $1.4 trillion bank gives the research team resources smaller shops can't match.",result:"Excellent. You're showing you understand BMO's specific competitive advantages -- the conference franchise, the institutional backing, and the platform ambitions. This is researched, specific, and smart.",quality:'good',xp:15},
+  {text:"Talk about the Canadian research bench as a learning opportunity and competitive edge in consumer staples, the culture Erica is building and the people you've met, and how AI is clearly at the forefront of BMO's strategy based on the annual report.",result:"This is PERFECT because it's YOUR actual reasons, not generic fluff. The Canadian analyst bench is a real differentiator -- cross-border coverage in consumer staples (think tariffs, supply chains) is a genuine competitive edge. Mentioning Erica and the team culture shows you've engaged with real people, not just Googled the firm. And citing the annual report's AI focus shows intellectual curiosity and that you did deep homework. Authentic + specific = winning answer.",quality:'good',xp:15},
   {text:"Say 'I've always been interested in food companies.'",result:"Way too vague. Every candidate could say this. It tells them nothing about why BMO specifically.",quality:'meh',xp:3},
   {text:"Say 'BMO was the only firm that called me back.'",result:"Never, ever say this. Even if it's true. Especially if it's true.",quality:'bad',xp:0}
 ];return mkSc('c0s0','Lucas asks: "Why BMO Capital Markets?"',window['_sc_c0s0'])})()}`,
@@ -866,7 +897,7 @@ steps:[
   <p><strong>"Why consumer staples?"</strong><br>
   It's deceptively complex. Everyone thinks "boring, stable companies" -- but underneath there's more drama than a Netflix series. Tariffs are reshaping supply chains, weight-loss drugs are literally changing what America eats, store brands are waging war on legacy brands, and the whole sector is flipping from price-driven to volume-driven growth. It's a masterclass in competitive dynamics hiding inside a cereal aisle.</p>
   <p><strong>"Why BMO?"</strong><br>
-  The platform is ambitious -- Penn Egbert came from Goldman to run U.S. research. The Farm to Market Conference gives the team unique access to food industry leaders. The One Client strategy means research isn't siloed. And a $1.4 trillion bank backing you means resources smaller firms can't match.</p>
+  Three things. First, <strong>the Canadian analyst bench</strong> -- in a sector like consumer staples where tariffs, cross-border supply chains, and North American trade dynamics are THE story right now, having Canadian research colleagues to lean on is a genuine learning opportunity and competitive advantage that no US-only shop can match. Second, <strong>the people and culture</strong> -- everyone I've met so far has been impressive, and the culture Erica is building on this team is something I want to be part of. Third, <strong>AI</strong> -- I read the annual report, and AI isn't just a footnote at BMO, it's at the forefront of their strategic priorities. They've deployed over 1,000 AI models across the bank. That tells me this is a firm investing in the future, not just maintaining the present.</p>
 </div>
 <div class="bx2 bl">
   <span class="tag tag-bl">What the Job Actually Is</span>
@@ -882,9 +913,10 @@ steps:[
   <span class="tag tag-gr">Your Secret Weapons</span>
   <h4>Things 95% of Candidates Won't Know</h4>
   <ul>
-    <li>That Penn Egbert (Head of U.S. Research) came from Goldman Sachs</li>
+    <li>That BMO's Canadian analyst bench is a competitive edge in consumer staples -- cross-border tariffs and supply chains are THE story, and no US-only shop has that resource</li>
+    <li>That you've met the team, you know who Erica is, and you're drawn to the culture she's building</li>
+    <li>That you read the annual report and know AI is at the forefront -- 1,000+ models deployed, CEO calls it a revenue accelerant</li>
     <li>That BMO hosts the Farm to Market Conference -- a premier food industry event</li>
-    <li>That BMO's "One Client" strategy integrates research with banking and wealth management</li>
     <li>That Lucas Cohen is a CFA charterholder (expect analytical rigor)</li>
     <li>That Ben Wood came from Point72 hedge fund (expect investment-oriented questions)</li>
     <li>That Kelly has Costco and Walmart as Outperform but Dollar Tree as Underperform</li>
@@ -917,7 +949,7 @@ ${mkQ('fin2','Why did Ben Wood\'s background at Point72 (hedge fund) matter for 
 <div class="hidden" id="fin2" data-exp="<strong>Ben thinks like a portfolio manager.</strong> He came from the buy-side, so he'll test whether you can connect research to actual investment decisions. Not just 'this company is doing well' but 'here's why you should buy/sell the stock.' That's the difference between academic knowledge and investment insight."></div>
 
 ${(()=>{window['_sc_fins']=[
-  {text:"'Your platform is building something special. Penn Egbert came from Goldman to lead U.S. research, the Farm to Market Conference gives the food team unique industry access, and the One Client strategy means research feeds directly into banking relationships. I want to be on a team where deep sector expertise is valued -- and Kelly Bania's 10+ years covering food retail means I'd learn from one of the most experienced analysts in the space.'",result:"OUTSTANDING. You named the research head, the conference franchise, the firm strategy, AND showed respect for Kelly's tenure. This answer is specific, researched, and genuine. Go get this job.",quality:'good',xp:20},
+  {text:"'Three things. The Canadian analyst bench is a real differentiator -- in consumer staples, where tariffs and cross-border supply chains are the biggest story right now, having Canadian colleagues to lean on is both a learning opportunity and a competitive edge no US-only shop can offer. Second, the people -- everyone I've met so far has been impressive, and the culture Erica is building on this team is something I genuinely want to be part of. And third, I read the annual report cover to cover, and AI is clearly at the forefront of BMO's strategy -- over 1,000 models deployed, the CEO calling it an accelerant to revenue. That tells me this firm is investing in the future.'",result:"OUTSTANDING. This is authentic, specific, and impossible to fake. You connected the Canadian bench to the actual sector dynamics (tariffs!), showed you've built real relationships by naming Erica and the team culture, AND proved you read the annual report by citing specific AI stats. Lucas and Ben will know this isn't rehearsed generic nonsense -- it's YOUR genuine reasons. That's what wins.",quality:'good',xp:20},
   {text:"'BMO seems like a good firm and I like the consumer staples sector.'",result:"Generic. Every candidate can say this. Nothing in this answer shows you did any research on BMO specifically.",quality:'meh',xp:3},
   {text:"'Honestly, I just applied everywhere and you guys responded.'",result:"...please, no. Even if true, never say this.",quality:'bad',xp:0}
 ];return mkSc('fins','FINAL BOSS: Lucas says "Last question -- why BMO, and why this team specifically?"',window['_sc_fins'])})()}`,
@@ -942,7 +974,7 @@ const FC=[
 {f:"Lucas Cohen",b:"Senior Associate on Kelly's team. CFA charterholder (very hard finance exam). William & Mary grad. Ex-Rosenblatt Securities. He'll test analytical rigor -- can you build models, understand metrics, break down earnings?"},
 {f:"Ben Wood",b:"VP Associate on Kelly's team. Cornell grad. Previously at Point72 (Steve Cohen's hedge fund). He'll test investment thinking -- not just 'this company is doing well' but 'here's why you should buy/sell the stock.'"},
 {f:"Costco Stock Pitch",b:"Membership model = almost pure-profit revenue. 90%+ renewal rate. Kirkland brand undercuts name brands by 20-40% with similar quality. Benefits from trade-down as consumers seek value. Kelly rates Outperform. Bear case: expensive valuation, SSS growth could slow."},
-{f:"Why BMO? (Interview Answer)",b:"Penn Egbert from Goldman leading research. Farm to Market Conference = premier food industry access. 'One Client' strategy integrates research with banking. $1.4T bank backing gives resources. Kelly's 10+ year track record in food retail. Platform is ambitious and growing."},
+{f:"Why BMO? (Interview Answer)",b:"Three pillars: (1) Canadian analyst bench = learning opportunity + competitive edge in consumer staples where tariffs and cross-border supply chains are THE story. No US-only shop has this. (2) The people and culture -- everyone you've met has been impressive, and the culture Erica is building is genuine. (3) AI is at the forefront -- you read the annual report, 1,000+ AI models deployed, CEO calls it a revenue accelerant. This firm invests in the future."},
 ];
 
 // =====================
@@ -965,7 +997,8 @@ function goMenu(){
     </div>`;
   });
   h+=`</div><div class="br" style="justify-content:center;margin-top:6px">
-    <button class="btn btn-g" onclick="renderFC()">Flashcards (${FC.length})</button></div>`;
+    <button class="btn btn-g" onclick="renderFC()">Flashcards (${FC.length})</button>
+    <button class="btn btn-b" onclick="condMenu()" style="background:linear-gradient(135deg,var(--purple),var(--blue))">🧠 Conditioning Mode</button></div>`;
   if(S.tot>0){const p=Math.round(S.ok/S.tot*100);
     h+=`<div class="bx" style="margin-top:12px"><div class="rs">
       <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">XP</div></div>
@@ -1029,6 +1062,483 @@ function renderFC(){
       <button class="btn btn-g" onclick="for(let i=FC.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[FC[i],FC[j]]=[FC[j],FC[i]]}S.fcIdx=0;renderFC()">Shuffle</button>
       <button class="btn btn-b" onclick="S.fcIdx=(S.fcIdx+1)%FC.length;renderFC()">Next →</button>
     </div>`;
+}
+
+// =====================
+// CONDITIONING MODE
+// Science: Spaced Repetition (Ebbinghaus), Active Recall (Roediger & Karpicke 2006),
+// Interleaving (Rohrer & Taylor 2007), Desirable Difficulty (Bjork 1994),
+// Testing Effect (Roediger & Butler 2011), Speed Pressure (automaticity)
+// =====================
+
+const COND={
+  // Spaced repetition boxes (Leitner system)
+  // Box 0 = new/hard (show every round), Box 1 = seen once (show every 2), Box 2 = known (every 4), Box 3 = mastered (every 8)
+  items:[],phase:0,round:0,idx:0,timer:null,timeLeft:0,totalTime:0,
+  correct:0,wrong:0,streak:0,bestStreak:0,history:[],sessionXP:0,
+  modes:['speed','recall','reverse','interview'],modeIdx:0
+};
+
+// All conditioning items -- interleaved across ALL topics
+const COND_ITEMS=[
+// Firm knowledge
+{q:"BMO stands for ___",a:"Bank of Montreal",cat:"firm",hints:["Canadian bank","Founded 1817"]},
+{q:"BMO has $___ trillion in total assets",a:"1.4",cat:"firm",hints:["Over a trillion","8th largest in NA"]},
+{q:"BMO's company purpose is '___'",a:"Boldly Grow the Good",cat:"firm",hints:["CEO's favorite phrase","Boldly..."]},
+{q:"BMO acquired ___ in 2023 for $16.3 billion",a:"Bank of the West",cat:"firm",hints:["From BNP Paribas","US expansion"]},
+{q:"Head of US Equity Research at BMO came from ___",a:"Goldman Sachs",cat:"firm",hints:["Penn Egbert","Prestigious bank"]},
+{q:"BMO has deployed over ___ AI models across the bank",a:"1000",cat:"firm",hints:["Four digits","CEO calls it a revenue accelerant"]},
+{q:"BMO's premier food industry conference is called ___",a:"Farm to Market",cat:"firm",hints:["Agriculture theme","CEOs present there"]},
+
+// People
+{q:"Kelly Bania's title at BMO is ___",a:"Managing Director",cat:"people",hints:["Senior title","Abbreviation: MD"]},
+{q:"Kelly Bania covers ___ Retail & Distribution",a:"Food",cat:"people",hints:["Consumer staples sub-sector","Grocery stores"]},
+{q:"Kelly joined BMO in ___",a:"2013",cat:"people",hints:["Over a decade ago","Early 2010s"]},
+{q:"Lucas Cohen holds the ___ designation",a:"CFA",cat:"people",hints:["Finance exam","Three levels, 3+ years"]},
+{q:"Lucas Cohen graduated from ___",a:"William & Mary",cat:"people",hints:["Virginia college","Colonial era school"]},
+{q:"Ben Wood previously worked at ___ (hedge fund)",a:"Point72",cat:"people",hints:["Steve Cohen's fund","Famous buy-side shop"]},
+{q:"Ben Wood graduated from ___",a:"Cornell",cat:"people",hints:["Ivy League","Ithaca, NY"]},
+
+// Sector fundamentals
+{q:"Consumer staples revenue formula: Revenue = ___ x ___",a:"Volume x Price",cat:"sector",hints:["Two components","Units and dollars"]},
+{q:"Healthy organic revenue growth for a staples company is ___-___%",a:"3-5",cat:"sector",hints:["Mid single digits","Not too hot, not too cold"]},
+{q:"US private label sales hit a record $___ billion in 2025",a:"282.8",cat:"sector",hints:["Over $280 billion","Record year"]},
+{q:"Private label unit share reached a record ___%",a:"23.5",cat:"sector",hints:["Nearly a quarter","Above 23%"]},
+{q:"Procter & Gamble's gross margin is approximately ___%",a:"50",cat:"sector",hints:["Half of revenue","Household products = premium"]},
+{q:"The biggest Costco competitive advantage is its ___ model",a:"membership",cat:"sector",hints:["Annual fee","$65-130/year"]},
+{q:"Costco's membership renewal rate is over ___%",a:"90",cat:"sector",hints:["Above ninety","Extremely loyal"]},
+
+// Themes
+{q:"About 1 in ___ American adults are taking GLP-1 drugs",a:"8",cat:"themes",hints:["Single digit","Ozempic, Wegovy"]},
+{q:"GLP-1 drugs could put a $___ billion dent in snack food growth",a:"12",cat:"themes",hints:["Double digits","Significant impact"]},
+{q:"___% of GLP-1 users report snacking less",a:"70",cat:"themes",hints:["Majority","Above two-thirds"]},
+{q:"Food-at-home prices predicted to rise ___% in 2026",a:"3.1",cat:"themes",hints:["Above 3%","Faster than 20-year average"]},
+{q:"___% of consumers modified grocery shopping behavior in 2025",a:"82",cat:"themes",hints:["Above 80%","Vast majority"]},
+{q:"Tariff-driven cost increases typically lag ___-___ months",a:"12-18",cat:"themes",hints:["About a year to a year and a half","2026 is inflection"]},
+{q:"PepsiCo acquired prebiotic soda brand ___ for ~$2 billion",a:"Poppi",cat:"themes",hints:["Trendy gut-health soda","Pre-biotic"]},
+
+// Kelly's calls
+{q:"Kelly rates Costco as ___ (buy/hold/sell)",a:"Outperform",cat:"calls",hints:["Bullish","Buy signal"]},
+{q:"Kelly rates Walmart as ___ (buy/hold/sell)",a:"Outperform",cat:"calls",hints:["Bullish","Same as Costco"]},
+{q:"Kelly rates Dollar Tree as ___ (buy/hold/sell)",a:"Underperform",cat:"calls",hints:["Bearish","Her most negative call"]},
+{q:"Kelly rates Dollar General as ___",a:"Market Perform",cat:"calls",hints:["Neutral","Hold"]},
+{q:"The #1 US food distributor to restaurants is ___",a:"Sysco",cat:"calls",hints:["Not US Foods","SYY ticker"]},
+
+// Interview answers
+{q:"Your Why BMO reason #1: Canadian analyst ___ is a competitive edge in consumer staples",a:"bench",cat:"interview",hints:["Cross-border coverage","Learning opportunity"]},
+{q:"Your Why BMO reason #2: The culture ___ is building",a:"Erica",cat:"interview",hints:["Team leader","Person you've met"]},
+{q:"Your Why BMO reason #3: ___ is at the forefront of BMO's strategy",a:"AI",cat:"interview",hints:["Technology","1,000+ models deployed"]},
+{q:"In your Costco pitch, the key metric for loyalty is ___ renewal rate",a:"membership",cat:"interview",hints:["Annual fee","90%+ rate"]},
+];
+
+// Initialize conditioning items with spaced repetition data
+function initCond(){
+  COND.items=COND_ITEMS.map((item,i)=>({
+    ...item,id:i,box:0,lastSeen:0,timesCorrect:0,timesWrong:0,nextDue:0
+  }));
+  COND.round=0;COND.idx=0;COND.correct=0;COND.wrong=0;COND.streak=0;COND.bestStreak=0;COND.history=[];COND.sessionXP=0;
+  // Shuffle for interleaving (Rohrer & Taylor 2007)
+  for(let i=COND.items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[COND.items[i],COND.items[j]]=[COND.items[j],COND.items[i]]}
+}
+
+function getDueItems(){
+  return COND.items.filter(it=>{
+    if(it.box===0) return true;
+    const interval=[1,2,4,8][Math.min(it.box,3)];
+    return (COND.round - it.lastSeen) >= interval;
+  });
+}
+
+function condMenu(){
+  M().innerHTML=`<div class="in">
+    <div class="br" style="margin-bottom:10px">
+      <button class="btn btn-g" onclick="goMenu()">← Menu</button>
+    </div>
+    <div class="bx tc" style="padding:28px 22px">
+      <div style="font-size:2.2em;margin-bottom:6px">🧠</div>
+      <h2 style="font-size:1.4em">Conditioning Mode</h2>
+      <p style="margin-top:8px">Train your subconscious to KNOW this material -- not just recognize it, but retrieve it instantly under pressure.</p>
+      <div class="cm-sci" style="margin-top:14px;text-align:left">
+        <strong>The Science Behind This Mode:</strong><br>
+        <strong>Spaced Repetition</strong> (Ebbinghaus, 1885) -- Items you get wrong come back sooner. Items you nail get spaced out. This exploits the forgetting curve to maximize long-term retention.<br>
+        <strong>Active Recall</strong> (Roediger & Karpicke, 2006) -- Retrieving info from memory strengthens it 3x more than re-reading. That's why we make you TYPE answers, not just pick them.<br>
+        <strong>Interleaving</strong> (Rohrer & Taylor, 2007) -- Mixing topics randomly (firm facts, then sector data, then a person's name) builds stronger neural connections than studying one topic at a time.<br>
+        <strong>Desirable Difficulty</strong> (Bjork, 1994) -- Timed pressure feels hard, but that difficulty is what drives deeper encoding. Easy studying = shallow memory.<br>
+        <strong>Testing Effect</strong> (Roediger & Butler, 2011) -- Being tested beats re-studying by 50%+ for long-term retention. Every question here is building your memory.
+      </div>
+    </div>
+    <div class="ch-grid" style="margin-top:12px">
+      <div class="ch-i" onclick="startCond('speed')">
+        <div class="ch-ic">⚡</div>
+        <div class="ch-inf"><div class="ch-nm">Speed Drill</div><div class="ch-ds">8-second timer. React, don't think. Build automatic reflexes.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('recall')">
+        <div class="ch-ic">✍️</div>
+        <div class="ch-inf"><div class="ch-nm">Active Recall</div><div class="ch-ds">Type answers from memory. No multiple choice crutch. Pure retrieval.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('reverse')">
+        <div class="ch-ic">🔄</div>
+        <div class="ch-inf"><div class="ch-nm">Reverse Cards</div><div class="ch-ds">Given the answer, recall the question. Builds bidirectional memory pathways.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('interview')">
+        <div class="ch-ic">🎤</div>
+        <div class="ch-inf"><div class="ch-nm">Interview Sim</div><div class="ch-ds">Questions phrased as an interviewer would ask. Practice under realistic pressure.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('marathon')">
+        <div class="ch-ic">🏃</div>
+        <div class="ch-inf"><div class="ch-nm">Full Marathon</div><div class="ch-ds">All modes, interleaved, with spaced repetition. The ultimate conditioning session.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+    </div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startCond(mode){
+  initCond();
+  COND.mode=mode;
+  COND.round=0;
+  nextCondItem();
+}
+
+function nextCondItem(){
+  COND.round++;
+  if(COND.timer){clearInterval(COND.timer);COND.timer=null}
+
+  let due=getDueItems();
+  if(due.length===0){
+    // All items mastered for this session
+    return condComplete();
+  }
+
+  // Interleaving: pick randomly from due items, weighted toward lower boxes
+  due.sort((a,b)=>a.box-b.box);
+  const weights=due.map(it=>Math.max(4-it.box,1));
+  const totalW=weights.reduce((s,w)=>s+w,0);
+  let r=Math.random()*totalW,cum=0;
+  let picked=due[0];
+  for(let i=0;i<due.length;i++){cum+=weights[i];if(r<=cum){picked=due[i];break}}
+
+  COND.current=picked;
+
+  // Choose presentation mode
+  let presentMode=COND.mode;
+  if(COND.mode==='marathon'){
+    const modes=['speed','recall','reverse','interview'];
+    presentMode=modes[Math.floor(Math.random()*modes.length)];
+  }
+
+  const done=COND.items.filter(it=>it.box>=2).length;
+  const total=COND.items.length;
+  const pct=Math.round(done/total*100);
+
+  let topBar=`<div class="br" style="margin-bottom:10px">
+    <button class="btn btn-g" onclick="if(COND.timer)clearInterval(COND.timer);condMenu()">← Back</button>
+    <span style="flex:1"></span>
+    <span style="color:var(--dim);font-size:.75em;align-self:center">${done}/${total} conditioned (${pct}%)</span>
+  </div>
+  <div class="cm-bar"><div class="cm-fill" style="width:${pct}%"></div></div>
+  <div class="cm-streak-bar">${COND.history.slice(-15).map(h=>`<div class="cm-dot ${h?'hit':'miss'}"></div>`).join('')}</div>`;
+
+  if(presentMode==='speed') renderSpeed(topBar,picked);
+  else if(presentMode==='recall') renderRecall(topBar,picked);
+  else if(presentMode==='reverse') renderReverse(topBar,picked);
+  else if(presentMode==='interview') renderInterview(topBar,picked);
+}
+
+// ---- SPEED DRILL ----
+function renderSpeed(topBar,item){
+  const timeLimit=item.box>=2?6:8; // Harder items get more time, mastered items get less (desirable difficulty)
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+
+  // Generate 3 wrong answers from other items in different categories
+  const wrongs=COND.items.filter(it=>it.id!==item.id).sort(()=>Math.random()-.5).slice(0,3).map(it=>it.a);
+  const opts=[item.a,...wrongs].sort(()=>Math.random()-.5);
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Speed Drill</strong> -- Automaticity training. Your goal: react in under ${timeLimit}s. Speed builds reflexive knowledge that survives interview pressure (Bjork, 1994).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div>
+    <div class="cm-prompt">${item.q.replace('___','______')}</div>
+    <div class="cm-box">${opts.map((o,i)=>`<button class="cm-opt" id="cmO${i}" onclick="condSpeedPick(${i},'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+    <div id="cm-fb"></div>
+  </div>`;
+
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=3&&t>1.5)el.className='cm-timer warn';
+    else if(t<=1.5)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      document.querySelectorAll('.cm-opt').forEach(b=>{b.classList.add('lk');b.onclick=null});
+      $('cm-fb').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong></div>`;
+      setTimeout(nextCondItem,2000);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condSpeedPick=function(idx,picked){
+  if(COND.timer)clearInterval(COND.timer);
+  const item=COND.current;
+  const ok=picked===item.a;
+  condAnswer(ok);
+  document.querySelectorAll('.cm-opt').forEach((b,i)=>{
+    b.classList.add('lk');b.onclick=null;
+    if(b.textContent===item.a)b.classList.add('ok');
+    else if(i===idx&&!ok)b.classList.add('no');
+  });
+  const speed=(COND.totalTime-COND.timeLeft).toFixed(1);
+  $('cm-fb').innerHTML=`<div class="qz-e">${ok?`<strong style="color:var(--green)">Correct!</strong> ${speed}s reaction time.`:`<strong style="color:var(--red)">Wrong.</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong>`}</div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- ACTIVE RECALL ----
+function renderRecall(topBar,item){
+  const timeLimit=15;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Active Recall</strong> -- Typing the answer from memory creates 3x stronger memory traces than recognition (Roediger & Karpicke, 2006). No multiple choice. Just you and your brain.</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div>
+    <div class="cm-prompt">${item.q.replace('___','______')}</div>
+    <input class="cm-input" id="cm-inp" placeholder="Type your answer..." autocomplete="off" onkeydown="if(event.key==='Enter')condRecallSubmit()">
+    <div class="br" style="justify-content:center;margin-top:8px">
+      <button class="btn btn-g" onclick="condRecallHint()" id="cm-hint">Hint (-5 XP)</button>
+      <button class="btn btn-b" onclick="condRecallSubmit()">Submit</button>
+    </div>
+    <div id="cm-fb"></div>
+  </div>`;
+  $('cm-inp').focus();
+
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=5&&t>2.5)el.className='cm-timer warn';
+    else if(t<=2.5)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      $('cm-inp').classList.add('no');$('cm-inp').disabled=true;
+      $('cm-fb').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong></div>`;
+      setTimeout(nextCondItem,2500);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condRecallHint=function(){
+  const item=COND.current;
+  const hint=item.hints[Math.floor(Math.random()*item.hints.length)];
+  COND.sessionXP=Math.max(0,COND.sessionXP-5);
+  $('cm-hint').disabled=true;$('cm-hint').textContent='Hint: '+hint;
+};
+
+window.condRecallSubmit=function(){
+  if(COND.timer)clearInterval(COND.timer);
+  const item=COND.current;
+  const inp=$('cm-inp');if(!inp||inp.disabled)return;
+  const val=inp.value.trim().toLowerCase();
+  inp.disabled=true;
+
+  // Fuzzy match: check if answer contains the key part
+  const answer=item.a.toLowerCase();
+  const ok=val===answer || val.includes(answer) || answer.includes(val) && val.length>=Math.min(3,answer.length);
+
+  condAnswer(ok);
+  inp.classList.add(ok?'ok':'no');
+  $('cm-fb').innerHTML=`<div class="qz-e">${ok?`<strong style="color:var(--green)">Correct!</strong>`:`<strong style="color:var(--red)">Not quite.</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong>`}</div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- REVERSE CARDS ----
+function renderReverse(topBar,item){
+  // Given the answer, what's the question?
+  const timeLimit=10;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+
+  // Make simplified question versions for options
+  const qShort=item.q.replace(/___/g,'').replace(/\s+/g,' ').trim();
+  const wrongQs=COND.items.filter(it=>it.id!==item.id&&it.cat!==item.cat).sort(()=>Math.random()-.5).slice(0,3).map(it=>it.q.replace(/___/g,'').replace(/\s+/g,' ').trim());
+  const opts=[qShort,...wrongQs].sort(()=>Math.random()-.5);
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Reverse Cards</strong> -- Bidirectional recall builds stronger neural pathways. If you can go answer→question AND question→answer, the knowledge is deeply encoded (Bjork & Bjork, 1992).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--purple),var(--blue))"></div></div>
+    <div class="cm-prompt">The answer is: <span style="color:var(--cyan);font-size:1.2em">${item.a}</span><br><span style="font-size:.8em;color:var(--dim)">What was the question?</span></div>
+    <div style="display:flex;flex-direction:column;gap:7px">${opts.map((o,i)=>`<button class="cm-opt" style="text-align:left;padding:12px 14px;font-size:.84em;font-weight:400" id="cmR${i}" onclick="condReversePick(${i})">${o}</button>`).join('')}</div>
+    <div id="cm-fb"></div>
+  </div>`;
+
+  COND._revOpts=opts;COND._revCorrect=qShort;
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=3.5&&t>1.5)el.className='cm-timer warn';
+    else if(t<=1.5)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      document.querySelectorAll('.cm-opt').forEach(b=>{b.classList.add('lk');b.onclick=null});
+      $('cm-fb').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> It was: <strong style="color:var(--cyan)">${qShort}</strong></div>`;
+      setTimeout(nextCondItem,2500);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condReversePick=function(idx){
+  if(COND.timer)clearInterval(COND.timer);
+  const picked=COND._revOpts[idx];
+  const ok=picked===COND._revCorrect;
+  condAnswer(ok);
+  document.querySelectorAll('.cm-opt').forEach((b,i)=>{
+    b.classList.add('lk');b.onclick=null;
+    if(b.textContent===COND._revCorrect)b.classList.add('ok');
+    else if(i===idx&&!ok)b.classList.add('no');
+  });
+  $('cm-fb').innerHTML=`<div class="qz-e">${ok?`<strong style="color:var(--green)">Correct!</strong>`:`<strong style="color:var(--red)">Wrong.</strong> It was: <strong style="color:var(--cyan)">${COND._revCorrect}</strong>`}</div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- INTERVIEW SIM ----
+const INTERVIEW_FRAMES=[
+  q=>`Lucas adjusts his glasses and asks: "${q.replace('___','what?')}"`,
+  q=>`Ben leans forward: "Quick -- ${q.replace('___','what?')}"`,
+  q=>`Lucas is testing your recall: "${q.replace('___','fill in the blank?')}"`,
+  q=>`Ben, ex-Point72, wants to see if you think fast: "${q.replace('___','...')}"`,
+  q=>`Lucas, the CFA, probes: "${q.replace('___','what exactly?')}"`,
+];
+
+function renderInterview(topBar,item){
+  const timeLimit=12;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+  const frame=INTERVIEW_FRAMES[Math.floor(Math.random()*INTERVIEW_FRAMES.length)](item.q);
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Interview Simulation</strong> -- Practicing under social pressure conditions your stress response. The testing effect under arousal creates the strongest memories (Cahill & McGaugh, 1998).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--orange),var(--gold))"></div></div>
+    <div class="dl"><div class="dl-av friend">INT</div><div class="dl-bb"><div class="dl-n friend">Interviewer</div><div class="dl-t">${frame}</div></div></div>
+    <input class="cm-input" id="cm-inp" placeholder="Your answer..." autocomplete="off" onkeydown="if(event.key==='Enter')condInterviewSubmit()">
+    <div class="br" style="justify-content:center;margin-top:8px">
+      <button class="btn btn-b" onclick="condInterviewSubmit()">Answer</button>
+    </div>
+    <div id="cm-fb"></div>
+  </div>`;
+  $('cm-inp').focus();
+
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=4&&t>2)el.className='cm-timer warn';
+    else if(t<=2)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      $('cm-inp').classList.add('no');$('cm-inp').disabled=true;
+      $('cm-fb').innerHTML=`<div class="dl" style="margin-top:10px"><div class="dl-av friend">INT</div><div class="dl-bb"><div class="dl-n friend" style="color:var(--red)">Interviewer</div><div class="dl-t">The answer was <strong>${COND.current.a}</strong>. Let's move on...</div></div></div>`;
+      setTimeout(nextCondItem,2500);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condInterviewSubmit=function(){
+  if(COND.timer)clearInterval(COND.timer);
+  const item=COND.current;
+  const inp=$('cm-inp');if(!inp||inp.disabled)return;
+  const val=inp.value.trim().toLowerCase();
+  inp.disabled=true;
+  const answer=item.a.toLowerCase();
+  const ok=val===answer||val.includes(answer)||answer.includes(val)&&val.length>=Math.min(3,answer.length);
+  condAnswer(ok);
+  inp.classList.add(ok?'ok':'no');
+  $('cm-fb').innerHTML=`<div class="dl" style="margin-top:10px"><div class="dl-av friend">INT</div><div class="dl-bb"><div class="dl-n friend" style="color:var(${ok?'--green':'--red'})">${ok?'Interviewer (impressed)':'Interviewer'}</div><div class="dl-t">${ok?`"That's right -- <strong>${item.a}</strong>. Good." `:`"Actually, it's <strong>${item.a}</strong>. Let's keep going."`}</div></div></div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- CORE CONDITIONING LOGIC ----
+function condAnswer(ok){
+  const item=COND.current;
+  item.lastSeen=COND.round;
+  if(ok){
+    item.box=Math.min(item.box+1,3);
+    item.timesCorrect++;
+    COND.correct++;
+    COND.streak++;
+    if(COND.streak>COND.bestStreak)COND.bestStreak=COND.streak;
+    COND.sessionXP+=10+(item.box*5); // More XP for harder items
+    S.xp+=10;
+    if(COND.streak===5)toast('5x Conditioning Streak!','b');
+    if(COND.streak===10)toast('10x STREAK! Your synapses are FIRING!','b');
+    if(COND.streak===15)toast('15x!! UNSTOPPABLE NEURAL PATHWAYS!','b');
+    if(item.box===3)toast('Item MASTERED! Locked in long-term memory.','g');
+  }else{
+    item.box=Math.max(item.box-1,0); // Drop back a box (spaced repetition penalty)
+    item.timesWrong++;
+    COND.wrong++;
+    COND.streak=0;
+  }
+  COND.history.push(ok);
+  upd();
+}
+
+function condComplete(){
+  if(COND.timer)clearInterval(COND.timer);
+  const mastered=COND.items.filter(it=>it.box>=3).length;
+  const conditioned=COND.items.filter(it=>it.box>=2).length;
+  const pct=Math.round(COND.correct/(COND.correct+COND.wrong)*100)||0;
+
+  M().innerHTML=`<div class="bx in tc" style="padding:34px 22px">
+    <div style="font-size:2.5em;margin-bottom:6px">🧠</div>
+    <h2 style="font-size:1.3em">Session Complete</h2>
+    <p style="margin-top:6px;color:var(--dim)">Your subconscious just got a serious upgrade.</p>
+    <div class="rs" style="margin-top:14px">
+      <div class="rs-i"><div class="rs-v" style="color:var(--green)">${pct}%</div><div class="rs-l">Accuracy</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${COND.bestStreak}</div><div class="rs-l">Best Streak</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${COND.sessionXP}</div><div class="rs-l">Session XP</div></div>
+    </div>
+    <div class="rs" style="margin-top:8px">
+      <div class="rs-i"><div class="rs-v" style="color:var(--purple)">${mastered}</div><div class="rs-l">Mastered</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--blue)">${conditioned}</div><div class="rs-l">Conditioned</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--dim)">${COND.items.length-conditioned}</div><div class="rs-l">Need Work</div></div>
+    </div>
+    <div class="cm-sci" style="margin-top:14px;text-align:left">
+      <strong>What just happened in your brain:</strong><br>
+      Every correct retrieval strengthened the neural pathway to that memory. Items you got wrong were re-queued at shorter intervals -- your brain will see them again sooner, which is exactly when the forgetting curve says you need the reinforcement. Run this again in 30-60 minutes for maximum long-term encoding (spacing effect).
+    </div>
+    <div class="br" style="justify-content:center;margin-top:14px">
+      <button class="btn btn-b" onclick="startCond(COND.mode)">Run Again</button>
+      <button class="btn btn-g" onclick="condMenu()">Change Mode</button>
+      <button class="btn btn-g" onclick="goMenu()">Main Menu</button>
+    </div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 upd();goMenu();
