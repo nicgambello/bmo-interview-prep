@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>48 Hours to BMO</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+:root{
+  --bg:#08090d;--card:#10131a;--card2:#161b26;--border:#1e2536;
+  --text:#c9d1d9;--dim:#6b7b8d;--bright:#ecf0f5;
+  --blue:#3b82f6;--blue-d:rgba(59,130,246,.15);
+  --cyan:#22d3ee;--cyan-d:rgba(34,211,238,.1);
+  --green:#34d399;--green-d:rgba(52,211,153,.12);
+  --gold:#fbbf24;--gold-d:rgba(251,191,36,.12);
+  --red:#f87171;--red-d:rgba(248,113,113,.12);
+  --purple:#a78bfa;--purple-d:rgba(167,139,250,.1);
+  --orange:#fb923c;--orange-d:rgba(251,146,60,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::selection{background:var(--blue);color:#fff}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.amb{position:fixed;pointer-events:none;z-index:0}
+.a1{top:-30%;right:-15%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.06),transparent 70%)}
+.a2{bottom:-20%;left:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.04),transparent 70%)}
+#app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:14px 18px 60px}
+
+.top{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.logo{font-family:'Playfair Display',serif;font-size:1.05em;font-weight:800;color:var(--bright)}.logo span{color:var(--blue)}
+.badge{font-size:.6em;background:var(--blue-d);color:var(--blue);padding:2px 8px;border-radius:8px;font-weight:600;letter-spacing:.5px;margin-left:8px}
+.stats{display:flex;gap:16px}
+.st{text-align:center}.st-v{font-size:1em;font-weight:800}.st-l{font-size:.55em;text-transform:uppercase;letter-spacing:1px;color:var(--dim)}
+.st-v.xp{color:var(--cyan)}.st-v.str{color:var(--gold)}.st-v.ch{color:var(--green)}
+
+.pips{display:flex;gap:3px;margin:8px 0 14px}
+.pip{height:4px;flex:1;border-radius:2px;background:var(--border);transition:.4s}
+.pip.done{background:var(--green)}.pip.on{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+
+.in{animation:up .35s ease}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999;padding:10px 22px;border-radius:10px;font-size:.85em;font-weight:700;animation:toastIn .4s ease,toastOut .4s ease 2s forwards;pointer-events:none}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(-20px)}}
+.toast-g{background:var(--green-d);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+.toast-r{background:var(--red-d);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+.toast-b{background:var(--gold-d);color:var(--gold);border:1px solid rgba(251,191,36,.3)}
+
+.bx{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:12px}
+.bx2{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0;position:relative;overflow:hidden}
+.bx2::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:3px}
+.bx2.bl::before{background:var(--blue)}.bx2.gr::before{background:var(--green)}.bx2.go::before{background:var(--gold)}.bx2.cy::before{background:var(--cyan)}.bx2.pu::before{background:var(--purple)}.bx2.re::before{background:var(--red)}.bx2.or::before{background:var(--orange)}
+.tag{font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:5px;display:block}
+.tag-bl{color:var(--blue)}.tag-gr{color:var(--green)}.tag-go{color:var(--gold)}.tag-cy{color:var(--cyan)}.tag-pu{color:var(--purple)}.tag-re{color:var(--red)}.tag-or{color:var(--orange)}
+h2{font-family:'Playfair Display',serif;font-size:1.7em;font-weight:800;color:var(--bright);line-height:1.2;margin-bottom:10px}
+h4{font-size:.98em;color:var(--bright);margin-bottom:5px}
+p,li{font-size:.88em;line-height:1.75;margin-bottom:8px}
+ul{padding-left:16px}li{margin-bottom:4px}
+.chap-tag{font-size:.68em;text-transform:uppercase;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:5px}
+.hl{color:var(--cyan);font-weight:600}
+.an{color:var(--cyan);border-left:2px solid var(--cyan);padding:6px 0 6px 14px;margin:10px 0;font-size:.88em;line-height:1.7;font-style:italic}
+.funny{color:var(--gold);font-size:.82em;margin-top:4px;font-style:italic}
+
+.dl{display:flex;gap:10px;margin:12px 0;animation:up .3s}
+.dl-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:700;flex-shrink:0;border:2px solid var(--border)}
+.dl-av.you{background:linear-gradient(135deg,#3f3a1e,#6c5a2d);border-color:var(--gold);color:var(--gold)}
+.dl-av.friend{background:linear-gradient(135deg,#1e3f1e,#2d6c2d);border-color:var(--green);color:var(--green)}
+.dl-bb{background:var(--card2);border:1px solid var(--border);border-radius:11px;padding:10px 14px;flex:1}
+.dl-n{font-size:.7em;font-weight:700;margin-bottom:2px}
+.dl-n.you{color:var(--gold)}.dl-n.friend{color:var(--green)}
+.dl-t{font-size:.86em;line-height:1.6}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;font-family:inherit;font-weight:600;font-size:.86em;cursor:pointer;transition:.2s;border:none}
+.btn-b{background:var(--blue);color:#fff}.btn-b:hover{box-shadow:0 0 20px rgba(59,130,246,.3);transform:translateY(-1px)}
+.btn-g{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-g:hover{border-color:var(--blue);color:var(--blue)}
+.br{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+.qz{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin:12px 0;animation:up .3s}
+.qz-tag{font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.qz-q{font-size:1.02em;font-weight:600;color:var(--bright);line-height:1.5;margin-bottom:14px}
+.os{display:flex;flex-direction:column;gap:7px}
+.o{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:.2s;font-size:.86em;display:flex;align-items:center;gap:10px;font-family:inherit;color:var(--text);text-align:left;width:100%}
+.o:hover:not(.lk){border-color:var(--blue);background:var(--blue-d)}
+.o .lt{min-width:25px;height:25px;border-radius:7px;background:rgba(59,130,246,.1);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8em;flex-shrink:0}
+.o.ok{border-color:var(--green)!important;background:var(--green-d)!important;animation:pop .3s}.o.ok .lt{background:var(--green);color:#000}
+.o.no{border-color:var(--red)!important;background:var(--red-d)!important;animation:shake .3s}.o.no .lt{background:var(--red);color:#fff}
+.o.lk{cursor:default;opacity:.55}
+.qz-e{margin-top:11px;padding:13px;background:var(--cyan-d);border:1px solid rgba(34,211,238,.15);border-radius:10px;font-size:.84em;line-height:1.7;animation:up .3s}
+.qz-e strong{color:var(--cyan)}
+
+.sc-wrap{margin:12px 0}
+.sc-choice{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px 15px;cursor:pointer;transition:.2s;margin-bottom:7px;font-size:.88em;line-height:1.5;font-family:inherit;color:var(--text);text-align:left;width:100%;display:block}
+.sc-choice:hover:not(.lk){border-color:var(--gold);background:var(--gold-d)}
+.sc-choice.picked{border-color:var(--green);background:var(--green-d)}
+.sc-choice.lk{cursor:default;opacity:.5}
+.sc-result{padding:14px;border-radius:10px;margin-top:10px;font-size:.85em;line-height:1.7;animation:up .3s}
+.sc-result.good{background:var(--green-d);border:1px solid rgba(52,211,153,.2);color:var(--green)}
+.sc-result.meh{background:var(--gold-d);border:1px solid rgba(251,191,36,.2);color:var(--gold)}
+.sc-result.bad{background:var(--red-d);border:1px solid rgba(248,113,113,.2);color:var(--red)}
+
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+.m-item{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:.2s;font-size:.82em;text-align:center;font-family:inherit;color:var(--text);min-height:48px;display:flex;align-items:center;justify-content:center}
+.m-item:hover:not(.lk):not(.matched){border-color:var(--blue);background:var(--blue-d)}
+.m-item.sel{border-color:var(--gold);background:var(--gold-d);color:var(--gold)}
+.m-item.matched{border-color:var(--green);background:var(--green-d);color:var(--green);cursor:default;opacity:.7}
+.m-item.wrong{animation:shake .3s;border-color:var(--red)}
+.m-item.lk{cursor:default}
+
+.tf-wrap{display:flex;gap:8px;margin-top:10px}
+.tf-btn{flex:1;padding:14px;border-radius:12px;font-family:inherit;font-weight:700;font-size:1em;cursor:pointer;border:2px solid var(--border);background:var(--card2);transition:.2s;color:var(--text)}
+.tf-btn:hover:not(.lk){transform:translateY(-2px)}
+.tf-btn.t:hover:not(.lk){border-color:var(--green);color:var(--green);background:var(--green-d)}
+.tf-btn.f:hover:not(.lk){border-color:var(--red);color:var(--red);background:var(--red-d)}
+.tf-btn.ok{border-color:var(--green)!important;background:var(--green-d)!important;color:var(--green)!important}
+.tf-btn.no{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important}
+.tf-btn.lk{cursor:default;opacity:.5}
+
+.ch-grid{display:grid;gap:8px;margin:14px 0}
+.ch-i{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:12px}
+.ch-i:hover{border-color:var(--blue);transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,130,246,.07)}
+.ch-i.lk{opacity:.35;cursor:default}.ch-i.lk:hover{border-color:var(--border);transform:none;box-shadow:none}
+.ch-i.dn{border-color:rgba(52,211,153,.25)}
+.ch-ic{font-size:1.5em;width:38px;text-align:center}
+.ch-inf{flex:1}.ch-nm{font-weight:700;font-size:.9em;color:var(--bright)}.ch-ds{font-size:.75em;color:var(--dim);margin-top:1px}
+.ch-st{font-size:.65em;font-weight:600;padding:3px 9px;border-radius:7px}
+.ch-st.dn{background:var(--green-d);color:var(--green)}.ch-st.nw{background:var(--blue-d);color:var(--blue)}.ch-st.lk{background:rgba(107,123,141,.08);color:var(--dim)}
+
+.rs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.rs-i{background:var(--card2);border-radius:10px;padding:10px;text-align:center}
+.rs-v{font-size:1.2em;font-weight:800}.rs-l{font-size:.6em;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-top:2px}
+
+.fcc{perspective:1000px;margin:14px 0;cursor:pointer}
+.fcrd{width:100%;min-height:200px;position:relative;transition:transform .6s;transform-style:preserve-3d}
+.fcrd.fl{transform:rotateX(180deg)}
+.fcf{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:26px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column}
+.fcfr{background:linear-gradient(135deg,#1a2744,#1e3a5c);border:1px solid rgba(59,130,246,.2)}
+.fcbk{background:var(--card);border:1px solid var(--border);transform:rotateX(180deg);text-align:left;align-items:flex-start}
+.fcfr h3{font-size:1.15em;color:var(--bright);font-family:'Playfair Display',serif}
+.fch{font-size:.72em;color:var(--dim);margin-top:8px}
+.fcbk p{font-size:.86em;line-height:1.7}
+
+.hidden{display:none!important}.tc{text-align:center}
+@media(max-width:600px){h2{font-size:1.35em}#app{padding:10px 12px 50px}.match-grid{grid-template-columns:1fr}.rs{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="amb a1"></div><div class="amb a2"></div>
+<div id="app">
+  <div class="top">
+    <div style="display:flex;align-items:center"><div class="logo">BMO <span>Capital Markets</span></div><span class="badge">48 HRS TO GO</span></div>
+    <div class="stats">
+      <div class="st"><div class="st-v xp" id="xp">0</div><div class="st-l">XP</div></div>
+      <div class="st"><div class="st-v str" id="str">0</div><div class="st-l">Streak</div></div>
+      <div class="st"><div class="st-v ch" id="chdone">0/8</div><div class="st-l">Done</div></div>
+    </div>
+  </div>
+  <div class="pips" id="pips"></div>
+  <div id="m"></div>
+</div>
+<script>
+const S={xp:0,str:0,mx:0,ok:0,tot:0,ch:-1,st:0,done:new Set(),fcIdx:0};
+const $=id=>document.getElementById(id);
+const M=()=>$('m');
+const upd=()=>{$('xp').textContent=S.xp;$('str').textContent=S.str;$('chdone').textContent=S.done.size+'/'+CH.length;
+let p='';for(let i=0;i<CH.length;i++)p+=`<div class="pip ${S.done.has(i)?'done':S.ch===i?'on':''}"></div>`;$('pips').innerHTML=p};
+
+function toast(msg,type='g'){const t=document.createElement('div');t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
+function ding(ok){S.tot++;if(ok){S.ok++;S.str++;if(S.str>S.mx)S.mx=S.str;const b=Math.min(S.str,5);S.xp+=10+b*2;
+if(S.str===3)toast('3x Streak!','b');if(S.str===5)toast('5x Streak! On fire!','b');if(S.str===8)toast('8x STREAK! UNSTOPPABLE!','b');
+}else S.str=0;upd()}
+
+function D(w,t){
+  const av={you:'YOU',friend:'BFF'};const nm={you:'You',friend:'Your Friend (who works in consumer products)'};
+  return `<div class="dl"><div class="dl-av ${w}">${av[w]}</div><div class="dl-bb"><div class="dl-n ${w}">${nm[w]}</div><div class="dl-t">${t}</div></div></div>`;
+}
+
+// MINI-GAME BUILDERS
+function mkQ(id,q,opts,ci,exp){
+  const sh=opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+  window['_sh_'+id]=sh;
+  const L='ABCD';
+  return `<div class="qz" id="${id}"><div class="qz-tag" style="color:var(--gold)">Knowledge Check</div>
+  <div class="qz-q">${q}</div>
+  <div class="os">${sh.map((o,i)=>`<button class="o" id="${id}${i}" onclick="doQ('${id}',${i},${ci})"><span class="lt">${L[i]}</span><span>${o.t}</span></button>`).join('')}</div>
+  <div id="${id}e" class="hidden"></div></div>`;
+}
+window.doQ=function(id,pk,ci){
+  const sh=window['_sh_'+id];const ok=sh[pk].i===ci;ding(ok);
+  sh.forEach((o,i)=>{const b=$(id+i);b.classList.add('lk');b.onclick=null;if(o.i===ci)b.classList.add('ok');else if(i===pk)b.classList.add('no')});
+  const exp=$(id).dataset.exp||'';
+  $(id+'e').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Nailed it!</strong>':'<strong style="color:var(--red)">Not quite!</strong>'} ${exp}</div>`;
+  $(id+'e').classList.remove('hidden');
+};
+
+function mkSc(id,prompt,choices){
+  return `<div class="bx in" id="${id}"><div class="qz-tag" style="color:var(--orange)">What Would You Do?</div>
+  <p style="font-size:.95em;font-weight:600;color:var(--bright);margin-bottom:12px">${prompt}</p>
+  <div class="sc-wrap">${choices.map((c,i)=>`<button class="sc-choice" id="${id}c${i}" onclick="doSc('${id}',${i})">${c.text}</button>`).join('')}</div>
+  <div id="${id}r" class="hidden"></div></div>`;
+}
+window.doSc=function(id,pk){
+  const choices=window['_sc_'+id];if(!choices)return;
+  const c=choices[pk];
+  document.querySelectorAll(`[id^="${id}c"]`).forEach((b,i)=>{b.classList.add('lk');b.onclick=null;if(i===pk)b.classList.add('picked')});
+  S.xp+=(c.xp||5);S.tot++;if(c.quality==='good')S.ok++;upd();
+  $(id+'r').innerHTML=`<div class="sc-result ${c.quality}">${c.result}</div>`;
+  $(id+'r').classList.remove('hidden');
+  if(c.quality==='good')toast('+'+c.xp+' XP!');
+};
+
+function mkTF(id,statement,isTrue,exp){
+  return `<div class="qz" id="${id}"><div class="qz-tag" style="color:var(--purple)">True or False?</div>
+  <p style="font-size:1em;font-weight:600;color:var(--bright);line-height:1.5">${statement}</p>
+  <div class="tf-wrap">
+    <button class="tf-btn t" id="${id}t" onclick="doTF('${id}',true,${isTrue})">TRUE</button>
+    <button class="tf-btn f" id="${id}f" onclick="doTF('${id}',false,${isTrue})">FALSE</button>
+  </div>
+  <div id="${id}e" class="hidden"></div></div>`;
+}
+window.doTF=function(id,picked,answer){
+  const ok=picked===answer;ding(ok);
+  $(id+'t').classList.add('lk');$(id+'f').classList.add('lk');
+  $(id+'t').onclick=null;$(id+'f').onclick=null;
+  if(answer)$(id+'t').classList.add('ok');else $(id+'f').classList.add('ok');
+  if(!ok){if(picked)$(id+'t').classList.add('no');else $(id+'f').classList.add('no')}
+  const exp=$(id).dataset.exp||'';
+  $(id+'e').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Correct!</strong>':'<strong style="color:var(--red)">Nope!</strong>'} ${exp}</div>`;
+  $(id+'e').classList.remove('hidden');
+};
+
+function mkMatch(id,pairs){
+  const lefts=pairs.map((p,i)=>({t:p.left,id:i})).sort(()=>Math.random()-.5);
+  const rights=pairs.map((p,i)=>({t:p.right,id:i})).sort(()=>Math.random()-.5);
+  window['_m_'+id]={lefts,rights,sel:null,matched:0,total:pairs.length};
+  let h=`<div class="bx in" id="${id}"><div class="qz-tag" style="color:var(--cyan)">Match Game -- tap a left item, then its match on the right</div>
+  <div class="match-grid">
+    <div>${lefts.map((l,i)=>`<div class="m-item" id="${id}L${i}" onclick="doMatch('${id}','L',${i},${l.id})" style="margin-bottom:6px">${l.t}</div>`).join('')}</div>
+    <div>${rights.map((r,i)=>`<div class="m-item" id="${id}R${i}" onclick="doMatch('${id}','R',${i},${r.id})" style="margin-bottom:6px">${r.t}</div>`).join('')}</div>
+  </div>
+  <div id="${id}msg" style="text-align:center;margin-top:8px;font-size:.82em;color:var(--dim)">Tap a term on the left, then its match on the right</div></div>`;
+  return h;
+}
+window.doMatch=function(id,side,idx,pairId){
+  const st=window['_m_'+id];if(!st)return;
+  const el=$(id+side+idx);if(el.classList.contains('matched'))return;
+  if(!st.sel){st.sel={side,idx,pairId,el};el.classList.add('sel');return}
+  if(st.sel.side===side){st.sel.el.classList.remove('sel');if(st.sel.idx===idx){st.sel=null;return}
+    st.sel={side,idx,pairId,el};el.classList.add('sel');return}
+  const prev=st.sel;prev.el.classList.remove('sel');
+  if(prev.pairId===pairId){prev.el.classList.add('matched');el.classList.add('matched');st.matched++;ding(true);
+    if(st.matched===st.total){$(id+'msg').innerHTML='<span style="color:var(--green);font-weight:700">All matched! Nice work.</span>';toast('Perfect matching!')}
+  }else{prev.el.classList.add('wrong');el.classList.add('wrong');ding(false);
+    setTimeout(()=>{prev.el.classList.remove('wrong');el.classList.remove('wrong')},500)}
+  st.sel=null;
+};
+
+// =====================
+// CHAPTERS
+// =====================
+const CH=[
+// CH0: THE EMAIL
+{icon:'📧',name:'The Email',desc:'Monday night. Another interview drops. Time to learn a whole new sector.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 1 of 8</div>
+  <h2>The Email</h2>
+  <p>It's Monday night. Your phone buzzes again. Another interview email -- this time from <strong>BMO Capital Markets</strong>.</p>
+  <p><em>"We'd like to schedule next round interviews with Lucas Cohen (Senior Associate) and Ben Wood (VP Associate) for the Consumer Staples equity research team, under lead analyst <strong>Kelly Bania</strong>."</em></p>
+  <p>Consumer Staples. You know the word "staples" from Staples the office supply store. That's... about it.</p>
+  ${D('you',"BMO?? Like the cat from Adventure Time? Consumer Staples?? Like... paper clips?")}
+  ${D('friend',"Oh boy. We have work to do. But honestly? That's perfect -- zero knowledge means zero bad habits. Let's build from scratch.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The Firm</span>
+  <h4>BMO Capital Markets, in Plain English</h4>
+  <p>BMO stands for <strong>Bank of Montreal</strong>. It's a massive Canadian bank -- the <strong>8th largest in North America</strong> with over <strong>$1.4 trillion in assets</strong>.</p>
+  <p>BMO Capital Markets is the investment banking and research arm. Think of the bank like a tree: retail banking (branches, checking accounts) is the trunk. Capital Markets is the branch where analysts like Kelly Bania publish stock research, advise on deals, and serve institutional investors.</p>
+  <div class="an">If BMO the bank is a shopping mall, Capital Markets is the high-end specialty store inside -- smaller space, but that's where the big-ticket transactions happen.</div>
+  <ul>
+    <li>Founded in <strong>1817</strong> -- that's older than Canada itself (1867). This bank was doing deals before the country it's headquartered in existed.</li>
+    <li><strong>$1.4 trillion</strong> in total assets. If you stacked that in dollar bills, it would reach the sun. Twice.</li>
+    <li>Their company purpose is <strong>"Boldly Grow the Good"</strong> -- the CEO says this in literally every presentation. It'll be on the test. (Not really. Kind of.)</li>
+    <li>About <strong>50,000 employees</strong> globally across personal banking, wealth management, and capital markets</li>
+  </ul>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Recent History</span>
+  <h4>BMO's Big Bet: The Bank of the West Acquisition</h4>
+  <p>In 2023, BMO completed a <strong>$16.3 billion acquisition</strong> of Bank of the West from France's BNP Paribas. This was their biggest deal ever and dramatically expanded their U.S. footprint.</p>
+  <p>They went from a strong-but-mostly-Canadian bank to a <strong>serious North American player</strong>. Their U.S. personal and commercial banking revenue grew significantly. Think of it like a basketball team signing a star free agent -- suddenly you're competing at a different level.</p>
+  <div class="funny">A 200-year-old Canadian bank buying an American bank called "Bank of the West" from a FRENCH bank is the most diplomatically chaotic transaction in finance history. Three countries, $16 billion, and probably a lot of confused paperwork.</div>
+</div>
+${mkQ('c0q0','What is BMO Capital Markets?',
+  ['A stand-alone brokerage firm','The investment banking and research division of BMO (Bank of Montreal), an $1.4 trillion Canadian bank','A Canadian government agency','A retail bank with no research capabilities'],1,'')}
+<div class="hidden" id="c0q0" data-exp="BMO Capital Markets is the <strong>investment banking and equity research arm</strong> of Bank of Montreal. The parent bank provides the balance sheet and global reach; Capital Markets provides the research, trading, and deal-making."></div>`,
+
+()=>`<div class="bx in">
+  ${D('you',"So what's their research platform like? How many analysts? Who runs it?")}
+  ${D('friend',"BMO has a serious equity research team. Let me break it down.")}
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">The Research Platform</span>
+  <h4>BMO's Equity Research Machine</h4>
+  <p>BMO Capital Markets has roughly <strong>80+ equity research analysts</strong> covering sectors across North America. The U.S. equity research team is led by <strong>Penn Egbert</strong>, who came from <strong>Goldman Sachs</strong>.</p>
+  <p>When a former Goldman managing director chooses to run your research department, that says something about the platform's ambitions.</p>
+  <ul>
+    <li>They cover everything from tech to healthcare to energy to... consumer staples</li>
+    <li>The firm hosts major investor conferences, including the <strong>BMO Farm to Market Conference</strong> -- one of the premier events for food/agriculture investors</li>
+    <li>BMO had <strong>$25 billion in equity and debt underwriting revenue</strong> in recent fiscal years</li>
+  </ul>
+  <div class="an">The Farm to Market Conference is like BMO's own food industry Super Bowl. CEOs of major food companies come to present, and big investors come to listen. Being the analyst who runs a session there = serious credibility.</div>
+</div>
+<div class="bx2 pu">
+  <span class="tag tag-pu">Strategic Direction</span>
+  <h4>The "One Client" and AI Strategy</h4>
+  <p>BMO's CEO Darryl White talks a lot about two priorities:</p>
+  <p><strong>"One Client"</strong> -- Instead of having the research team, the banking team, and the wealth management team all calling on clients separately, BMO wants to present <strong>one unified face</strong>. If Kelly Bania covers Costco in research, and BMO's bankers have a relationship with Costco for deals, everyone works together.</p>
+  <p><strong>AI and digital-first</strong> -- BMO is investing heavily in AI. They've deployed over <strong>1,000 AI models</strong> across the bank. The CEO said AI isn't just a cost tool -- it's an <strong>"accelerant to revenue growth."</strong></p>
+  <div class="funny">"One Client" is corporate-speak for "let's stop bumping into each other in the lobby of the same company." But it genuinely matters for research teams.</div>
+</div>
+${mkTF('c0tf0',
+  '"BMO\'s Head of U.S. Equity Research, Penn Egbert, previously worked at Goldman Sachs."',
+  true,'')}
+<div class="hidden" id="c0tf0" data-exp="<strong>True!</strong> Penn Egbert came from Goldman Sachs. When the head of research was recruited from one of the most prestigious banks in the world, it signals BMO is serious about building a top-tier research platform."></div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Meet Your Interviewers & Future Boss</h2>
+  ${D('you',"Okay, who am I actually talking to this week?")}
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">The Lead Analyst (Your Future Boss)</span>
+  <h4>Kelly Bania -- The Food & Retail Expert</h4>
+  <p>Kelly Bania is a <strong>Managing Director</strong> and the lead analyst covering <strong>Food Retail & Distribution</strong> at BMO. She covers about <strong>15 stocks</strong> -- the biggest grocery, warehouse, and food distribution companies in America.</p>
+  <ul>
+    <li>Joined BMO in <strong>2013</strong> -- she's been there over a decade, building deep relationships</li>
+    <li>Previously worked at <strong>Bank of America</strong> and <strong>Morgan Stanley</strong> -- two of the most prestigious banks</li>
+    <li>Key stocks she covers: <strong>Costco, Walmart, Kroger, Dollar General, Dollar Tree, Sysco, US Foods</strong></li>
+    <li>Her calls right now: <strong>Outperform (buy) on Costco and Walmart. Underperform (sell) on Dollar Tree.</strong></li>
+  </ul>
+  <div class="an">Kelly has seen these companies through multiple economic cycles. When she says "buy Costco," institutional investors managing billions of dollars are listening.</div>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Interviewer 1</span>
+  <h4>Lucas Cohen -- Senior Associate, CFA</h4>
+  <p>Lucas is Kelly's <strong>Senior Associate</strong> -- the person who does the heavy lifting on financial models, research notes, and client support. He's essentially doing the job you'd be learning.</p>
+  <ul>
+    <li><strong>CFA charterholder</strong> -- this is one of the hardest finance exams in the world. Three levels, takes most people 3+ years. It signals serious analytical rigor.</li>
+    <li>Graduated from <strong>William & Mary</strong></li>
+    <li>Previously worked at <strong>Rosenblatt Securities</strong> in equity research</li>
+    <li><strong>Key detail:</strong> As Senior Associate, he's your day-to-day point of contact. He'll be evaluating whether you can do the actual work: models, notes, data analysis.</li>
+  </ul>
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Interviewer 2</span>
+  <h4>Ben Wood -- VP Associate</h4>
+  <p>Ben is a <strong>VP-level Associate</strong> on the team -- meaning he's been promoted and has more experience than a typical associate.</p>
+  <ul>
+    <li>Graduated from <strong>Cornell University</strong></li>
+    <li>Previously worked at <strong>Point72</strong> -- one of the most famous <strong>hedge funds</strong> in the world (run by Steve Cohen)</li>
+    <li><strong>Key detail:</strong> He came from the buy-side (hedge fund). He knows what hedge fund clients actually want from research. He'll evaluate whether your thinking is investment-oriented, not just academic.</li>
+  </ul>
+  <div class="an">Lucas will test if you can do the work. Ben will test if you think like an investor. Lucas = "Can you build the model?" Ben = "Can you tell me what the model means for the stock?"</div>
+</div>
+${(()=>{window['_sc_c0s0']=[
+  {text:"Mention the Farm to Market Conference, the One Client strategy, Penn Egbert joining from Goldman to build the research platform, and how a $1.4 trillion bank gives the research team resources smaller shops can't match.",result:"Excellent. You're showing you understand BMO's specific competitive advantages -- the conference franchise, the institutional backing, and the platform ambitions. This is researched, specific, and smart.",quality:'good',xp:15},
+  {text:"Say 'I've always been interested in food companies.'",result:"Way too vague. Every candidate could say this. It tells them nothing about why BMO specifically.",quality:'meh',xp:3},
+  {text:"Say 'BMO was the only firm that called me back.'",result:"Never, ever say this. Even if it's true. Especially if it's true.",quality:'bad',xp:0}
+];return mkSc('c0s0','Lucas asks: "Why BMO Capital Markets?"',window['_sc_c0s0'])})()}`,
+]},
+
+// CH1: CONSUMER STAPLES 101
+{icon:'🛒',name:'What Are Consumer Staples?',desc:'You eat them, drink them, clean with them. Starting from absolute zero.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 2 of 8</div>
+  <h2>What Are Consumer Staples?</h2>
+  <p>It's 11 PM. You're spiraling. You text your friend who works in consumer products research.</p>
+  ${D('you',"SOS. I have a Consumer Staples interview. I don't even know what a consumer staple IS. Is it like... a stapler? For consumers?")}
+  ${D('friend',"Lmao no. Okay deep breath. Open your fridge.")}
+  ${D('you',"...okay it's open.")}
+  ${D('friend',"Everything in there? That's consumer staples. Now look under your sink.")}
+  ${D('you',"Dish soap, trash bags, cleaning spray...")}
+  ${D('friend',"Also consumer staples. Congratulations, you've been a consumer staples expert your whole life. You just didn't know it.")}
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Start Here</span>
+  <h4>The Stuff You Buy No Matter What</h4>
+  <p>Consumer staples are the <strong>boring, everyday products people buy whether the economy is booming or crashing</strong>:</p>
+  <ul>
+    <li><strong>Food:</strong> Cereal, mac and cheese, snacks, frozen meals</li>
+    <li><strong>Drinks:</strong> Coffee, soda, energy drinks, water</li>
+    <li><strong>Cleaning:</strong> Laundry detergent, dish soap, disinfectant</li>
+    <li><strong>Personal care:</strong> Toothpaste, shampoo, deodorant</li>
+    <li><strong>Household basics:</strong> Toilet paper, paper towels, trash bags</li>
+  </ul>
+  <p><strong>The key idea:</strong> You don't stop brushing your teeth or eating cereal because the stock market dropped 30%. These purchases are <strong>non-negotiable</strong>. That's what makes them "staples."</p>
+  <div class="an">Consumer staples are like your phone bill -- you pay it every month, rain or shine. It's not exciting, but it's not going away.</div>
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The Most Important Distinction</span>
+  <h4>Staples (Need) vs. Discretionary (Want)</h4>
+  <p>This is THE key concept. There are two types of consumer companies:</p>
+  <p><strong>Consumer Staples = things you NEED.</strong> Toothpaste, bread, soap, toilet paper. You buy them even if you lose your job.</p>
+  <p><strong>Consumer Discretionary = things you WANT.</strong> Designer clothes, vacations, a new iPhone, concert tickets. You skip these when money's tight.</p>
+  <div class="an">The test: If you lost your job tomorrow, would you still buy it? YES = staple. NO = discretionary. You'd still buy toothpaste. You wouldn't buy new sneakers.</div>
+  <p><strong>Why investors care:</strong> Staples stocks are "defensive" -- they don't crash as hard during recessions because people keep buying the products. In 2008, while the S&P 500 dropped ~55%, staples held up way better.</p>
+  <div class="funny">Staples stocks are a Toyota Camry. Not flashy, won't win a race, but reliable and still running in 15 years. Tech stocks are the sports car -- thrilling when things go well, expensive to fix when they don't.</div>
+</div>
+${mkQ('c1q0','You lost your job. Which of these would you STILL buy?',
+  ['Concert tickets and new sneakers','Toothpaste and cereal','A new TV and designer sunglasses','Vacation flights'],0,'')}
+<div class="hidden" id="c1q0" data-exp="<strong>Toothpaste and cereal.</strong> These are non-negotiable purchases -- classic consumer staples. Everything else gets cut when money is tight. That's why staples companies have predictable revenue even in recessions."></div>
+
+${mkTF('c1tf1','"Coca-Cola is a consumer discretionary company because soda is a luxury, not a necessity."',false,'')}
+<div class="hidden" id="c1tf1" data-exp="<strong>False!</strong> Even though soda isn't 'essential' like water, Coca-Cola is classified as a consumer staple because people buy it habitually regardless of economic conditions. A $2 Coke is a small daily pleasure people don't cut. A $7 artisanal cold-pressed juice? THAT might be discretionary."></div>`,
+
+()=>`<div class="bx in">
+  ${D('you',"Okay I get what they ARE. But how does selling a $4 box of Cheerios turn into a company worth $40 billion?? Like what's the actual business model?")}
+  ${D('friend',"Oh this is the beautiful part. The entire industry runs on ONE formula. Ready?")}
+  ${D('you',"Born ready. Well, born ready-ish. Born ready adjacent.")}
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">The Core Formula</span>
+  <h4>Revenue = Volume x Price</h4>
+  <p>That's it. A food company can grow revenue by either:</p>
+  <ul>
+    <li><strong>Selling more units</strong> (volume growth) -- getting into more stores, new countries, new customers</li>
+    <li><strong>Charging more per unit</strong> (price growth) -- raising the price of a box of Cheerios from $4.99 to $5.49</li>
+  </ul>
+  <p>When analysts like Kelly Bania break down a company's results, the FIRST thing they look at is: <strong>how much of the growth came from selling more stuff vs. charging more for the same stuff?</strong></p>
+  <div class="an">Imagine you run a pizza shop. Volume growth = selling more pizzas. Price growth = charging more per pizza. Ideally you want both, but if you're ONLY growing by raising prices, eventually customers walk away.</div>
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">The Real Competitive Advantages</span>
+  <h4>What Makes a Food Company Win</h4>
+  <p><strong>Brand Power:</strong> Why do you buy Tide instead of generic detergent? Brand trust. Companies spend billions on advertising so you reach for THEIR product without thinking. That brand loyalty lets them charge 30-50% more than store brands.</p>
+  <p><strong>Scale:</strong> When you're as big as Coca-Cola, you negotiate lower prices on ingredients, cans, and shipping. A small soda company can't match those costs.</p>
+  <p><strong>Distribution:</strong> Getting products into 200,000+ stores is incredibly hard to replicate. Coca-Cola is available in every country except North Korea and Cuba.</p>
+  <p><strong>Pricing Power:</strong> When wheat prices go up, General Mills can raise Cheerios prices because you're not going to stop buying cereal. You'll grumble, but you'll pay.</p>
+  <div class="an">A consumer staples company is like a tollbooth on the only bridge into town. Everyone has to cross it (people need toothpaste), and the company collects a toll (their profit margin) every time. The brand is what keeps you on THEIR bridge instead of swimming across the river (buying generic).</div>
+</div>
+${mkTF('c1tf0','"A company growing revenue 4% entirely through price increases is just as healthy as one growing 4% through selling more units."',false,'')}
+<div class="hidden" id="c1tf0" data-exp="<strong>False!</strong> Growth from price alone is more fragile. If a company is only raising prices (not selling more), customers may eventually push back, trade down to cheaper brands, or switch to store brands. <strong>Volume growth signals genuine demand.</strong> This is one of the most important things analysts watch."></div>`,
+]},
+
+// CH2: KEY METRICS
+{icon:'📊',name:'The Numbers That Matter',desc:'Organic growth, gross margin, and the metrics that move stocks.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 3 of 8</div>
+  <h2>The Numbers That Matter</h2>
+  ${D('you',"Alright I understand the business model. But what numbers do analysts actually look at? Like when Kelly Bania opens her laptop at 6 AM, what's she checking?")}
+  ${D('friend',"Great question. There are like 50 metrics, but only 4-5 that REALLY matter. I'm going to teach you the ones that move stocks.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Metric 1 -- The Big One</span>
+  <h4>Organic Revenue Growth</h4>
+  <p>This is revenue growth from the company's <strong>existing operations</strong>, stripping out acquisitions and currency fluctuations.</p>
+  <p>It's broken into two pieces: <strong>volume growth + price/mix</strong>.</p>
+  <p>Example: If organic growth is +4%, and that's +1% volume and +3% price, the company is mostly just raising prices, not actually selling more stuff.</p>
+  <ul>
+    <li><strong>Healthy organic growth:</strong> 3-5%</li>
+    <li><strong>Weak:</strong> Below 2%</li>
+    <li><strong>Strong:</strong> Above 6%</li>
+  </ul>
+  <div class="an">It's like measuring how a tree grows naturally. New branches = volume (selling more). Thicker trunk = pricing (charging more). Growth from acquisitions is like taping another tree's branches on -- it looks bigger, but it's not the same thing.</div>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Metric 2</span>
+  <h4>Gross Margin</h4>
+  <p><strong>(Revenue - Cost of Goods Sold) / Revenue</strong></p>
+  <p>This tells you how much money the company keeps after paying for ingredients, packaging, and manufacturing. The higher the number, the more room they have when costs spike.</p>
+  <ul>
+    <li>Procter & Gamble: ~50% gross margin (household products = premium)</li>
+    <li>Kraft Heinz: ~35% (packaged food = lower margin)</li>
+    <li>Costco: ~13% (retail = razor-thin, but they make it up on volume)</li>
+  </ul>
+  <div class="an">It's the markup at a lemonade stand. If lemons cost you $1 and you sell a cup for $3, your gross margin is 67%. Higher margin = more room to survive if lemon prices spike.</div>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Metric 3</span>
+  <h4>Input Costs (The Ingredients)</h4>
+  <p>These are the <strong>raw materials</strong> that go into products: wheat, sugar, cocoa, coffee beans, palm oil, milk, aluminum (for cans), cardboard, crude oil (for plastics).</p>
+  <p>Companies <strong>cannot control</strong> these prices. When cocoa prices doubled in 2024-2025, Hershey's costs skyrocketed. They either:</p>
+  <ul>
+    <li><strong>Absorb the hit</strong> -- lower profits</li>
+    <li><strong>Raise prices</strong> -- risk losing customers</li>
+    <li><strong>Reformulate</strong> -- use cheaper ingredients (risky for taste)</li>
+  </ul>
+  <div class="an">You own a bakery. Flour, eggs, butter, and sugar are your inputs. If egg prices double, you either raise croissant prices (and risk losing customers) or eat the cost (and make less money). That's the exact dilemma facing every food company right now.</div>
+</div>
+${(()=>{
+const pairs=[
+  {left:'Organic Revenue Growth',right:'Revenue growth excluding acquisitions & currency'},
+  {left:'Gross Margin',right:'% of revenue left after paying for ingredients & packaging'},
+  {left:'Input Costs',right:'Raw material prices (wheat, cocoa, aluminum, etc.)'},
+  {left:'Pricing Power',right:'Ability to raise prices without losing customers'},
+];return mkMatch('c2m0',pairs)})()}`,
+
+()=>`<div class="bx in">
+  ${D('you',"Okay wait. What's 'private label'? I keep seeing this term and I'm pretending to know what it means.")}
+  ${D('friend',"You know Kirkland Signature? From Costco?")}
+  ${D('you',"Yeah I literally buy their olive oil.")}
+  ${D('friend',"That's private label! Store brands. And they are absolutely EATING the big name brands alive right now. This is huge for Kelly's coverage.")}
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Metric 4 -- The Competitive Threat</span>
+  <h4>Market Share & Private Label</h4>
+  <p><strong>Market share</strong> = what percentage of a category does your brand own? If Tide has 30% of laundry detergent, that's dominant. Gaining share = good. Losing share = alarm bells.</p>
+  <p><strong>Private label</strong> = store brands. Kirkland (Costco), Great Value (Walmart), 365 (Whole Foods). These are cheaper alternatives made by the retailer.</p>
+  <p>Here's the scary number: <strong>U.S. private label sales hit a record $282.8 billion in 2025</strong>. Store brands now hold <strong>23.5% of all units sold</strong>. And it's growing fast.</p>
+  <div class="an">Private label is like a food truck parking right next to a fancy restaurant. Same neighborhood, similar food, way cheaper. If the restaurant can't convince you their food is worth the premium, they lose customers.</div>
+  <p><strong>Why this matters for Kelly's coverage:</strong> Costco's Kirkland Signature brand is one of the largest "brands" in America. Walmart's Great Value is massive. These retailers are both Kelly's covered companies AND the competitive threat to packaged food companies.</p>
+</div>
+<div class="bx2 pu">
+  <span class="tag tag-pu">The Evaluation Framework</span>
+  <h4>How to Think About Any Consumer Staples Company</h4>
+  <p>When an analyst evaluates a food or staples company, they're asking:</p>
+  <ul>
+    <li><strong>Are they selling more stuff?</strong> (volume growth)</li>
+    <li><strong>Can they raise prices?</strong> (pricing power)</li>
+    <li><strong>Are their ingredients getting more expensive?</strong> (input costs)</li>
+    <li><strong>Are they losing customers to store brands?</strong> (private label threat)</li>
+    <li><strong>How much money do they keep per dollar of sales?</strong> (gross margin)</li>
+  </ul>
+  <div class="an">Evaluating a food company is like evaluating a restaurant. Organic growth = are more customers showing up? Gross margin = how much do you keep after paying for ingredients? Input costs = price of beef and vegetables. Market share = what percentage of diners in town eat at YOUR restaurant? Private label = the food truck parked outside offering cheaper food.</div>
+</div>
+${mkQ('c2q0','Private label sales hit a record in 2025. What does this mean for branded food companies like Kraft Heinz?',
+  ['Great news -- more store brands means more demand for food overall','Bad news -- every dollar spent on store brands is a dollar NOT spent on their products','No impact -- private label and name brands serve different customers','Good news -- Kraft Heinz makes the private label products too'],1,'')}
+<div class="hidden" id="c2q0" data-exp="<strong>Direct competition.</strong> When someone buys Kirkland peanut butter instead of Jif, that's revenue Kraft (Jif's parent) lost. Private label reaching record levels is a structural headwind for branded food companies. Over 80% of consumers now rate store brand quality as equal or better than name brands."></div>`,
+]},
+
+// CH3: THE BIG THEMES
+{icon:'🌍',name:"Today's Big Themes",desc:'Tariffs, weight-loss drugs, and why food companies are sweating in 2026.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 4 of 8</div>
+  <h2>Today's Big Themes</h2>
+  <p>Tuesday morning. Coffee in hand. You've got the basics locked down. Now it's time for the spicy stuff -- the themes that are actually keeping food industry executives up at night.</p>
+  ${D('you',"Give me the hot gossip. What's the drama in consumer staples?")}
+  ${D('friend',"Oh you want drama? Consumer staples has MORE drama right now than any sector. Weight-loss drugs, trade wars, consumers revolting against prices. Buckle up.")}
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Theme 1</span>
+  <h4>Tariffs Are Hitting Food Companies Hard</h4>
+  <p>Tariffs are <strong>taxes on imported goods</strong>. The tariffs imposed starting in 2025 are hurting food companies on multiple fronts:</p>
+  <ul>
+    <li><strong>Packaging materials:</strong> Aluminum cans, cardboard boxes, plastic wrap -- many sourced globally</li>
+    <li><strong>Ingredients:</strong> Coffee beans (tariffs on Brazil and Colombia caused a 20% price spike), cocoa, sugar, specialty ingredients</li>
+    <li><strong>Cross-border supply chains:</strong> Many products are made in one country and sold in another</li>
+  </ul>
+  <p><strong>The damage:</strong> Profits for large food companies fell about 18% last year. Hershey's profits dropped 36%. General Mills fell 20%. Even Procter & Gamble is managing a projected <strong>$1 billion tariff burden</strong>.</p>
+  <div class="an">Imagine you run a bakery that imports flour from Canada and sugar from Brazil. Suddenly both have a 25% tax. Your croissant costs more to make, but your customers don't want to pay more. You're stuck.</div>
+  <p><strong>The lag effect:</strong> Many of 2025's tariffs haven't fully hit yet. 2026 is the year they fully flow through to consumer prices. This is a key theme for Kelly's coverage.</p>
+</div>
+<div class="bx2 pu">
+  <span class="tag tag-pu">Theme 2</span>
+  <h4>Weight-Loss Drugs Are Changing What People Eat</h4>
+  <p>Drugs like <strong>Ozempic and Wegovy</strong> suppress appetite. About <strong>1 in 8 American adults</strong> are now taking them. And they're eating VERY differently:</p>
+  <ul>
+    <li>70% of users report <strong>snacking less</strong></li>
+    <li>Spending on snacks dropped ~10%</li>
+    <li>But protein consumption <strong>up 65%</strong>, fruits and vegetables <strong>up ~80%</strong></li>
+    <li>Could put a <strong>$12 billion dent</strong> in snack food market growth</li>
+  </ul>
+  <p>Companies are scrambling to adapt. ConAgra added "GLP-1 friendly" labels. Nestle launched a whole new frozen meal brand targeting these consumers.</p>
+  <div class="an">Imagine if a new invention made people need 30% less gasoline. Gas stations wouldn't disappear, but every station would sell less. The ones selling premium fuel (snacks, treats) would be hit hardest. That's what these drugs are doing to food companies.</div>
+  <p><strong>For Kelly's coverage:</strong> This matters because grocery stores (Costco, Walmart, Kroger) sell the food. If shopping baskets get smaller or shift toward produce and protein, it changes the whole picture.</p>
+</div>
+${mkTF('c3tf0','"Weight-loss drugs like Ozempic have had zero impact on how Americans buy food."',false,'')}
+<div class="hidden" id="c3tf0" data-exp="<strong>Very false!</strong> GLP-1 drugs are dramatically changing food consumption. Snacking is down, protein is up, and food companies are scrambling to reformulate. By 2030, GLP-1 households could represent <strong>35% of all food and beverage units sold</strong>. This is one of the biggest disruptions in the food industry in decades."></div>
+
+${(()=>{window['_sc_c3s1']=[
+  {text:"Raise prices to cover the tariff costs. Customers will understand.",result:"Maybe for a while -- but consumers are ALREADY fed up with food price increases. 82% changed their shopping behavior in 2025. You might push more people to private label. Risky move in this environment.",quality:'meh',xp:5},
+  {text:"Absorb the costs, protect your prices, and find savings elsewhere -- reformulate, renegotiate with suppliers, hedge commodity prices.",result:"Smart. This is what the best operators are doing. Procter & Gamble is managing a $1 BILLION tariff burden by finding efficiencies, not just passing costs through. It hurts short-term margins but protects market share.",quality:'good',xp:15},
+  {text:"Ignore tariffs -- they'll probably go away soon.",result:"Bold strategy, Cotton. Let's see if it pays off. (Narrator: it did not pay off.) Tariffs are already baked in and the lag effect means 2026 is when they FULLY hit. Ignoring them is not an option.",quality:'bad',xp:0}
+];return mkSc('c3s1',"You're the CEO of a major cereal company. Tariffs just added $200 million to your costs. What's your move?",window['_sc_c3s1'])})()}`,
+
+()=>`<div class="bx in">
+  ${D('you',"Okay tariffs and weight-loss drugs. What else? Hit me.")}
+  ${D('friend',"Two more. These are the ones that'll make you sound like you've been covering food stocks for years.")}
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Theme 3</span>
+  <h4>Consumers Are Trading Down -- Big Time</h4>
+  <p>After years of food price increases, shoppers have fundamentally changed behavior:</p>
+  <ul>
+    <li><strong>82%</strong> of consumers modified their grocery shopping in 2025</li>
+    <li><strong>25%</strong> now use buy-now-pay-later services for groceries (up from 14% a year ago)</li>
+    <li>People visit multiple stores to find the best price per ounce</li>
+    <li>Consumers trade down on staples but selectively splurge on "treat" moments</li>
+  </ul>
+  <p>Food-at-home prices are predicted to rise <strong>3.1% in 2026</strong> -- faster than the 20-year average. This keeps the pressure on.</p>
+  <div class="an">Think of it as a "barbell" -- consumers are buying more cheap store brands for everyday stuff, but occasionally splurging on premium treats. The middle gets squeezed. It's like eating ramen all week so you can afford one nice dinner out on Saturday.</div>
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">Theme 4</span>
+  <h4>Volume Is the New Battleground</h4>
+  <p>From 2021-2024, food companies grew mostly by <strong>raising prices</strong> -- sometimes 8-12% per year. Volumes often DECLINED as consumers pushed back.</p>
+  <p>Now the dynamic is flipping:</p>
+  <ul>
+    <li>Pricing power is fading as inflation moderates</li>
+    <li><strong>Volume/unit growth</strong> is becoming the key metric</li>
+    <li>Promotional spending (coupons, deals) is ramping up as companies fight for customers</li>
+    <li>Analysts expect volumes to accelerate to ~+2.7% in 2026</li>
+  </ul>
+  <p><strong>Why this matters:</strong> A company growing revenue +4% through price alone is more fragile than one growing +4% through selling more stuff. Investors are scrutinizing volume trends like never before.</p>
+</div>
+${(()=>{window['_sc_c3s0']=[
+  {text:"Tariffs are raising input costs and squeezing margins, while private label growth and GLP-1 drugs are pressuring volume. Companies need to shift from price-driven growth to actual volume growth -- and that's getting harder as consumers trade down.",result:"This connects ALL the themes into one coherent picture. Tariffs hit costs. Private label and GLP-1 hit volume. Trade-down changes the customer. And the era of easy price increases is over. This is exactly how an analyst thinks.",quality:'good',xp:15},
+  {text:"Food companies are doing fine because people always need to eat.",result:"Half right -- people do always eat, which is why staples are defensive. But the COMPANIES serving them face real margin and volume pressures. 'People need food' doesn't mean every food stock goes up.",quality:'meh',xp:3},
+  {text:"I don't really follow the news on consumer products.",result:"In a consumer staples research interview... this would be disqualifying. You need to know what's happening in the sector.",quality:'bad',xp:0}
+];return mkSc('c3s0','Ben Wood asks: "What\'s the biggest challenge facing food companies right now?"',window['_sc_c3s0'])})()}`,
+]},
+
+// CH4: KELLY'S COVERAGE
+{icon:'🏪',name:"Kelly's Coverage Universe",desc:'Costco, Walmart, Dollar Tree -- the stocks she follows and what she thinks.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 5 of 8</div>
+  <h2>Kelly's Coverage Universe</h2>
+  ${D('friend',"Now let's get specific. These are the actual companies Kelly Bania covers. Knowing her stocks and her opinions is CRITICAL for your interview.")}
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">The Grocery Giants</span>
+  <h4>Where America Buys Food</h4>
+  <p><strong>Costco (COST)</strong> -- Kelly rates: <strong>Outperform (Buy)</strong></p>
+  <ul>
+    <li>Membership-based warehouse club. You pay ~$65-130/year just to walk in the door.</li>
+    <li>That membership fee is almost <strong>pure profit</strong>. Costco can sell products at basically cost because the membership fee IS the business model.</li>
+    <li>Kirkland Signature (their store brand) is one of the largest brands in America. It undercuts name brands by 20-40% with comparable quality.</li>
+    <li>Stock has been a monster performer. The best retailer in the world by many measures.</li>
+  </ul>
+  <div class="an">Costco is like a nightclub with a cover charge. The cover charge (membership) is the real profit. The drinks inside (products) are priced close to cost to keep you coming back. And it works -- renewal rates are 90%+. People will cancel Netflix, cancel their gym membership, cancel their THERAPIST before they cancel Costco. That's brand loyalty.</div>
+  <p><strong>Walmart (WMT)</strong> -- Kelly rates: <strong>Outperform (Buy)</strong></p>
+  <ul>
+    <li>Largest retailer in the world. Largest private employer in the world.</li>
+    <li>Their scale gives them <strong>unmatched buying power</strong> -- they can pressure any supplier on price</li>
+    <li>Great Value (store brand) is massive and growing</li>
+    <li>E-commerce and grocery pickup/delivery have been huge growth drivers</li>
+  </ul>
+  <p><strong>Kroger (KR)</strong> -- Kelly rates: <strong>Outperform (Buy)</strong></p>
+  <ul>
+    <li>Largest traditional U.S. grocery chain (Kroger, Ralphs, Harris Teeter, Fred Meyer)</li>
+    <li>Strong private label program -- store brands are a profit driver</li>
+  </ul>
+</div>
+${mkQ('c4q0','Why is Costco\'s membership fee so important to its business model?',
+  ['It\'s their biggest expense','It\'s almost pure profit, which lets them sell products at near-cost to keep members loyal','Members get free products','It funds their advertising budget'],1,'')}
+<div class="hidden" id="c4q0" data-exp="<strong>The membership fee IS the business model.</strong> Costco keeps product prices as low as possible (sometimes below competitor cost) because the real profit comes from membership fees. 90%+ renewal rates mean that revenue is incredibly predictable."></div>`,
+
+()=>`<div class="bx in">
+  ${D('you',"What about the dollar stores and food distributors? Kelly covers those too, right?")}
+  ${D('friend',"Yes -- and one of them is where she has her most controversial call.")}
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">The Dollar Stores</span>
+  <h4>Value Retail -- Where Struggling Consumers Shop</h4>
+  <p><strong>Dollar General (DG)</strong> -- Kelly rates: <strong>Market Perform (Hold)</strong></p>
+  <ul>
+    <li>~20,000 stores, mostly in rural and low-income areas</li>
+    <li>The core customer earns under $40,000/year. When this customer is struggling, Dollar General struggles.</li>
+    <li>Stock has been beaten up as the low-income consumer faces pressure</li>
+  </ul>
+  <p><strong>Dollar Tree (DLTR)</strong> -- Kelly rates: <strong>Underperform (Sell)</strong></p>
+  <ul>
+    <li>This is Kelly's <strong>most bearish call</strong>. She's saying investors should avoid this stock.</li>
+    <li>Dollar Tree has struggled with its Family Dollar acquisition, which has been a drag on the business</li>
+    <li>The "everything is $1.25" model is harder to sustain with rising costs</li>
+  </ul>
+  <div class="funny">When your whole brand identity is "stuff costs a dollar" and inflation pushes costs above a dollar... you have an existential crisis. They raised it to $1.25 and customers were PERSONALLY offended. "Dollar Tree? More like Dollar-and-a-Quarter Tree" was an actual customer complaint. The rebrand practically writes itself.</div>
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">Food Distribution</span>
+  <h4>The Companies That Feed Restaurants</h4>
+  <p><strong>Sysco (SYY)</strong> and <strong>US Foods (USFD)</strong> -- both covered by Kelly</p>
+  <ul>
+    <li>These are <strong>food distributors</strong> -- they deliver food to restaurants, hotels, hospitals, and schools</li>
+    <li>Sysco is #1, US Foods is #2. Together they dominate the market.</li>
+    <li>When people eat out more, these companies do well. When restaurant traffic drops, they struggle.</li>
+    <li>Think of them as the middlemen between food manufacturers and the restaurants you eat at</li>
+  </ul>
+  <div class="an">If a restaurant is a retail store, Sysco and US Foods are the truck delivering the inventory. Every steak, every bag of flour, every bottle of ketchup that a restaurant serves probably came from one of these two companies.</div>
+</div>
+${(()=>{
+const pairs=[
+  {left:'Costco',right:'Membership model, Kirkland brand'},
+  {left:'Dollar Tree',right:'Kelly\'s bearish call (Underperform)'},
+  {left:'Sysco',right:'#1 food distributor to restaurants'},
+  {left:'Walmart',right:'Largest retailer in the world'},
+  {left:'Kroger',right:'Largest traditional U.S. grocer'},
+];return mkMatch('c4m0',pairs)})()}
+
+${(()=>{window['_sc_c4s0']=[
+  {text:"Walmart and Costco -- they win when consumers trade down because their whole model is built on low prices. More stressed consumers = more foot traffic for them.",result:"NAILED IT. This is the insight that separates good candidates from great ones. Walmart and Costco don't just survive trade-down -- they BENEFIT from it. When times are tough, consumers don't stop buying groceries; they switch WHERE they buy them. Kelly has both rated Outperform for exactly this reason.",quality:'good',xp:15},
+  {text:"Dollar General -- they serve the lowest income consumers who always need cheap stuff.",result:"Logical thinking, but wrong in practice. Dollar General's core customer (under $40K income) is SO stressed right now that even dollar store visits are being cut. Their customer is choosing between groceries and rent. Kelly has DG at just Market Perform.",quality:'meh',xp:5},
+  {text:"All food stocks go up in a bad economy because people always eat.",result:"People always eat, but they don't always eat the same things or shop at the same stores. The trade-down dynamic creates clear winners (Costco, Walmart) and losers (premium brands, struggling dollar stores). 'Everyone eats' is true but not an investment thesis.",quality:'bad',xp:0}
+];return mkSc('c4s0',"The economy is slowing. Consumers are pinching every penny. Which of Kelly's stocks benefits MOST?",window['_sc_c4s0'])})()}`,
+]},
+
+// CH5: THE WIDER STAPLES LANDSCAPE
+{icon:'🍫',name:'The Bigger Picture',desc:'Packaged food, beverages, household products -- the full sector map.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 6 of 8</div>
+  <h2>The Bigger Picture</h2>
+  ${D('you',"I feel like I know Kelly's stocks pretty well. But what about the rest of the consumer staples world? Like Coca-Cola and P&G?")}
+  ${D('friend',"YES. This is the bonus round. Kelly covers food retail, but the broader universe is fascinating. If you casually drop knowledge about Hershey's cocoa crisis or PepsiCo's $2 billion soda acquisition, Lucas and Ben will think you're a natural.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Packaged Food</span>
+  <h4>The Brands on Your Grocery Shelves</h4>
+  <ul>
+    <li><strong>General Mills</strong> -- Cheerios, Pillsbury, Annie's, Blue Buffalo (pet food). One of the biggest cereal/snack companies.</li>
+    <li><strong>Kraft Heinz</strong> -- Kraft Mac & Cheese, Heinz Ketchup, Oscar Mayer. Legacy brands struggling with innovation and private label competition.</li>
+    <li><strong>Hershey</strong> -- Reese's, Kit Kat, Twizzlers. Getting absolutely DESTROYED by cocoa prices doubling. Their profit dropped 36%. Imagine if the price of flour doubled and you owned a bakery chain. That's Hershey right now.</li>
+    <li><strong>Mondelez</strong> -- Oreo, Cadbury, Ritz. Global snack giant with heavy international exposure.</li>
+    <li><strong>Campbell's</strong> -- Soup + Goldfish + Rao's (acquired). Classic company diversifying into snacking.</li>
+  </ul>
+  <p>Big challenge for all of them: <strong>volume pressures, private label competition, GLP-1 drugs reducing snacking, and tariff-driven input cost inflation.</strong></p>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Beverages</span>
+  <h4>The Drink Companies</h4>
+  <ul>
+    <li><strong>Coca-Cola</strong> -- Most recognized brand on Earth. Incredible global distribution. Available in every country except North Korea and Cuba.</li>
+    <li><strong>PepsiCo</strong> -- NOT just a drink company. Frito-Lay (snacks) is actually bigger than their beverage business. Recently acquired <strong>Poppi</strong> (prebiotic soda) for ~$2 billion.</li>
+    <li><strong>Monster Beverage</strong> -- Energy drinks are the fastest-growing category. Coca-Cola owns ~20% of Monster.</li>
+  </ul>
+  <p><strong>Hot trend:</strong> Prebiotic and functional sodas (Poppi, Olipop) are exploding. PepsiCo paid nearly $2 billion for Poppi -- that tells you where the industry thinks growth is.</p>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Household Products</span>
+  <h4>The Cleaning & Personal Care Giants</h4>
+  <ul>
+    <li><strong>Procter & Gamble</strong> -- Tide, Crest, Pampers, Gillette, Bounty, Charmin. The king of consumer staples. Has raised its dividend for <strong>60+ consecutive years</strong>.</li>
+    <li><strong>Colgate-Palmolive</strong> -- Dominant in toothpaste globally. Hill's pet food is a high-margin growth driver.</li>
+    <li><strong>Clorox</strong> -- Bleach, Pine-Sol, Glad bags. COVID was a huge demand spike; still normalizing.</li>
+  </ul>
+  <p>These companies have the <strong>highest gross margins</strong> in staples (~50% for P&G). Private label is less of a threat here because brand trust matters more for products you put on your body.</p>
+</div>
+${mkQ('c5q0','PepsiCo recently acquired Poppi for nearly $2 billion. Poppi is a:',
+  ['Traditional cola brand','Prebiotic soda brand riding the health/wellness trend','Restaurant chain','Snack food company'],1,'')}
+<div class="hidden" id="c5q0" data-exp="<strong>Poppi is a prebiotic soda brand</strong> -- one of the hottest categories in beverages. PepsiCo paying $2 billion for a trendy gut-health soda signals that even the biggest beverage companies see the future in health-focused drinks, not just traditional sugary sodas."></div>`,
+
+()=>`<div class="bx in">
+  ${D('you',"Any big corporate drama? Acquisitions? Hostile takeovers? Give me the tea.")}
+  ${D('friend',"The M&A scene is WILD right now. Big food companies are panic-buying trendy health brands like millennials buying oat milk. Let me break it down.")}
+</div>
+<div class="bx2 or">
+  <span class="tag tag-or">M&A Activity</span>
+  <h4>Who's Buying Whom (and Why)</h4>
+  <p>Mergers and acquisitions in consumer staples rose <strong>9% in 2025</strong>. The big deals tell a story:</p>
+  <ul>
+    <li><strong>PepsiCo bought Poppi</strong> (~$2B) -- betting on prebiotic/functional beverages</li>
+    <li><strong>Hershey bought LesserEvil</strong> -- popcorn and better-for-you snacks (diversifying beyond chocolate)</li>
+    <li><strong>Carlsberg bought Britvic</strong> ($4.2B) -- adding soft drinks to their portfolio</li>
+    <li><strong>Mars and Ferrero</strong> closed acquisitions of pieces of the old Kellogg</li>
+  </ul>
+  <p><strong>The pattern:</strong> Big companies are acquiring health-focused, functional, and better-for-you brands. They're filling portfolio gaps, especially in categories aligned with GLP-1 consumer trends (protein, functional foods).</p>
+  <div class="an">M&A in consumer staples is like a restaurant buying the popular food truck next door. You already have the kitchen (supply chain), dining room (distribution), and staff (sales force). Adding a trendy new concept to your existing setup is cheaper than the food truck trying to build all that from scratch.</div>
+
+${(()=>{window['_sc_c5s1']=[
+  {text:"Acquire a trending prebiotic soda brand for $2 billion, plug it into your existing distribution, and ride the health-wellness wave.",result:"Exactly what PepsiCo did with Poppi! You get a hot brand, they get access to 200,000+ stores overnight. Win-win. This is the dominant M&A playbook in staples right now.",quality:'good',xp:15},
+  {text:"Launch your own competing health drink from scratch and spend 5 years building the brand.",result:"Way too slow. By the time you build brand awareness, the trend might be over or someone else owns the space. In consumer staples, it's often faster to BUY innovation than to build it. That said, it's cheaper...",quality:'meh',xp:5},
+  {text:"Ignore the health trend -- sugar is forever.",result:"Tell that to Hershey's stock price. Ignoring consumer trends is how legacy brands become irrelevant. Kodak ignored digital cameras. Don't be Kodak.",quality:'bad',xp:0}
+];return mkSc('c5s1',"You're the CEO of PepsiCo. Consumers are shifting to healthier drinks. Your traditional soda sales are flat. What do you do?",window['_sc_c5s1'])})()}
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">In Early 2026</span>
+  <h4>Consumer Staples Stocks Are Actually Hot Right Now</h4>
+  <p>Here's a twist: while we've been talking about all these headwinds, consumer staples stocks have actually been <strong>rallying in early 2026</strong>. The sector ETF (called XLP) rose approximately 13% year-to-date through February.</p>
+  <p><strong>Why?</strong> Tech stocks faced pressure, and when investors get nervous, they rotate money into "safe" defensive sectors. Consumer staples = the bomb shelter of the stock market.</p>
+  <p>This is the classic staples trade: <strong>they shine when everything else looks scary.</strong></p>
+  <div class="funny">Consumer staples stocks are the friend who drives a Prius and maxes out their 401k. You make fun of them for 5 years. Then the recession hits and suddenly they're the only one not panicking. "Oh NOW you want to hang out."</div>
+</div>
+${mkTF('c5tf0','"Consumer staples stocks typically underperform during bull markets but outperform when the economy looks shaky."',true,'')}
+<div class="hidden" id="c5tf0" data-exp="<strong>True!</strong> This is the defining characteristic of defensive stocks. When tech is ripping and the economy is booming, nobody wants boring cereal stocks. But when uncertainty rises, investors pile into staples because people keep buying toothpaste and Cheerios regardless. It's the umbrella analogy -- useless on sunny days, essential when it rains."></div>`,
+]},
+
+// CH6: INTERVIEW INTELLIGENCE
+{icon:'🎯',name:'Interview Intelligence',desc:'What Lucas and Ben will ask -- and how to think like an analyst.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 7 of 8</div>
+  <h2>Interview Intelligence</h2>
+  <p>Tuesday afternoon. You've gone from "what are consumer staples" to understanding the sector better than 90% of candidates. Now let's turn knowledge into interview ammo.</p>
+  ${D('you',"Okay I feel like I actually KNOW stuff now. But how do I not fumble it in the room?")}
+  ${D('friend',"That's the million dollar question. Let me walk you through what Lucas and Ben will ACTUALLY ask based on their backgrounds. This is where we go from 'smart person' to 'person who gets the job.'")}
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">How Analyst Ratings Work</span>
+  <h4>Three Simple Labels</h4>
+  <p>Analysts at firms like BMO publish opinions on stocks:</p>
+  <ul>
+    <li><strong>"Outperform"</strong> = "Buy this stock. We think it'll beat the market."</li>
+    <li><strong>"Market Perform"</strong> = "Meh. Hold it or don't bother. It'll be average."</li>
+    <li><strong>"Underperform"</strong> = "Sell. It'll do worse than the market."</li>
+  </ul>
+  <p>They also set a <strong>price target</strong> -- where they think the stock will be in 12 months.</p>
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Kelly's Current Calls</span>
+  <h4>Where She Stands (Know This Cold)</h4>
+  <p><strong>Outperform (Buy):</strong></p>
+  <ul>
+    <li><strong>Costco</strong> -- Membership model is a cash machine. Kirkland brand keeps winning.</li>
+    <li><strong>Walmart</strong> -- Unmatched scale. E-commerce growth. The ultimate beneficiary of trade-down.</li>
+    <li><strong>Kroger</strong> -- Strong private label, solid grocer in a consolidating industry.</li>
+  </ul>
+  <p><strong>Market Perform (Hold):</strong></p>
+  <ul>
+    <li><strong>Dollar General</strong> -- Core customer (low-income) is under severe pressure.</li>
+  </ul>
+  <p><strong>Underperform (Sell):</strong></p>
+  <ul>
+    <li><strong>Dollar Tree</strong> -- Family Dollar integration troubles. Fixed-price model struggles with inflation.</li>
+  </ul>
+  <p><strong>The pattern:</strong> Kelly likes the big, well-run retailers that benefit from trade-down (Costco, Walmart). She's cautious on dollar stores where the most stressed consumers shop.</p>
+</div>
+<div class="bx2 pu">
+  <span class="tag tag-pu">What Lucas Will Probe</span>
+  <h4>The CFA Analyst's Questions</h4>
+  <p>Lucas Cohen has a CFA -- he values analytical rigor. Expect him to test:</p>
+  <ul>
+    <li><strong>"Walk me through how you'd evaluate a grocery stock."</strong> -- Use the framework: organic growth (volume vs price), gross margin, input costs, private label threat, same-store sales.</li>
+    <li><strong>"What's the difference between volume growth and pricing growth?"</strong> -- Volume = more units. Pricing = higher price per unit. Volume is healthier. He's testing if you understand the nuance.</li>
+    <li><strong>"Why equity research?"</strong> -- You love forming opinions on companies and testing whether you're right. You want to think deeply about a sector, not work one deal and move on.</li>
+  </ul>
+</div>
+<div class="bx2 or">
+  <span class="tag tag-or">What Ben Will Probe</span>
+  <h4>The Ex-Hedge Fund Guy's Questions</h4>
+  <p>Ben Wood came from Point72 (one of the most famous hedge funds). He thinks like a portfolio manager. Expect:</p>
+  <ul>
+    <li><strong>"Pitch me a stock."</strong> -- Have one ready. Costco is the easiest: membership model creates predictable revenue, Kirkland brand is winning the private label trend, 90%+ renewal rates, benefits from consumer trade-down.</li>
+    <li><strong>"What's the bear case?"</strong> -- He'll push back on your pitch. For Costco: valuation is expensive, same-store sales growth could slow, warehouse expansion could hit limits.</li>
+    <li><strong>"What's happening in the sector right now that interests you?"</strong> -- GLP-1's impact on food consumption, tariff pass-through timing, the volume vs. price dynamic flip.</li>
+  </ul>
+  <div class="an">Lucas = "Can you build the model?" Ben = "Can you tell me what the model means for the stock?" One tests your process, the other tests your judgment. Prepare for both.</div>
+</div>
+${(()=>{window['_sc_c6s0']=[
+  {text:"'Costco. The membership model generates almost pure-profit revenue -- over 90% of members renew each year. Kirkland Signature is eating into name brands at 20-40% lower prices while maintaining quality. In a trade-down environment, Costco benefits because consumers seeking value flock to their model. Kelly Bania has it rated Outperform.'",result:"Strong pitch. You named the business model advantage (membership), the brand moat (Kirkland), the macro tailwind (trade-down), and even referenced the analyst's rating. Ben would respect this.",quality:'good',xp:20},
+  {text:"'I like Costco because I shop there and the food samples are great.'",result:"Personal anecdotes are fine as a starting point, but this isn't an investment thesis. You need to talk about business model, competitive advantages, and why the STOCK is attractive.",quality:'meh',xp:3},
+  {text:"'I don't really have a stock to pitch.'",result:"Not having a pitch prepared for a research interview is a major red flag. This is THE question you should expect. Always have one ready.",quality:'bad',xp:0}
+];return mkSc('c6s0','BOSS BATTLE: Ben leans back and says "Pitch me a stock in Kelly\'s coverage."',window['_sc_c6s0'])})()}`,
+]},
+
+// CH7: GAME DAY
+{icon:'🏆',name:'Game Day',desc:'Walk in with confidence. Here\'s everything you need.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 8 of 8</div>
+  <h2>Game Day</h2>
+  <p>It's Tuesday night. 48 hours ago you thought consumer staples meant office supplies. Now you can pitch Costco, explain the GLP-1 disruption, and name-drop the Farm to Market Conference. Let's seal this.</p>
+  ${D('you',"I can't believe I actually understand this stuff. I feel... dangerous?")}
+  ${D('friend',"That's the energy. You're walking in tomorrow knowing more about this sector than most first-year analysts knew on day one. Let's make sure you don't trip at the finish line.")}
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">The Key Questions</span>
+  <h4>What They'll Likely Ask (and What to Say)</h4>
+  <p><strong>"Why equity research?"</strong><br>
+  You love forming opinions about companies and testing whether you're right. You'd rather think deeply about 15 stocks in a sector than work on one deal and move on. The daily feedback loop -- were you right? were you wrong? -- is what excites you.</p>
+  <p><strong>"Why consumer staples?"</strong><br>
+  It's deceptively complex. Everyone thinks "boring, stable companies" -- but underneath there's more drama than a Netflix series. Tariffs are reshaping supply chains, weight-loss drugs are literally changing what America eats, store brands are waging war on legacy brands, and the whole sector is flipping from price-driven to volume-driven growth. It's a masterclass in competitive dynamics hiding inside a cereal aisle.</p>
+  <p><strong>"Why BMO?"</strong><br>
+  The platform is ambitious -- Penn Egbert came from Goldman to run U.S. research. The Farm to Market Conference gives the team unique access to food industry leaders. The One Client strategy means research isn't siloed. And a $1.4 trillion bank backing you means resources smaller firms can't match.</p>
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">What the Job Actually Is</span>
+  <h4>In Case They Ask "Do You Know What You'd Be Doing Day-to-Day?"</h4>
+  <ul>
+    <li><strong>Most days:</strong> Updating financial models in Excel, helping write research notes, monitoring news and earnings, answering client questions. ~12-hour days.</li>
+    <li><strong>Earnings season (quarterly):</strong> All-hands-on-deck. Companies report results at 6 AM. You rapidly update models and help write notes before the market opens at 9:30 AM. 14-16 hour days for a few weeks.</li>
+    <li><strong>Conference season:</strong> Helping prep for events like Farm to Market. Writing discussion guides, summarizing management presentations.</li>
+    <li><strong>The core skill:</strong> Take messy data and turn it into a clear opinion: should clients buy, hold, or sell this stock -- and <strong>why</strong>?</li>
+  </ul>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Your Secret Weapons</span>
+  <h4>Things 95% of Candidates Won't Know</h4>
+  <ul>
+    <li>That Penn Egbert (Head of U.S. Research) came from Goldman Sachs</li>
+    <li>That BMO hosts the Farm to Market Conference -- a premier food industry event</li>
+    <li>That BMO's "One Client" strategy integrates research with banking and wealth management</li>
+    <li>That Lucas Cohen is a CFA charterholder (expect analytical rigor)</li>
+    <li>That Ben Wood came from Point72 hedge fund (expect investment-oriented questions)</li>
+    <li>That Kelly has Costco and Walmart as Outperform but Dollar Tree as Underperform</li>
+    <li>That private label hit a record $282.8 billion in 2025</li>
+    <li>That GLP-1 drugs could put a $12 billion dent in snack food growth</li>
+    <li>That tariff impacts on food are lagging 12-18 months, making 2026 the key inflection year</li>
+    <li>That the sector is rallying in early 2026 as a defensive rotation trade</li>
+  </ul>
+  <p><strong>The meta-point:</strong> You learned all of this in 48 hours. That's exactly the kind of speed and curiosity a research associate needs. When a company reports earnings at 6 AM, you have until market open to update the model and help write the note. You're already proving you can ramp fast.</p>
+</div>
+${(()=>{window['_sc_c7s0']=[
+  {text:"'The most interesting dynamic is the volume-vs-price transition. For years, food and retail companies grew earnings by raising prices 8-12%. Now pricing power is fading, and the market is rewarding companies that can actually grow unit volumes. Meanwhile, GLP-1 drugs are shrinking baskets and private label is at record highs. The companies that win are the ones with genuine brand loyalty or, like Costco, a model where low prices ARE the strategy.'",result:"PERFECT. You connected macro themes (pricing fading), structural shifts (GLP-1, private label), and specific company analysis (Costco's model). This is exactly how a research analyst thinks. Lucas and Ben will be impressed.",quality:'good',xp:20},
+  {text:"'People always need to eat, so consumer staples will always be fine.'",result:"Too simplistic. Yes, demand is stable, but the competitive dynamics, margin pressures, and structural changes we discussed are real. You need to show depth.",quality:'meh',xp:3},
+  {text:"'I haven't really thought about it.'",result:"In a research interview, you need to have an opinion. That's literally the job -- forming and defending opinions about companies and sectors.",quality:'bad',xp:0}
+];return mkSc('c7s0','FINAL BOSS: Lucas asks "What\'s the most interesting thing happening in consumer staples right now?"',window['_sc_c7s0'])})()}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Final Round: Everything You've Learned</h2>
+  <p>Last questions. Let's see what stuck.</p>
+</div>
+${mkQ('fin0','Consumer staples companies make money through:',
+  ['Government subsidies','Revenue = Volume x Price. They sell everyday products and grow by selling more units or charging more per unit.','Subscription fees from consumers','Technology licensing'],1,'')}
+<div class="hidden" id="fin0" data-exp="The core formula: <strong>Revenue = Volume x Price.</strong> Companies grow by selling more stuff (volume) or charging more per unit (price). The healthiest growth comes from both."></div>
+
+${mkTF('fin1','"Kelly Bania rates Costco as Outperform (buy) and Dollar Tree as Underperform (sell)."',true,'')}
+<div class="hidden" id="fin1" data-exp="<strong>True!</strong> Kelly likes Costco (membership model, Kirkland brand dominance, benefits from trade-down) and is bearish on Dollar Tree (Family Dollar troubles, fixed-price model struggles with inflation). Knowing her specific calls shows you did your research."></div>
+
+${mkQ('fin2','Why did Ben Wood\'s background at Point72 (hedge fund) matter for your interview prep?',
+  ['It doesn\'t matter at all','He\'ll test whether you think like an investor -- not just academically, but about what a stock call actually means for a portfolio','He\'ll only ask about hedge fund strategies','He\'ll be easier on you because hedge funds are less rigorous'],1,'')}
+<div class="hidden" id="fin2" data-exp="<strong>Ben thinks like a portfolio manager.</strong> He came from the buy-side, so he'll test whether you can connect research to actual investment decisions. Not just 'this company is doing well' but 'here's why you should buy/sell the stock.' That's the difference between academic knowledge and investment insight."></div>
+
+${(()=>{window['_sc_fins']=[
+  {text:"'Your platform is building something special. Penn Egbert came from Goldman to lead U.S. research, the Farm to Market Conference gives the food team unique industry access, and the One Client strategy means research feeds directly into banking relationships. I want to be on a team where deep sector expertise is valued -- and Kelly Bania's 10+ years covering food retail means I'd learn from one of the most experienced analysts in the space.'",result:"OUTSTANDING. You named the research head, the conference franchise, the firm strategy, AND showed respect for Kelly's tenure. This answer is specific, researched, and genuine. Go get this job.",quality:'good',xp:20},
+  {text:"'BMO seems like a good firm and I like the consumer staples sector.'",result:"Generic. Every candidate can say this. Nothing in this answer shows you did any research on BMO specifically.",quality:'meh',xp:3},
+  {text:"'Honestly, I just applied everywhere and you guys responded.'",result:"...please, no. Even if true, never say this.",quality:'bad',xp:0}
+];return mkSc('fins','FINAL BOSS: Lucas says "Last question -- why BMO, and why this team specifically?"',window['_sc_fins'])})()}`,
+]},
+];
+
+// =====================
+// FLASHCARDS
+// =====================
+const FC=[
+{f:"What are Consumer Staples?",b:"Boring, everyday products people buy no matter what: food, drinks, toothpaste, cleaning supplies, toilet paper. Non-negotiable purchases. Defensive stocks -- they hold up in recessions because people keep buying them."},
+{f:"Revenue = Volume x Price",b:"The core formula for any consumer staples company. Volume = selling more units. Price = charging more per unit. Volume growth is healthier than price growth. If you're only raising prices, customers eventually walk away or trade down."},
+{f:"Organic Revenue Growth",b:"Revenue growth from EXISTING operations, stripping out acquisitions and currency effects. Broken into volume + price/mix. Healthy = 3-5%. This is the #1 metric analysts watch."},
+{f:"Gross Margin",b:"(Revenue - Cost of Goods) / Revenue. How much money you keep after paying for ingredients and packaging. P&G ~50% (premium products). Kraft Heinz ~35% (packaged food). Costco ~13% (retail -- makes it up on membership fees)."},
+{f:"Private Label / Store Brands",b:"Kirkland (Costco), Great Value (Walmart), 365 (Whole Foods). Hit record $282.8 billion in 2025. 23.5% unit share and growing. Every dollar spent on store brands is a dollar NOT spent on name brands. Biggest structural headwind for branded food companies."},
+{f:"Tariff Impact on Food",b:"Tariffs on imported goods hitting packaging (aluminum, cardboard), ingredients (coffee +20%, cocoa, sugar), and cross-border supply chains. Food company profits fell ~18% in 2025. 2026 is the key inflection year as 2025 tariffs fully flow through."},
+{f:"GLP-1 / Weight Loss Drugs",b:"Ozempic, Wegovy suppress appetite. ~1 in 8 American adults taking them. 70% snack less. Snack spending down ~10%. Protein consumption up 65%. Could put $12B dent in snack market. Companies scrambling to adapt with 'GLP-1 friendly' products."},
+{f:"Consumer Trade-Down",b:"82% of shoppers modified behavior in 2025. 25% use buy-now-pay-later for groceries. Consumers trading down on staples but selectively splurging on treats. Creates a 'barbell' -- cheap and premium both OK, middle gets squeezed."},
+{f:"Volume vs Price Dynamic (2026)",b:"2021-2024: companies grew through 8-12% price hikes, volumes declined. Now flipping: pricing power fading, volume growth is THE key metric. Companies growing through price alone are more vulnerable. Investors scrutinizing volume trends closely."},
+{f:"BMO Capital Markets",b:"Investment banking/research arm of Bank of Montreal. 8th largest bank in North America. $1.4T in assets. ~80+ equity research analysts. Head of U.S. Research (Penn Egbert) came from Goldman Sachs. Purpose: 'Boldly Grow the Good.'"},
+{f:"Kelly Bania",b:"Managing Director at BMO. Covers Food Retail & Distribution (~15 stocks). At BMO since 2013. Ex-Bank of America and Morgan Stanley. Outperform on Costco/Walmart/Kroger. Underperform on Dollar Tree. Hosts sessions at BMO Farm to Market Conference."},
+{f:"Lucas Cohen",b:"Senior Associate on Kelly's team. CFA charterholder (very hard finance exam). William & Mary grad. Ex-Rosenblatt Securities. He'll test analytical rigor -- can you build models, understand metrics, break down earnings?"},
+{f:"Ben Wood",b:"VP Associate on Kelly's team. Cornell grad. Previously at Point72 (Steve Cohen's hedge fund). He'll test investment thinking -- not just 'this company is doing well' but 'here's why you should buy/sell the stock.'"},
+{f:"Costco Stock Pitch",b:"Membership model = almost pure-profit revenue. 90%+ renewal rate. Kirkland brand undercuts name brands by 20-40% with similar quality. Benefits from trade-down as consumers seek value. Kelly rates Outperform. Bear case: expensive valuation, SSS growth could slow."},
+{f:"Why BMO? (Interview Answer)",b:"Penn Egbert from Goldman leading research. Farm to Market Conference = premier food industry access. 'One Client' strategy integrates research with banking. $1.4T bank backing gives resources. Kelly's 10+ year track record in food retail. Platform is ambitious and growing."},
+];
+
+// =====================
+// NAV
+// =====================
+function goMenu(){
+  S.ch=-1;S.st=0;upd();
+  let h=`<div class="bx tc" style="padding:26px 22px">
+    <h2 style="font-size:1.4em">48 Hours to BMO</h2>
+    <p>Play through the story. Go from knowing nothing about Consumer Staples to walking into your interviews ready.</p>
+    <p style="color:var(--red);font-size:.82em;margin-top:8px">Interviews: Wed 4/1 or Thu 4/2 with Lucas Cohen & Ben Wood</p>
+  </div>
+  <div class="ch-grid">`;
+  CH.forEach((c,i)=>{
+    const dn=S.done.has(i),lk=i>0&&!S.done.has(i-1)&&!dn;
+    h+=`<div class="ch-i ${dn?'dn':''} ${lk?'lk':''}" onclick="${lk?'':'go('+i+')'}">
+      <div class="ch-ic">${c.icon}</div>
+      <div class="ch-inf"><div class="ch-nm">${c.name}</div><div class="ch-ds">${c.desc}</div></div>
+      <div class="ch-st ${dn?'dn':lk?'lk':'nw'}">${dn?'Done':lk?'Locked':'Play'}</div>
+    </div>`;
+  });
+  h+=`</div><div class="br" style="justify-content:center;margin-top:6px">
+    <button class="btn btn-g" onclick="renderFC()">Flashcards (${FC.length})</button></div>`;
+  if(S.tot>0){const p=Math.round(S.ok/S.tot*100);
+    h+=`<div class="bx" style="margin-top:12px"><div class="rs">
+      <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">XP</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--green)">${p}%</div><div class="rs-l">Accuracy</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.mx}</div><div class="rs-l">Best Streak</div></div>
+    </div></div>`}
+  M().innerHTML=h;
+}
+function go(i){S.ch=i;S.st=0;upd();rend()}
+function rend(){
+  const c=CH[S.ch];
+  if(S.st>=c.steps.length){S.done.add(S.ch);upd();
+    const p=S.tot?Math.round(S.ok/S.tot*100):0;
+    M().innerHTML=`<div class="bx in tc" style="padding:34px 22px">
+      <div style="font-size:2.2em;margin-bottom:6px">${c.icon}</div>
+      <h2 style="font-size:1.3em">Chapter Complete: ${c.name}</h2>
+      <div class="rs" style="margin-top:14px">
+        <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">XP</div></div>
+        <div class="rs-i"><div class="rs-v" style="color:var(--green)">${p}%</div><div class="rs-l">Accuracy</div></div>
+        <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.done.size}/${CH.length}</div><div class="rs-l">Chapters</div></div>
+      </div>
+      ${S.done.size===CH.length?'<p style="margin-top:14px;color:var(--gold);font-weight:700">ALL CHAPTERS COMPLETE. 48 hours ago you thought consumer staples meant paper clips. Now you can pitch Costco, explain the GLP-1 disruption, and tell Ben Wood why volume matters more than price. Lucas and Ben don\'t stand a chance. Go get that job.</p>':''}
+      <div class="br" style="justify-content:center;margin-top:14px">
+        <button class="btn btn-b" onclick="goMenu()">Menu</button>
+        ${S.ch<CH.length-1?`<button class="btn btn-g" onclick="go(${S.ch+1})">Next Chapter →</button>`:''}
+      </div>
+    </div>`;
+    toast('Chapter complete! +bonus XP','b');S.xp+=15;upd();return}
+  const ct=c.steps[S.st]();
+  M().innerHTML=`<div class="in">
+    <div class="br" style="margin-bottom:10px">
+      <button class="btn btn-g" onclick="goMenu()">← Menu</button>
+      <span style="flex:1"></span>
+      <span style="color:var(--dim);font-size:.8em;align-self:center">${c.name} · ${S.st+1}/${c.steps.length}</span>
+    </div>
+    ${ct}
+    <div class="br" style="margin-top:18px;justify-content:flex-end">
+      ${S.st>0?'<button class="btn btn-g" onclick="S.st--;rend()">← Back</button>':''}
+      <button class="btn btn-b" onclick="S.st++;rend()">Continue →</button>
+    </div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderFC(){
+  const fc=FC[S.fcIdx];
+  M().innerHTML=`
+    <div class="br" style="margin-bottom:10px">
+      <button class="btn btn-g" onclick="goMenu()">← Menu</button>
+      <span style="flex:1"></span>
+      <span style="color:var(--dim);font-size:.8em;align-self:center">${S.fcIdx+1}/${FC.length}</span>
+    </div>
+    <div class="fcc" onclick="document.getElementById('fcd').classList.toggle('fl')">
+      <div class="fcrd" id="fcd">
+        <div class="fcf fcfr"><h3>${fc.f}</h3><div class="fch">Click to flip</div></div>
+        <div class="fcf fcbk"><p>${fc.b}</p></div>
+      </div>
+    </div>
+    <div class="br" style="justify-content:center;margin-top:8px">
+      <button class="btn btn-g" onclick="S.fcIdx=(S.fcIdx-1+FC.length)%FC.length;renderFC()">← Prev</button>
+      <button class="btn btn-g" onclick="for(let i=FC.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[FC[i],FC[j]]=[FC[j],FC[i]]}S.fcIdx=0;renderFC()">Shuffle</button>
+      <button class="btn btn-b" onclick="S.fcIdx=(S.fcIdx+1)%FC.length;renderFC()">Next →</button>
+    </div>`;
+}
+
+upd();goMenu();
+</script>
+</body>
+</html>
