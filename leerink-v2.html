@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>48 Hours to Leerink V2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+:root{
+  --bg:#08090d;--card:#10131a;--card2:#161b26;--border:#1e2536;
+  --text:#c9d1d9;--dim:#6b7b8d;--bright:#ecf0f5;
+  --blue:#3b82f6;--blue-d:rgba(59,130,246,.15);
+  --cyan:#22d3ee;--cyan-d:rgba(34,211,238,.1);
+  --green:#34d399;--green-d:rgba(52,211,153,.12);
+  --gold:#fbbf24;--gold-d:rgba(251,191,36,.12);
+  --red:#f87171;--red-d:rgba(248,113,113,.12);
+  --purple:#a78bfa;--purple-d:rgba(167,139,250,.1);
+  --orange:#fb923c;--orange-d:rgba(251,146,60,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::selection{background:var(--blue);color:#fff}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.amb{position:fixed;pointer-events:none;z-index:0}
+.a1{top:-30%;right:-15%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.06),transparent 70%)}
+.a2{bottom:-20%;left:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.04),transparent 70%)}
+#app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:14px 18px 60px}
+
+.top{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.logo{font-family:'Playfair Display',serif;font-size:1.05em;font-weight:800;color:var(--bright)}.logo span{color:var(--blue)}
+.badge{font-size:.6em;background:var(--blue-d);color:var(--blue);padding:2px 8px;border-radius:8px;font-weight:600;letter-spacing:.5px;margin-left:8px}
+.stats{display:flex;gap:16px}
+.st{text-align:center}.st-v{font-size:1em;font-weight:800}.st-l{font-size:.55em;text-transform:uppercase;letter-spacing:1px;color:var(--dim)}
+.st-v.xp{color:var(--cyan)}.st-v.str{color:var(--gold)}.st-v.ch{color:var(--green)}
+
+.pips{display:flex;gap:3px;margin:8px 0 14px}
+.pip{height:4px;flex:1;border-radius:2px;background:var(--border);transition:.4s}
+.pip.done{background:var(--green)}.pip.on{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+
+.in{animation:up .35s ease}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999;padding:10px 22px;border-radius:10px;font-size:.85em;font-weight:700;animation:toastIn .4s ease,toastOut .4s ease 2s forwards;pointer-events:none}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(-20px)}}
+.toast-g{background:var(--green-d);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+.toast-r{background:var(--red-d);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+.toast-b{background:var(--gold-d);color:var(--gold);border:1px solid rgba(251,191,36,.3)}
+
+.bx{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:12px}
+.bx2{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0;position:relative;overflow:hidden}
+.bx2::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:3px}
+.bx2.bl::before{background:var(--blue)}.bx2.gr::before{background:var(--green)}.bx2.go::before{background:var(--gold)}.bx2.cy::before{background:var(--cyan)}.bx2.pu::before{background:var(--purple)}.bx2.re::before{background:var(--red)}.bx2.or::before{background:var(--orange)}
+.tag{font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:5px;display:block}
+.tag-bl{color:var(--blue)}.tag-gr{color:var(--green)}.tag-go{color:var(--gold)}.tag-cy{color:var(--cyan)}.tag-pu{color:var(--purple)}.tag-re{color:var(--red)}.tag-or{color:var(--orange)}
+h2{font-family:'Playfair Display',serif;font-size:1.7em;font-weight:800;color:var(--bright);line-height:1.2;margin-bottom:10px}
+h4{font-size:.98em;color:var(--bright);margin-bottom:5px}
+p,li{font-size:.88em;line-height:1.75;margin-bottom:8px}
+ul{padding-left:16px}li{margin-bottom:4px}
+.chap-tag{font-size:.68em;text-transform:uppercase;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:5px}
+.hl{color:var(--cyan);font-weight:600}
+.an{color:var(--cyan);border-left:2px solid var(--cyan);padding:6px 0 6px 14px;margin:10px 0;font-size:.88em;line-height:1.7;font-style:italic}
+.funny{color:var(--gold);font-size:.82em;margin-top:4px;font-style:italic}
+
+.dl{display:flex;gap:10px;margin:12px 0;animation:up .3s}
+.dl-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:700;flex-shrink:0;border:2px solid var(--border)}
+.dl-av.you{background:linear-gradient(135deg,#3f3a1e,#6c5a2d);border-color:var(--gold);color:var(--gold)}
+.dl-av.md{background:linear-gradient(135deg,#1e3f1e,#2d6c2d);border-color:var(--green);color:var(--green)}
+.dl-bb{background:var(--card2);border:1px solid var(--border);border-radius:11px;padding:10px 14px;flex:1}
+.dl-n{font-size:.7em;font-weight:700;margin-bottom:2px}
+.dl-n.you{color:var(--gold)}.dl-n.md{color:var(--green)}
+.dl-t{font-size:.86em;line-height:1.6}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;font-family:inherit;font-weight:600;font-size:.86em;cursor:pointer;transition:.2s;border:none}
+.btn-b{background:var(--blue);color:#fff}.btn-b:hover{box-shadow:0 0 20px rgba(59,130,246,.3);transform:translateY(-1px)}
+.btn-g{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-g:hover{border-color:var(--blue);color:var(--blue)}
+.br{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+.qz{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin:12px 0;animation:up .3s}
+.qz-tag{font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.qz-q{font-size:1.02em;font-weight:600;color:var(--bright);line-height:1.5;margin-bottom:14px}
+.os{display:flex;flex-direction:column;gap:7px}
+.o{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:.2s;font-size:.86em;display:flex;align-items:center;gap:10px;font-family:inherit;color:var(--text);text-align:left;width:100%}
+.o:hover:not(.lk){border-color:var(--blue);background:var(--blue-d)}
+.o .lt{min-width:25px;height:25px;border-radius:7px;background:rgba(59,130,246,.1);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8em;flex-shrink:0}
+.o.ok{border-color:var(--green)!important;background:var(--green-d)!important;animation:pop .3s}.o.ok .lt{background:var(--green);color:#000}
+.o.no{border-color:var(--red)!important;background:var(--red-d)!important;animation:shake .3s}.o.no .lt{background:var(--red);color:#fff}
+.o.lk{cursor:default;opacity:.55}
+.qz-e{margin-top:11px;padding:13px;background:var(--cyan-d);border:1px solid rgba(34,211,238,.15);border-radius:10px;font-size:.84em;line-height:1.7;animation:up .3s}
+.qz-e strong{color:var(--cyan)}
+
+.sc-wrap{margin:12px 0}
+.sc-choice{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px 15px;cursor:pointer;transition:.2s;margin-bottom:7px;font-size:.88em;line-height:1.5;font-family:inherit;color:var(--text);text-align:left;width:100%;display:block}
+.sc-choice:hover:not(.lk){border-color:var(--gold);background:var(--gold-d)}
+.sc-choice.picked{border-color:var(--green);background:var(--green-d)}
+.sc-choice.lk{cursor:default;opacity:.5}
+.sc-result{padding:14px;border-radius:10px;margin-top:10px;font-size:.85em;line-height:1.7;animation:up .3s}
+.sc-result.good{background:var(--green-d);border:1px solid rgba(52,211,153,.2);color:var(--green)}
+.sc-result.meh{background:var(--gold-d);border:1px solid rgba(251,191,36,.2);color:var(--gold)}
+.sc-result.bad{background:var(--red-d);border:1px solid rgba(248,113,113,.2);color:var(--red)}
+
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+.m-item{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:.2s;font-size:.82em;text-align:center;font-family:inherit;color:var(--text);min-height:48px;display:flex;align-items:center;justify-content:center}
+.m-item:hover:not(.lk):not(.matched){border-color:var(--blue);background:var(--blue-d)}
+.m-item.sel{border-color:var(--gold);background:var(--gold-d);color:var(--gold)}
+.m-item.matched{border-color:var(--green);background:var(--green-d);color:var(--green);cursor:default;opacity:.7}
+.m-item.wrong{animation:shake .3s;border-color:var(--red)}
+.m-item.lk{cursor:default}
+
+.tf-wrap{display:flex;gap:8px;margin-top:10px}
+.tf-btn{flex:1;padding:14px;border-radius:12px;font-family:inherit;font-weight:700;font-size:1em;cursor:pointer;border:2px solid var(--border);background:var(--card2);transition:.2s;color:var(--text)}
+.tf-btn:hover:not(.lk){transform:translateY(-2px)}
+.tf-btn.t:hover:not(.lk){border-color:var(--green);color:var(--green);background:var(--green-d)}
+.tf-btn.f:hover:not(.lk){border-color:var(--red);color:var(--red);background:var(--red-d)}
+.tf-btn.ok{border-color:var(--green)!important;background:var(--green-d)!important;color:var(--green)!important}
+.tf-btn.no{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important}
+.tf-btn.lk{cursor:default;opacity:.5}
+
+.ch-grid{display:grid;gap:8px;margin:14px 0}
+.ch-i{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:12px}
+.ch-i:hover{border-color:var(--blue);transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,130,246,.07)}
+.ch-i.lk{opacity:.35;cursor:default}.ch-i.lk:hover{border-color:var(--border);transform:none;box-shadow:none}
+.ch-i.dn{border-color:rgba(52,211,153,.25)}
+.ch-ic{font-size:1.5em;width:38px;text-align:center}
+.ch-inf{flex:1}.ch-nm{font-weight:700;font-size:.9em;color:var(--bright)}.ch-ds{font-size:.75em;color:var(--dim);margin-top:1px}
+.ch-st{font-size:.65em;font-weight:600;padding:3px 9px;border-radius:7px}
+.ch-st.dn{background:var(--green-d);color:var(--green)}.ch-st.nw{background:var(--blue-d);color:var(--blue)}.ch-st.lk{background:rgba(107,123,141,.08);color:var(--dim)}
+
+.rs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.rs-i{background:var(--card2);border-radius:10px;padding:10px;text-align:center}
+.rs-v{font-size:1.2em;font-weight:800}.rs-l{font-size:.6em;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-top:2px}
+
+.fcc{perspective:1000px;margin:14px 0;cursor:pointer}
+.fcrd{width:100%;min-height:200px;position:relative;transition:transform .6s;transform-style:preserve-3d}
+.fcrd.fl{transform:rotateX(180deg)}
+.fcf{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:26px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column}
+.fcfr{background:linear-gradient(135deg,#1a2744,#1e3a5c);border:1px solid rgba(59,130,246,.2)}
+.fcbk{background:var(--card);border:1px solid var(--border);transform:rotateX(180deg);text-align:left;align-items:flex-start}
+.fcfr h3{font-size:1.15em;color:var(--bright);font-family:'Playfair Display',serif}
+.fch{font-size:.72em;color:var(--dim);margin-top:8px}
+.fcbk p{font-size:.86em;line-height:1.7}
+
+/* Conditioning mode */
+.cond-bar{display:flex;gap:6px;margin:12px 0;flex-wrap:wrap}
+.cond-btn{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;transition:.2s;font-family:inherit;font-size:.78em;color:var(--text);font-weight:600;flex:1;min-width:100px;text-align:center}
+.cond-btn:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-d)}
+.cond-btn.active{border-color:var(--purple);color:var(--purple);background:var(--purple-d)}
+.timer-bar{height:6px;border-radius:3px;background:var(--border);margin:10px 0;overflow:hidden}
+.timer-fill{height:100%;border-radius:3px;transition:width .1s linear}
+.timer-fill.green{background:var(--green)}.timer-fill.yellow{background:var(--gold)}.timer-fill.red{background:var(--red)}
+.recall-input{width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--bright);font-family:inherit;font-size:.92em;outline:none;transition:.2s}
+.recall-input:focus{border-color:var(--blue)}
+.leitner-boxes{display:flex;gap:6px;margin:10px 0}
+.lbox{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;font-size:.7em}
+.lbox-n{font-weight:800;font-size:1.3em;color:var(--bright)}
+.lbox-l{color:var(--dim);margin-top:2px}
+
+.hidden{display:none!important}.tc{text-align:center}
+@media(max-width:600px){h2{font-size:1.35em}#app{padding:10px 12px 50px}.match-grid{grid-template-columns:1fr}.rs{grid-template-columns:1fr 1fr}.cond-bar{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="amb a1"></div><div class="amb a2"></div>
+<div id="app">
+  <div class="top">
+    <div style="display:flex;align-items:center"><div class="logo">Leerink <span>Partners</span></div><span class="badge">V2 + CONDITIONING</span></div>
+    <div class="stats">
+      <div class="st"><div class="st-v xp" id="xp">0</div><div class="st-l">XP</div></div>
+      <div class="st"><div class="st-v str" id="str">0</div><div class="st-l">Streak</div></div>
+      <div class="st"><div class="st-v ch" id="chdone">0/8</div><div class="st-l">Done</div></div>
+    </div>
+  </div>
+  <div class="pips" id="pips"></div>
+  <div id="m"></div>
+</div>
+<script>
+// =========== STATE ===========
+const LS_KEY='leerink_v2_prep';
+const MISS_KEY='leerink_v2_miss';
+const S={xp:0,str:0,mx:0,ok:0,tot:0,ch:-1,st:0,done:new Set(),condMisses:{}};
+const $=id=>document.getElementById(id);
+const M=()=>$('m');
+
+function saveState(){
+  const d={xp:S.xp,str:S.str,mx:S.mx,ok:S.ok,tot:S.tot,done:[...S.done]};
+  try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}
+}
+function loadState(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY));
+    if(d){S.xp=d.xp||0;S.str=d.str||0;S.mx=d.mx||0;S.ok=d.ok||0;S.tot=d.tot||0;d.done&&d.done.forEach(i=>S.done.add(i))}
+  }catch(e){}
+  try{
+    const m=JSON.parse(localStorage.getItem(MISS_KEY));
+    if(m)S.condMisses=m;
+  }catch(e){}
+}
+function saveMisses(){try{localStorage.setItem(MISS_KEY,JSON.stringify(S.condMisses))}catch(e){}}
+function recordMiss(itemId){S.condMisses[itemId]=(S.condMisses[itemId]||0)+1;saveMisses()}
+function recordHit(itemId){if(S.condMisses[itemId]&&S.condMisses[itemId]>0)S.condMisses[itemId]--;saveMisses()}
+
+loadState();
+
+const upd=()=>{$('xp').textContent=S.xp;$('str').textContent=S.str;$('chdone').textContent=S.done.size+'/'+CH.length;
+let p='';for(let i=0;i<CH.length;i++)p+=`<div class="pip ${S.done.has(i)?'done':S.ch===i?'on':''}"></div>`;$('pips').innerHTML=p;saveState()};
+
+function toast(msg,type='g'){const t=document.createElement('div');t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
+function ding(ok){S.tot++;if(ok){S.ok++;S.str++;if(S.str>S.mx)S.mx=S.str;const b=Math.min(S.str,5);S.xp+=10+b*2;
+if(S.str===3)toast('3x Streak!','b');if(S.str===5)toast('5x Streak! On fire!','b');if(S.str===8)toast('8x STREAK! UNSTOPPABLE!','b');
+}else S.str=0;upd()}
+
+function D(w,t){
+  const av={you:'YOU',md:'MD'};const nm={you:'You',md:'Healthcare Mentor'};
+  return `<div class="dl"><div class="dl-av ${w}">${av[w]}</div><div class="dl-bb"><div class="dl-n ${w}">${nm[w]}</div><div class="dl-t">${t}</div></div></div>`;
+}
+
+// =========== MINI-GAME BUILDERS ===========
+function mkQ(id,q,opts,ci,exp){
+  const sh=opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+  window['_sh_'+id]=sh;
+  const L='ABCD';
+  return `<div class="qz" id="${id}"><div class="qz-tag" style="color:var(--gold)">Knowledge Check</div>
+  <div class="qz-q">${q}</div>
+  <div class="os">${sh.map((o,i)=>`<button class="o" id="${id}${i}" onclick="doQ('${id}',${i},${ci})"><span class="lt">${L[i]}</span><span>${o.t}</span></button>`).join('')}</div>
+  <div id="${id}e" class="hidden"></div></div>`;
+}
+window.doQ=function(id,pk,ci){
+  const sh=window['_sh_'+id];const ok=sh[pk].i===ci;ding(ok);
+  sh.forEach((o,i)=>{const b=$(id+i);b.classList.add('lk');b.onclick=null;if(o.i===ci)b.classList.add('ok');else if(i===pk)b.classList.add('no')});
+  const exp=$(id).dataset.exp||'';
+  $(id+'e').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Nailed it!</strong>':'<strong style="color:var(--red)">Not quite!</strong>'} ${exp}</div>`;
+  $(id+'e').classList.remove('hidden');
+};
+
+function mkSc(id,prompt,choices){
+  window['_sc_'+id]=choices;
+  return `<div class="bx in" id="${id}"><div class="qz-tag" style="color:var(--orange)">What Would You Do?</div>
+  <p style="font-size:.95em;font-weight:600;color:var(--bright);margin-bottom:12px">${prompt}</p>
+  <div class="sc-wrap">${choices.map((c,i)=>`<button class="sc-choice" id="${id}c${i}" onclick="doSc('${id}',${i})">${c.text}</button>`).join('')}</div>
+  <div id="${id}r" class="hidden"></div></div>`;
+}
+window.doSc=function(id,pk){
+  const choices=window['_sc_'+id];if(!choices)return;
+  const c=choices[pk];
+  document.querySelectorAll(`[id^="${id}c"]`).forEach((b,i)=>{b.classList.add('lk');b.onclick=null;if(i===pk)b.classList.add('picked')});
+  S.xp+=(c.xp||5);S.tot++;if(c.quality==='good')S.ok++;upd();
+  $(id+'r').innerHTML=`<div class="sc-result ${c.quality}">${c.result}</div>`;
+  $(id+'r').classList.remove('hidden');
+  if(c.quality==='good')toast('+'+c.xp+' XP!');
+};
+
+function mkTF(id,statement,isTrue,exp){
+  return `<div class="qz" id="${id}"><div class="qz-tag" style="color:var(--purple)">True or False?</div>
+  <p style="font-size:1em;font-weight:600;color:var(--bright);line-height:1.5">${statement}</p>
+  <div class="tf-wrap">
+    <button class="tf-btn t" id="${id}t" onclick="doTF('${id}',true,${isTrue})">TRUE</button>
+    <button class="tf-btn f" id="${id}f" onclick="doTF('${id}',false,${isTrue})">FALSE</button>
+  </div>
+  <div id="${id}e" class="hidden"></div></div>`;
+}
+window.doTF=function(id,picked,answer){
+  const ok=picked===answer;ding(ok);
+  $(id+'t').classList.add('lk');$(id+'f').classList.add('lk');
+  $(id+'t').onclick=null;$(id+'f').onclick=null;
+  if(answer)$(id+'t').classList.add('ok');else $(id+'f').classList.add('ok');
+  if(!ok){if(picked)$(id+'t').classList.add('no');else $(id+'f').classList.add('no')}
+  const exp=$(id).dataset.exp||'';
+  $(id+'e').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Correct!</strong>':'<strong style="color:var(--red)">Nope!</strong>'} ${exp}</div>`;
+  $(id+'e').classList.remove('hidden');
+};
+
+function mkMatch(id,pairs){
+  const lefts=pairs.map((p,i)=>({t:p.left,id:i})).sort(()=>Math.random()-.5);
+  const rights=pairs.map((p,i)=>({t:p.right,id:i})).sort(()=>Math.random()-.5);
+  window['_m_'+id]={lefts,rights,sel:null,matched:0,total:pairs.length};
+  return `<div class="bx in" id="${id}"><div class="qz-tag" style="color:var(--cyan)">Match Game -- tap a left item, then its match on the right</div>
+  <div class="match-grid">
+    <div>${lefts.map((l,i)=>`<div class="m-item" id="${id}L${i}" onclick="doMatch('${id}','L',${i},${l.id})" style="margin-bottom:6px">${l.t}</div>`).join('')}</div>
+    <div>${rights.map((r,i)=>`<div class="m-item" id="${id}R${i}" onclick="doMatch('${id}','R',${i},${r.id})" style="margin-bottom:6px">${r.t}</div>`).join('')}</div>
+  </div>
+  <div id="${id}msg" style="text-align:center;margin-top:8px;font-size:.82em;color:var(--dim)">Tap a term on the left, then its match on the right</div></div>`;
+}
+window.doMatch=function(id,side,idx,pairId){
+  const st=window['_m_'+id];if(!st)return;
+  const el=$(id+side+idx);if(el.classList.contains('matched'))return;
+  if(!st.sel){st.sel={side,idx,pairId,el};el.classList.add('sel');return}
+  if(st.sel.side===side){st.sel.el.classList.remove('sel');if(st.sel.idx===idx){st.sel=null;return}
+    st.sel={side,idx,pairId,el};el.classList.add('sel');return}
+  const prev=st.sel;prev.el.classList.remove('sel');
+  if(prev.pairId===pairId){prev.el.classList.add('matched');el.classList.add('matched');st.matched++;ding(true);
+    if(st.matched===st.total){$(id+'msg').innerHTML='<span style="color:var(--green);font-weight:700">All matched! Nice work.</span>';toast('Perfect matching!')}
+  }else{prev.el.classList.add('wrong');el.classList.add('wrong');ding(false);
+    setTimeout(()=>{prev.el.classList.remove('wrong');el.classList.remove('wrong')},500)}
+  st.sel=null;
+};
+
+// =========== CHAPTERS ===========
+const CH=[
+// ===== CHAPTER 0: The Call from Leerink =====
+{icon:'📞',name:'The Call from Leerink',desc:'Leerink Partners -- the #1 healthcare bank',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 1 of 8</div>
+  <h2>The Call from Leerink</h2>
+  <p>Your recruiter just called. You have an interview at <strong>Leerink Partners</strong> -- the most respected healthcare-focused investment bank on Wall Street. Time to prepare.</p>
+  ${D('md',"Let me walk you through what makes Leerink special. This is not a typical bulge bracket bank.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The Firm</span>
+  <h4>Leerink Partners: Healthcare's Wall Street Home</h4>
+  <p><strong>Leerink Partners</strong> is the <strong>#1 healthcare-focused investment bank</strong> in the world. Unlike Goldman Sachs or JPMorgan that cover every sector, Leerink does <em>only</em> healthcare -- every analyst, every deal, every report.</p>
+  <ul>
+    <li>Founded in <strong>1995</strong> by Jeff Leerink in Boston</li>
+    <li>Approximately <strong>400 employees</strong> across Boston, NYC, San Francisco, Nashville, London</li>
+    <li><strong>#1 healthcare ECM (equity capital markets) franchise</strong> -- more healthcare stock offerings than any other bank</li>
+    <li>Acquired by SVB Financial in 2019, then re-emerged as independent after SVB's collapse in 2023</li>
+    <li>Now backed by Seth Klarman's Baupost Group -- employee-owned and stronger than ever</li>
+  </ul>
+  <div class="an">Think of it like this: Goldman is a general hospital. Leerink is the #1 cardiac surgery center. They only do one thing, but they are the absolute best at it.</div>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Why Healthcare ER?</span>
+  <h4>Why Healthcare Equity Research Is Special</h4>
+  <p>Healthcare is the most <strong>catalyst-driven</strong> sector in the market:</p>
+  <ul>
+    <li><strong>Binary events</strong>: FDA approvals, clinical trial readouts -- stocks can move 50%+ overnight</li>
+    <li><strong>Innovation-driven</strong>: New drug modalities (GLP-1s, gene therapy, ADCs) constantly create new markets</li>
+    <li><strong>Regulatory catalysts</strong>: FDA action dates (PDUFA), CMS policy changes, IRA drug pricing</li>
+    <li><strong>Defensive characteristics</strong>: People get sick in recessions too -- healthcare spending is ~18% of U.S. GDP</li>
+  </ul>
+</div>
+${mkQ('c0q0','What distinguishes Leerink Partners from bulge bracket banks?',
+  ['They focus exclusively on healthcare across all functions','They have the most employees on Wall Street','They offer the highest compensation packages','They were founded before Goldman Sachs'],0,'')}
+<div class="hidden" id="c0q0" data-exp="Leerink is the <strong>largest healthcare-only investment bank</strong>. Every person, every deal, every research report is healthcare. This singular focus gives them unmatched depth in the sector."></div>`,
+
+()=>`<div class="bx in">
+  ${D('you',"What's Leerink's secret weapon? Why do buyside clients pay attention to their research?")}
+  ${D('md',"Two things: MEDACorp and their scientific talent. Let me explain both.")}
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">Competitive Edge</span>
+  <h4>MEDACorp: 20,000+ Healthcare Experts on Call</h4>
+  <p>Leerink owns <strong>MEDACorp</strong> -- a proprietary network of over <strong>20,000 physicians, researchers, KOLs (key opinion leaders), and healthcare administrators</strong>.</p>
+  <p>When an analyst needs to understand if a new oncology drug is gaining traction, they don't just read reports. They <strong>call the doctors actually prescribing it</strong>. This gives Leerink differentiated, real-time intelligence that competitors simply cannot replicate.</p>
+</div>
+<div class="bx2 pu">
+  <span class="tag tag-pu">Top ECM Franchise</span>
+  <h4>Why Companies Choose Leerink</h4>
+  <p>Leerink's healthcare ECM franchise is dominant because:</p>
+  <ul>
+    <li><strong>Deep investor relationships</strong>: They know every healthcare-focused fund on the buyside</li>
+    <li><strong>Sector credibility</strong>: Management teams trust analysts who speak the science</li>
+    <li><strong>Full-service platform</strong>: Research + banking + sales & trading, all healthcare</li>
+    <li>Many analysts hold <strong>PhDs, MDs, or PharmDs</strong> -- they are scientists who learned finance</li>
+  </ul>
+</div>
+${mkTF('c0tf0','Leerink Partners was originally founded as a technology-focused investment bank that later pivoted to healthcare.',false,'')}
+<div class="hidden" id="c0tf0" data-exp="<strong>False.</strong> Leerink was founded in 1995 by Jeff Leerink as a healthcare-focused firm from day one. The singular healthcare focus has been their identity for nearly 30 years."></div>
+${mkQ('c0q1','Approximately how many healthcare experts are in Leerink\\'s MEDACorp network?',
+  ['Over 20,000','About 500','Around 2,000','Exactly 100'],0,'')}
+<div class="hidden" id="c0q1" data-exp="MEDACorp has <strong>20,000+ physicians, researchers, and KOLs</strong> that Leerink analysts can tap for differentiated insights on drugs, devices, and healthcare trends."></div>`
+]},
+
+// ===== CHAPTER 1: Healthcare Landscape 101 =====
+{icon:'🏥',name:'Healthcare Landscape 101',desc:'Sub-sectors, key metrics, and major players',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 2 of 8</div>
+  <h2>Healthcare Landscape 101</h2>
+  ${D('md',"Before you can analyze any healthcare stock, you need to understand the sub-sectors. Each one has different economics, different metrics, and different drivers.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Sub-Sectors</span>
+  <h4>The Healthcare Universe</h4>
+  <ul>
+    <li><strong>Large-Cap Pharma</strong> (PFE, LLY, ABBV, MRK, JNJ): Diversified drug portfolios, dividend payers, patent cliffs. Key metric: <span class="hl">revenue growth + pipeline replenishment</span></li>
+    <li><strong>Biotech</strong> (AMGN, GILD, VRTX, BIIB + small-caps): Pipeline-driven, often pre-revenue. Key metric: <span class="hl">pipeline value (risk-adjusted NPV)</span></li>
+    <li><strong>Medical Devices / MedTech</strong> (ISRG, MDT, ABT, SYK, BSX): Recurring revenue from procedures. Key metric: <span class="hl">organic revenue growth + procedure volumes</span></li>
+    <li><strong>Healthcare Services</strong> (HCA, THC, UHS): Hospitals, ASCs, physician groups. Key metric: <span class="hl">same-store revenue growth + patient volumes</span></li>
+    <li><strong>Managed Care</strong> (UNH, ELV, HUM, CI, CVS): Health insurance. Key metric: <span class="hl">medical loss ratio (MLR) + membership growth</span></li>
+    <li><strong>Life Sciences Tools</strong> (TMO, DHR, A, ILMN): Picks-and-shovels for drug discovery. Key metric: <span class="hl">organic growth + recurring revenue mix</span></li>
+  </ul>
+</div>
+${mkMatch('c1m0',[
+  {left:'Large-Cap Pharma',right:'Patent cliff / pipeline'},
+  {left:'Biotech',right:'Risk-adjusted NPV'},
+  {left:'MedTech',right:'Procedure volumes'},
+  {left:'Managed Care',right:'Medical loss ratio'},
+  {left:'Life Sciences Tools',right:'Recurring revenue mix'}
+])}`,
+
+()=>`<div class="bx in">
+  ${D('md',"Now let's test your knowledge on the fundamentals. These are the kinds of questions that separate prepared candidates from the rest.")}
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Key Players</span>
+  <h4>Names You Must Know</h4>
+  <ul>
+    <li><strong>Eli Lilly (LLY)</strong>: ~$700B+ market cap. GLP-1 franchise (Mounjaro/Zepbound) is driving explosive growth</li>
+    <li><strong>UnitedHealth (UNH)</strong>: Largest managed care company. Optum is a healthcare services juggernaut</li>
+    <li><strong>Intuitive Surgical (ISRG)</strong>: Robotic surgery monopoly with da Vinci platform. 80%+ recurring revenue</li>
+    <li><strong>Vertex (VRTX)</strong>: Dominates cystic fibrosis. Expanding into pain (non-opioid) and gene editing</li>
+    <li><strong>Thermo Fisher (TMO)</strong>: The "Amazon of Life Sciences" -- sells tools to every pharma/biotech company</li>
+    <li><strong>AbbVie (ABBV)</strong>: Navigating post-Humira patent cliff with Skyrizi/Rinvoq immunology franchise</li>
+  </ul>
+</div>
+${mkTF('c1tf0','Medical loss ratio (MLR) is a key metric for biotech companies and represents the percentage of revenue spent on R&D.',false,'')}
+<div class="hidden" id="c1tf0" data-exp="<strong>False.</strong> MLR is a key metric for <strong>managed care</strong> companies (UNH, ELV, HUM). It represents the percentage of premium revenue spent on actual medical claims. A lower MLR means the insurer is keeping more profit. Typical target: 80-85%."></div>
+${mkQ('c1q0','Which healthcare sub-sector is most driven by binary clinical trial events?',
+  ['Biotech','Managed Care','Life Sciences Tools','Healthcare Services'],0,'')}
+<div class="hidden" id="c1q0" data-exp="<strong>Biotech</strong> stocks are uniquely driven by binary events -- Phase 2/3 data readouts, FDA approvals, and PDUFA dates can cause 50%+ moves overnight. This is what makes biotech equity research so exciting (and volatile)."></div>
+${mkQ('c1q1','UnitedHealth Group (UNH) is the largest company in which healthcare sub-sector?',
+  ['Managed Care','Large-Cap Pharma','Healthcare Services','Life Sciences Tools'],0,'')}
+<div class="hidden" id="c1q1" data-exp="UNH is the largest <strong>managed care</strong> company, but it's more than just insurance. Its <strong>Optum</strong> division includes Optum Health (care delivery), Optum Rx (PBM), and Optum Insight (data/analytics)."></div>`
+]},
+
+// ===== CHAPTER 2: Drug Development Pipeline =====
+{icon:'💊',name:'The Drug Development Pipeline',desc:'From preclinical to FDA approval',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 3 of 8</div>
+  <h2>The Drug Development Pipeline</h2>
+  ${D('md',"Understanding how drugs get from the lab to the pharmacy shelf is essential. Every stage has different risk profiles and valuation implications.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The Journey</span>
+  <h4>FDA Approval Process</h4>
+  <p>A new drug goes through these stages:</p>
+  <ul>
+    <li><strong>Preclinical</strong>: Lab and animal studies. Years of work before any human testing.</li>
+    <li><strong>IND Filing</strong>: Company asks FDA for permission to test in humans.</li>
+    <li><strong>Phase 1</strong>: Safety testing in 20-100 healthy volunteers. ~10% probability of eventual approval.</li>
+    <li><strong>Phase 2</strong>: Efficacy + dose-finding in 100-300 patients. ~30% probability of eventual approval.</li>
+    <li><strong>Phase 3</strong>: Large-scale efficacy trials in 1,000-5,000+ patients. ~60% probability of approval.</li>
+    <li><strong>NDA/BLA Filing</strong>: New Drug Application (small molecules) or Biologics License Application (biologics).</li>
+    <li><strong>FDA Review</strong>: 10-month standard review or 6-month priority review. PDUFA date is the action deadline.</li>
+    <li><strong>Approval + Launch</strong>: Commercial rollout begins.</li>
+  </ul>
+  <div class="an">The entire process typically takes 10-15 years and costs $1-2 billion. Only about 1 in 10 drugs entering Phase 1 ultimately gets approved.</div>
+</div>
+${mkMatch('c2m0',[
+  {left:'Phase 1',right:'Safety / ~10% PoS'},
+  {left:'Phase 2',right:'Efficacy + dose / ~30% PoS'},
+  {left:'Phase 3',right:'Large-scale / ~60% PoS'},
+  {left:'NDA',right:'Small molecule filing'},
+  {left:'BLA',right:'Biologic filing'},
+  {left:'PDUFA',right:'FDA action date deadline'}
+])}`,
+
+()=>`<div class="bx in">
+  ${D('md',"Now let's talk about what happens to stocks at each pipeline milestone -- this is where the money is made and lost.")}
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Valuation</span>
+  <h4>Risk-Adjusted NPV (rNPV)</h4>
+  <p>The standard method for valuing pipeline drugs:</p>
+  <ul>
+    <li>Estimate <strong>peak sales</strong> (e.g., "$3 billion at maturity")</li>
+    <li>Build a revenue ramp (launch year through patent expiry)</li>
+    <li>Apply <strong>probability of success (PoS)</strong> at each remaining stage</li>
+    <li>Discount back to present value using WACC (typically 10-15% for biotech)</li>
+    <li>Sum across all pipeline assets = <strong>Sum-of-the-Parts (SOTP)</strong></li>
+  </ul>
+  <div class="an">Example: A Phase 2 drug with $5B peak sales, 30% PoS, and 8 years to peak = rNPV might be ~$800M-$1.2B depending on discount rate and margin assumptions.</div>
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Critical Concept</span>
+  <h4>Patent Cliff & Loss of Exclusivity (LOE)</h4>
+  <p>When a drug's patent expires, <strong>generic/biosimilar</strong> competition enters. Revenue can drop <strong>70-90%</strong> within 1-2 years.</p>
+  <ul>
+    <li><strong>Humira</strong> (AbbVie): Lost exclusivity in 2023 after $20B+ peak sales. Multiple biosimilars launched.</li>
+    <li><strong>Keytruda</strong> (Merck): ~$25B annual revenue, patent cliff coming ~2028. Merck's biggest strategic challenge.</li>
+    <li>Large-cap pharma must constantly <strong>replenish the pipeline</strong> through R&D or M&A to offset LOE</li>
+  </ul>
+</div>
+${mkQ('c2q0','A biotech\\'s lead asset just reported positive Phase 2 data. What is the most likely immediate market reaction?',
+  ['Stock rises significantly as the probability of success has materially increased','Stock drops because Phase 2 means the drug is still years from revenue','No change -- Phase 2 is too early to matter','Stock drops due to dilution concerns'],0,'')}
+<div class="hidden" id="c2q0" data-exp="Positive Phase 2 data is a <strong>major catalyst</strong>. The PoS jumps from ~30% to something higher, and the market re-rates the rNPV accordingly. For small biotechs, Phase 2 readouts can cause 50-100%+ stock moves."></div>
+${mkTF('c2tf0','An NDA (New Drug Application) is used to file for FDA approval of biologic drugs like monoclonal antibodies.',false,'')}
+<div class="hidden" id="c2tf0" data-exp="<strong>False.</strong> NDAs are for <strong>small molecule</strong> drugs. Biologics (monoclonal antibodies, cell therapies, gene therapies) use a <strong>BLA (Biologics License Application)</strong>. This distinction matters in interviews!"></div>`
+]},
+
+// ===== CHAPTER 3: Biotech Valuation =====
+{icon:'📊',name:'Biotech Valuation',desc:'SOTP, rNPV, cash burn, and when P/E fails',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 4 of 8</div>
+  <h2>Biotech Valuation</h2>
+  ${D('md',"Valuing biotech companies is an art and a science. The approach changes dramatically depending on whether the company has revenue or not.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Framework</span>
+  <h4>When Different Valuation Methods Apply</h4>
+  <ul>
+    <li><strong>Pre-revenue biotech</strong>: P/E is meaningless (negative earnings). Use <span class="hl">Sum-of-the-Parts rNPV</span></li>
+    <li><strong>Commercial-stage biotech</strong>: <span class="hl">EV/Revenue</span> (if early commercial) or <span class="hl">EV/EBITDA</span> (if profitable)</li>
+    <li><strong>Large-cap pharma</strong>: <span class="hl">P/E, EV/EBITDA, DCF</span> -- traditional metrics work because cash flows are stable</li>
+    <li><strong>MedTech</strong>: <span class="hl">EV/EBITDA, P/E</span> with premium for recurring revenue and organic growth</li>
+    <li><strong>Managed Care</strong>: <span class="hl">P/E</span> is king -- very predictable earnings streams</li>
+  </ul>
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">SOTP Deep Dive</span>
+  <h4>Sum-of-the-Parts for Pipeline Companies</h4>
+  <p>SOTP breaks the company into individual components:</p>
+  <ul>
+    <li><strong>Each pipeline drug</strong> gets its own rNPV based on peak sales, PoS, timeline, and costs</li>
+    <li><strong>Existing revenue</strong> (if any) valued via DCF or multiples</li>
+    <li><strong>Cash on balance sheet</strong> added at face value</li>
+    <li><strong>Debt</strong> subtracted</li>
+    <li><strong>Corporate overhead/burn</strong> subtracted as a negative NPV</li>
+    <li>Total SOTP / diluted shares = <strong>per-share value</strong></li>
+  </ul>
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Cash is King</span>
+  <h4>Cash Burn Rate & Runway</h4>
+  <p>For pre-revenue biotechs, <strong>cash runway</strong> is existential:</p>
+  <ul>
+    <li><strong>Cash Runway</strong> = Cash / Quarterly Burn Rate. If a company has $500M and burns $50M/quarter, that's 10 quarters (~2.5 years)</li>
+    <li>If runway is < 12-18 months, market fears <strong>dilutive equity offering</strong></li>
+    <li>Watch for companies that need to raise capital <em>before</em> a key data readout -- this is bearish</li>
+    <li>Strong cash position = <strong>negotiating leverage</strong> in partnerships and M&A</li>
+  </ul>
+</div>`,
+
+()=>`${mkSc('c3sc0','Your interviewer asks: "How would you value a pre-revenue biotech with 2 Phase 2 assets and $400M in cash?"',[
+  {text:'I would use a Sum-of-the-Parts approach: calculate risk-adjusted NPV for each Phase 2 asset using peak sales estimates, ~30% PoS, projected timelines, and a 12% discount rate. Then add the $400M cash, subtract debt and ongoing burn, and divide by diluted shares.',result:'Excellent framework. You demonstrated knowledge of rNPV methodology, appropriate PoS for Phase 2, and remembered to account for cash and burn. This is exactly how sell-side analysts approach it.',quality:'good',xp:25},
+  {text:'I would look at comparable company EV/Revenue multiples and apply them to projected peak sales.',result:'Not bad instinct, but EV/Revenue requires actual revenue. For a pre-revenue biotech, you need rNPV/SOTP. Comps can be a sanity check but not the primary method.',quality:'meh',xp:10},
+  {text:'I would use a DCF model based on projected future cash flows once the drugs are approved.',result:'A DCF can work, but for pre-revenue biotech with Phase 2 assets, the standard approach is SOTP using risk-adjusted NPV. A regular DCF doesn\\'t properly account for the binary probability of success at each clinical stage.',quality:'meh',xp:8},
+  {text:'P/E ratio compared to peers.',result:'P/E doesn\\'t work for pre-revenue companies -- there are no earnings! This is one of the most basic biotech valuation concepts. Always use SOTP/rNPV for pipeline-stage companies.',quality:'bad',xp:0}
+])}
+${mkQ('c3q0','For a large-cap pharma company like Pfizer with stable cash flows, which valuation method is most appropriate?',
+  ['P/E and EV/EBITDA with DCF as a supplement','Risk-adjusted NPV of pipeline only','EV/Revenue because pharma doesn\\'t have earnings','Price-to-book value'],0,'')}
+<div class="hidden" id="c3q0" data-exp="Large-cap pharma has <strong>stable, predictable earnings</strong>, so traditional metrics like <strong>P/E and EV/EBITDA</strong> work well. DCF is used as a supplement, especially to model the impact of patent cliffs and pipeline contributions."></div>
+${mkTF('c3tf0','A biotech company with 6 months of cash runway and a Phase 3 readout in 9 months is in a strong position because they just need to wait for the data.',false,'')}
+<div class="hidden" id="c3tf0" data-exp="<strong>False.</strong> This is a dangerous situation. The company will likely need to raise capital <strong>before</strong> the readout, which means issuing shares at a discount (dilutive). Smart investors watch cash runway vs. catalyst timing very carefully."></div>`
+]},
+
+// ===== CHAPTER 4: GLP-1s & Obesity Revolution =====
+{icon:'💉',name:'GLP-1s & the Obesity Revolution',desc:'The hottest topic in healthcare investing',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 5 of 8</div>
+  <h2>GLP-1s & the Obesity Revolution</h2>
+  ${D('md',"If there is ONE topic you must know cold for a healthcare interview right now, it's GLP-1 receptor agonists. This is the biggest therapeutic innovation in a generation.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The Revolution</span>
+  <h4>What Are GLP-1s?</h4>
+  <p><strong>GLP-1 receptor agonists</strong> (glucagon-like peptide-1) were originally developed for Type 2 diabetes. They mimic a gut hormone that:</p>
+  <ul>
+    <li>Stimulates <strong>insulin secretion</strong> when blood sugar is high</li>
+    <li>Slows <strong>gastric emptying</strong> (you feel full longer)</li>
+    <li>Acts on the <strong>brain's appetite centers</strong> to reduce hunger</li>
+    <li>Produces <strong>15-25% body weight loss</strong> in clinical trials</li>
+  </ul>
+  <div class="an">The obesity drug market is projected to exceed <strong>$100 billion by 2030</strong>. For context, the entire oncology drug market is ~$200B. GLP-1s are creating an entirely new therapeutic category at unprecedented scale.</div>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Key Players</span>
+  <h4>The GLP-1 Competitive Landscape</h4>
+  <ul>
+    <li><strong>Novo Nordisk (NVO)</strong>: First mover. Ozempic (diabetes) and Wegovy (obesity) -- both semaglutide. ~$30B+ combined revenue. Next-gen: CagriSema (amylin combo)</li>
+    <li><strong>Eli Lilly (LLY)</strong>: Mounjaro (diabetes) and Zepbound (obesity) -- tirzepatide (dual GIP/GLP-1). Showing superior weight loss (~22.5% in trials). Rapidly taking share</li>
+    <li><strong>Amgen (AMGN)</strong>: MariTide -- anti-body based approach, potentially monthly dosing. Phase 2 data promising</li>
+    <li><strong>Viking Therapeutics (VKTX)</strong>: VK2735 -- oral and injectable candidates in development</li>
+    <li><strong>Roche, Pfizer, AstraZeneca</strong>: All pursuing oral GLP-1s and next-gen combinations</li>
+  </ul>
+</div>
+<div class="bx2 or">
+  <span class="tag tag-or">Ripple Effects</span>
+  <h4>GLP-1 Impact Across Healthcare</h4>
+  <ul>
+    <li><strong>Bariatric surgery (NEGATIVE)</strong>: Why get surgery if a drug works? Companies like Intuitive Surgical may see reduced lap-band/sleeve procedures</li>
+    <li><strong>Diabetes devices (MIXED)</strong>: Less insulin use = less need for pumps/CGMs long-term, but near-term more diagnosis helps device demand</li>
+    <li><strong>Cardiovascular (POSITIVE)</strong>: SELECT trial showed semaglutide reduced major cardiac events by 20%. Massive TAM expansion</li>
+    <li><strong>Sleep apnea (POSITIVE)</strong>: Weight loss improves OSA. Lilly studying Zepbound for sleep apnea -- positive Phase 3 data</li>
+    <li><strong>NASH/MASH (MIXED)</strong>: Weight loss helps fatty liver, but dedicated NASH drugs still needed for advanced fibrosis</li>
+    <li><strong>Food/beverage (NEGATIVE)</strong>: Patients eat less. Grocery stores, snack companies seeing volume headwinds</li>
+  </ul>
+</div>`,
+
+()=>`${mkQ('c4q0','Which company makes tirzepatide, a dual GIP/GLP-1 receptor agonist sold as Mounjaro and Zepbound?',
+  ['Eli Lilly (LLY)','Novo Nordisk (NVO)','Amgen (AMGN)','Pfizer (PFE)'],0,'')}
+<div class="hidden" id="c4q0" data-exp="<strong>Eli Lilly</strong> developed tirzepatide, which targets both GIP and GLP-1 receptors (dual agonist). This dual mechanism is why Mounjaro/Zepbound shows slightly <strong>superior weight loss (~22.5%)</strong> compared to Novo's semaglutide (~15-17%)."></div>
+${mkSc('c4sc0','Your interviewer asks: "Would you be long or short medical device companies focused on bariatric surgery given GLP-1 adoption?"',[
+  {text:'Short. GLP-1 adoption will structurally reduce demand for bariatric surgery. If patients can achieve 20%+ weight loss with a weekly injection, the value proposition of invasive surgery diminishes. The risk-reward is unfavorable for pure-play bariatric device companies.',result:'Strong answer. You demonstrated understanding of the GLP-1 thesis and its second-order effects. Bonus points if you noted that bariatric surgery won\\'t disappear entirely -- it\\'s still indicated for BMI >40 or severe comorbidities -- but the addressable market clearly shrinks.',quality:'good',xp:25},
+  {text:'Long. GLP-1s will increase awareness of obesity as a disease, which will actually drive more patients to seek bariatric surgery.',result:'Creative thinking, but the data doesn\\'t support this. GLP-1s are already showing that patients prefer pharmaceutical solutions over surgery when available. Bariatric surgery volumes have already started to plateau in GLP-1 era.',quality:'bad',xp:5},
+  {text:'Neutral. I\\'d need to see more data on GLP-1 adoption curves before taking a view.',result:'Understandable caution, but in an interview they want to see you take a view and defend it with logic. Having a well-reasoned directional opinion is better than fence-sitting.',quality:'meh',xp:8}
+])}
+${mkTF('c4tf0','The obesity drug market is projected to exceed $100 billion by 2030, making it one of the largest therapeutic categories in pharmaceutical history.',true,'')}
+<div class="hidden" id="c4tf0" data-exp="<strong>True.</strong> Multiple Wall Street estimates project the GLP-1/obesity market to reach $100-150B+ by 2030. This would make it comparable to oncology in total market size. The speed of ramp is unprecedented in pharma history."></div>
+${mkQ('c4q1','The SELECT cardiovascular outcomes trial showed that semaglutide reduced major adverse cardiovascular events (MACE) by approximately:',
+  ['20%','5%','50%','75%'],0,'')}
+<div class="hidden" id="c4q1" data-exp="The SELECT trial showed a <strong>20% reduction in MACE</strong> (heart attack, stroke, CV death) in obese/overweight patients without diabetes. This was a landmark result that massively expanded the addressable market for GLP-1s beyond weight loss into cardio-metabolic health."></div>`
+]},
+
+// ===== CHAPTER 5: Reading Clinical Trial Data =====
+{icon:'🔬',name:'Reading Clinical Trial Data',desc:'p-values, endpoints, and interpreting readouts',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 6 of 8</div>
+  <h2>Reading Clinical Trial Data</h2>
+  ${D('md',"When a biotech issues a press release on clinical data, the stock can move 50% in either direction within minutes. You need to know what to look for.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Key Terms</span>
+  <h4>Clinical Trial Statistics You Must Know</h4>
+  <ul>
+    <li><strong>Primary Endpoint</strong>: The main outcome the trial is designed to measure. This is what the FDA cares about most.</li>
+    <li><strong>Secondary Endpoint</strong>: Additional outcomes measured. Important for label breadth and commercial potential.</li>
+    <li><strong>p-value</strong>: Probability the result occurred by chance. <strong>p < 0.05</strong> is the standard threshold for statistical significance.</li>
+    <li><strong>Confidence Interval (CI)</strong>: Range within which the true effect likely falls. Narrower = more precise. If CI crosses 1.0 (for hazard ratios) or 0 (for differences), result is NOT significant.</li>
+    <li><strong>Intent-to-Treat (ITT)</strong>: Analysis includes ALL randomized patients, regardless of whether they completed the study. FDA preferred.</li>
+    <li><strong>Per-Protocol (PP)</strong>: Only patients who completed the study per protocol. Usually shows better results than ITT.</li>
+    <li><strong>Hazard Ratio (HR)</strong>: Ratio of event rates. HR < 1 means treatment is better. HR 0.80 = 20% risk reduction.</li>
+  </ul>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Reading a Press Release</span>
+  <h4>What Makes a "Clean" vs "Messy" Readout</h4>
+  <p><strong>Clean readout (bullish)</strong>:</p>
+  <ul>
+    <li>Hit primary endpoint with p < 0.001 (highly significant)</li>
+    <li>Hit key secondary endpoints</li>
+    <li>Consistent results across subgroups</li>
+    <li>Manageable safety/tolerability profile</li>
+    <li>ITT and PP analyses both positive</li>
+  </ul>
+  <p><strong>Messy readout (proceed with caution)</strong>:</p>
+  <ul>
+    <li>Primary endpoint barely significant (p = 0.04-0.05)</li>
+    <li>Missed important secondary endpoints</li>
+    <li>Results driven by one subgroup</li>
+    <li>High discontinuation rate due to side effects</li>
+    <li>Company emphasizes PP over ITT results</li>
+  </ul>
+</div>`,
+
+()=>`${mkSc('c5sc0','A biotech reports p=0.048 on the primary endpoint but misses a key secondary endpoint on progression-free survival. The company\\'s press release emphasizes per-protocol results. Bull or bear?',[
+  {text:'Bear-leaning. The p-value barely clears significance at 0.048, the key secondary miss raises questions about clinical meaningfulness, and emphasis on per-protocol over ITT is a red flag. I\\'d want to see the full data at a medical conference before getting constructive.',result:'Excellent analysis. You identified all three red flags: borderline significance, secondary endpoint miss, and the per-protocol emphasis. This shows sophisticated clinical data interpretation. In reality, the FDA may still approve, but the commercial potential is diminished without strong secondary data.',quality:'good',xp:25},
+  {text:'Bull. They hit the primary endpoint, which is all that matters for FDA approval.',result:'While technically true that hitting primary is key for approval, the <strong>quality</strong> of the hit matters enormously. A p=0.048 with missed secondaries suggests the effect may be marginal. The stock likely trades down on this mixed data set.',quality:'meh',xp:8},
+  {text:'Neutral. Need to wait for more information.',result:'While prudent, an interviewer wants to see analytical thinking. The data points given contain clear signals -- borderline primary, missed secondary, PP emphasis -- that warrant a bearish lean.',quality:'meh',xp:5}
+])}
+${mkTF('c5tf0','A confidence interval for a hazard ratio that crosses 1.0 indicates a statistically significant result.',false,'')}
+<div class="hidden" id="c5tf0" data-exp="<strong>False.</strong> If the confidence interval for a hazard ratio <strong>crosses 1.0</strong>, it means the result is <strong>NOT statistically significant</strong>. A HR of 1.0 means no difference between treatment and control. The CI must be entirely below 1.0 to show the drug is significantly better."></div>
+${mkQ('c5q0','In clinical trials, what is the difference between Intent-to-Treat (ITT) and Per-Protocol (PP) analysis?',
+  ['ITT includes all randomized patients; PP only includes those who completed the study as designed','ITT only includes patients who responded; PP includes everyone','They are the same thing with different names','ITT is used in Phase 1; PP is used in Phase 3'],0,'')}
+<div class="hidden" id="c5q0" data-exp="<strong>ITT includes ALL randomized patients</strong> regardless of whether they dropped out, switched treatments, or were non-compliant. <strong>PP only includes compliant completers</strong>. ITT is more conservative and FDA-preferred because it reflects real-world use. If a company only shows PP results, be skeptical."></div>
+${mkTF('c5tf1','A p-value of 0.001 provides stronger statistical evidence than a p-value of 0.04, though both are considered statistically significant at the 0.05 threshold.',true,'')}
+<div class="hidden" id="c5tf1" data-exp="<strong>True.</strong> Both p < 0.05 are technically significant, but p=0.001 means there's only a 0.1% chance the result is due to random chance, vs. 4% for p=0.04. Lower p-values give much more confidence in the result. In healthcare investing, a p=0.001 hit on primary moves stocks much more than a p=0.04 hit."></div>`
+]},
+
+// ===== CHAPTER 6: Healthcare Policy & Regulation =====
+{icon:'⚖️',name:'Healthcare Policy & Regulation',desc:'IRA, Medicare negotiation, biosimilars, 340B',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 7 of 8</div>
+  <h2>Healthcare Policy & Regulation</h2>
+  ${D('md',"Policy risk is one of the biggest overhangs on healthcare stocks. You need to understand the IRA, Medicare negotiation, and how these reshape the industry.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">IRA Impact</span>
+  <h4>Inflation Reduction Act (IRA) -- Drug Pricing Provisions</h4>
+  <p>The IRA, signed in August 2022, introduced the most significant drug pricing reform in decades:</p>
+  <ul>
+    <li><strong>Medicare Drug Price Negotiation</strong>: CMS can now negotiate prices on select high-spend Medicare drugs. First 10 drugs selected in 2023, prices effective 2026</li>
+    <li><strong>Small molecule penalty</strong>: Small molecules eligible for negotiation after <strong>9 years</strong> on market, biologics after <strong>13 years</strong>. This creates an incentive to develop biologics over small molecules</li>
+    <li><strong>Inflation rebates</strong>: If drug prices rise faster than inflation, manufacturers must pay rebates to Medicare</li>
+    <li><strong>$2,000 Part D out-of-pocket cap</strong>: Reduces patient costs but shifts financial burden to insurers and manufacturers</li>
+  </ul>
+  <div class="an">The first 10 drugs selected for negotiation include Eliquis, Jardiance, Xarelto, Januvia, Farxiga, Entresto, Enbrel, Imbruvica, Stelara, and select insulins. These represent ~$50B in Medicare spending.</div>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">340B Program</span>
+  <h4>340B Drug Pricing Program</h4>
+  <p>The 340B program requires drug manufacturers to provide <strong>outpatient drugs at significantly reduced prices</strong> to eligible healthcare organizations (safety-net hospitals, FQHCs, etc.).</p>
+  <ul>
+    <li>Hospitals buy drugs at 340B discount (25-50% off) but can bill insurers at higher rates</li>
+    <li>The <strong>spread</strong> is a major revenue source for safety-net hospitals</li>
+    <li>Program has grown massively -- now covers ~$44B in drug purchases annually</li>
+    <li>Pharma companies have been restricting 340B discounts for contract pharmacies, leading to litigation</li>
+  </ul>
+</div>`,
+
+()=>`<div class="bx2 cy">
+  <span class="tag tag-cy">Biosimilars</span>
+  <h4>Biosimilar Competition Dynamics</h4>
+  <p>Biosimilars are the biologic equivalent of generics, but with key differences:</p>
+  <ul>
+    <li><strong>Biologics are complex proteins</strong> -- biosimilars are "highly similar" but not identical copies</li>
+    <li>Biosimilar price discounts are typically <strong>15-35%</strong> (vs. 80-90% for small molecule generics)</li>
+    <li>Adoption is slower due to physician comfort, interchangeability requirements, and rebate dynamics</li>
+    <li><strong>Humira biosimilars</strong>: 8+ launched in 2023, but AbbVie retained significant share through rebate contracts</li>
+    <li>Key players: Sandoz (spun from Novartis), Amgen, Teva, Samsung Bioepis</li>
+  </ul>
+  <div class="an">Biosimilar competition is less disruptive than generic entry but still material. Expect 30-50% revenue erosion over 3-5 years post-LOE for biologics, vs. 80%+ in year 1 for small molecules going generic.</div>
+</div>
+${mkQ('c6q0','Under the IRA, small molecule drugs are eligible for Medicare price negotiation after how many years on market?',
+  ['9 years','13 years','5 years','20 years'],0,'')}
+<div class="hidden" id="c6q0" data-exp="Small molecules face negotiation after <strong>9 years</strong>, while biologics get <strong>13 years</strong>. This 4-year gap has created a perverse incentive: pharma companies may shift R&D toward biologics to get more years of unregulated pricing. Some analysts call this the 'small molecule penalty.'"></div>
+${mkTF('c6tf0','Biosimilar drugs typically achieve the same 80-90% price discounts that generic small molecule drugs achieve.',false,'')}
+<div class="hidden" id="c6tf0" data-exp="<strong>False.</strong> Biosimilar discounts are typically <strong>15-35%</strong>, much less than the 80-90% discounts for generic small molecules. This is because biologics are complex proteins that are expensive to manufacture, and adoption is slower due to physician switching inertia and rebate dynamics."></div>
+${mkQ('c6q1','Which of the following is NOT a provision of the Inflation Reduction Act\\'s drug pricing reforms?',
+  ['Government sets all drug prices at launch for new medications','Medicare can negotiate prices on select high-spend drugs','Drug price increases above inflation trigger manufacturer rebates','$2,000 annual out-of-pocket cap for Medicare Part D beneficiaries'],0,'')}
+<div class="hidden" id="c6q1" data-exp="The IRA does NOT give the government power to set prices on <strong>all new drugs at launch</strong>. It only allows Medicare to negotiate on <strong>select existing high-spend drugs</strong> that have been on the market for 9+ years (small molecules) or 13+ years (biologics). This distinction is critical."></div>`
+]},
+
+// ===== CHAPTER 7: Boss Battle =====
+{icon:'🏆',name:'Boss Battle -- Interview Simulation',desc:'Live interview scenarios with pushback',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 8 of 8</div>
+  <h2>Boss Battle: Leerink Interview Simulation</h2>
+  ${D('md',"This is it. I'm going to throw real interview questions at you -- the kind you'll face at Leerink. Think carefully before answering.")}
+</div>
+${mkSc('c7sc0','"Walk me through a healthcare stock you follow and give me your investment thesis."',[
+  {text:'Eli Lilly (LLY) -- Buy thesis: dominant GLP-1 franchise with Mounjaro/Zepbound showing best-in-class weight loss of ~22.5%. $100B+ obesity TAM by 2030 with LLY positioned to capture 40%+ share. Pipeline optionality in Alzheimer\\'s (donanemab) and immunology. Trading at premium but justified by 20%+ revenue CAGR through 2028.',result:'Outstanding. You demonstrated: (1) a specific stock with a clear directional view, (2) knowledge of the key product, (3) quantified the market opportunity, (4) mentioned pipeline optionality, and (5) acknowledged valuation. This is exactly the structure interviewers want.',quality:'good',xp:30},
+  {text:'I like UnitedHealth because it\\'s a big healthcare company that keeps growing.',result:'Too vague. An interviewer wants specifics: what\\'s driving growth (Optum vs. insurance), what\\'s the valuation, what are the risks (regulatory, medical cost trends). You need to demonstrate analytical depth, not just awareness.',quality:'bad',xp:5},
+  {text:'I\\'d pitch Vertex Pharmaceuticals as a Buy. They dominate cystic fibrosis and have a strong pipeline in pain and gene editing.',result:'Good start but needs more depth. Add: ~$10B CF franchise with 90%+ market share, Journavx (non-opioid pain) could be a $2-4B peak sales opportunity, gene editing with CRISPR for sickle cell. Discuss valuation -- is the CF dominance priced in? What\\'s the pipeline worth?',quality:'meh',xp:12}
+])}`,
+
+()=>`${mkSc('c7sc1','"What\\'s your view on the GLP-1 market? Who wins?"',[
+  {text:'Both Novo and Lilly win in a $100B+ market, but Lilly has the edge long-term. Tirzepatide\\'s dual mechanism (GIP/GLP-1) delivers superior weight loss (~22.5% vs ~15-17% for semaglutide). Lilly\\'s oral formulation and combination approaches could further differentiate. The real question isn\\'t who wins between NVO/LLY -- it\\'s whether new entrants like Amgen\\'s MariTide can disrupt the duopoly.',result:'Excellent. You showed the market is big enough for multiple winners, gave a nuanced view with specific data, and raised the important competitive question about new entrants. This demonstrates deep sector knowledge.',quality:'good',xp:30},
+  {text:'Novo Nordisk wins because they were first to market and have the strongest brand.',result:'First-mover matters but isn\\'t decisive in pharma. Lilly\\'s tirzepatide shows better clinical data. Address the science, not just the brand. The interviewer wants to see you engage with the clinical differentiation.',quality:'meh',xp:10},
+  {text:'I think GLP-1s are overhyped and the market is too crowded.',result:'Contrarian views can work but need strong evidence. The clinical data (cardiovascular outcomes, weight loss durability) and payer willingness to cover are strong. Saying "overhyped" without addressing the $100B+ TAM estimate specifics won\\'t fly.',quality:'bad',xp:3}
+])}
+${mkSc('c7sc2','"How would you think about the impact of IRA on large-cap pharma?"',[
+  {text:'The IRA creates a structural headwind but is manageable for diversified large-caps. The immediate impact is limited -- only 10 drugs initially, with negotiated prices effective 2026. The bigger concern is the small molecule penalty (9 vs 13 year timeline) which may shift R&D toward biologics. For specific companies: Merck (Keytruda exposure), Bristol-Myers, and AbbVie face the most near-term risk. The inflation rebate provisions also limit annual price increases, compressing revenue growth by 1-2% annually.',result:'Superb answer. You addressed: the near-term vs. long-term impact, the structural R&D incentive shift, named specific companies at risk, and quantified the price growth headwind. This is the level of specificity Leerink expects.',quality:'good',xp:30},
+  {text:'IRA is bad for pharma because the government is going to negotiate drug prices down.',result:'Directionally correct but far too simplistic. An interviewer wants nuance: which companies are most affected, how does the small molecule vs. biologic distinction matter, what are the second-order effects on R&D incentives.',quality:'bad',xp:5},
+  {text:'The impact is limited because only a small number of drugs are being negotiated, and pharma companies can adjust by raising prices on non-negotiated drugs.',result:'Partially correct -- the initial scope is limited. But the inflation rebate provisions specifically prevent excess price increases on existing drugs. You need to address the rebate mechanism and the R&D incentive distortion.',quality:'meh',xp:10}
+])}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">The Pushback Round</h2>
+  ${D('md',"Great analysts don't just have views -- they defend them under pressure. Here's where we test your conviction.")}
+</div>
+${mkSc('c7sc3','You just pitched LLY as a buy. The interviewer pushes back: "Lilly trades at 60x forward earnings. Isn\\'t all the GLP-1 upside already priced in?"',[
+  {text:'Fair point on valuation. But I\\'d argue the consensus estimates still underestimate the TAM. Street is modeling $40-50B in GLP-1 revenue by 2030, but if you include cardiovascular, sleep apnea, NASH, and kidney indications, the real number could be $70B+. The multiple compresses as revenue grows into the valuation -- similar to how ISRG maintained a premium multiple as robotic surgery expanded.',result:'Excellent pushback handling. You acknowledged the concern, reframed with TAM expansion logic, and used a relevant comp (ISRG) to justify premium valuation. Showing you can defend under pressure is critical.',quality:'good',xp:25},
+  {text:'You might be right. Maybe I should look at cheaper pharma names instead.',result:'Never fold immediately on pushback. The interviewer is testing your conviction and ability to defend a thesis. You can acknowledge risks while maintaining your view with supporting evidence.',quality:'bad',xp:3},
+  {text:'60x is high but growth justifies it. Lilly is growing revenue 30%+ year-over-year.',result:'Decent but needs more depth. Why will growth sustain? What are the TAM expansion catalysts? Give the interviewer specifics that challenge their concern rather than just restating the growth number.',quality:'meh',xp:8}
+])}
+${mkSc('c7sc4','Interviewer: "If you had to pitch me one healthcare stock to short right now, what would it be?"',[
+  {text:'I\\'d short a pure-play bariatric surgery device company or a mid-cap NASH drug developer without cardiovascular data. The GLP-1 revolution structurally impairs bariatric surgery volumes, and for NASH, GLP-1s with cardiovascular outcomes data will likely be the first-line treatment, making standalone NASH drugs a harder commercial proposition. The risk/reward is skewed to the downside for companies that haven\\'t adapted.',result:'Outstanding short thesis. You connected GLP-1 disruption to specific sub-sector losers, showed understanding of competitive dynamics, and framed it as structural rather than cyclical. This demonstrates creative, second-order thinking.',quality:'good',xp:25},
+  {text:'I would short Tesla because it\\'s overvalued.',result:'This is a healthcare interview. Always keep your answer in the healthcare sector. Even if you think a non-healthcare stock is a better short, demonstrate your domain expertise.',quality:'bad',xp:0},
+  {text:'Maybe a managed care company because of regulatory risk and rising medical costs.',result:'Not a bad instinct -- MCOs face medical cost pressure. But you need specifics: which company, what\\'s the catalyst, what\\'s the timeline? "Maybe a managed care company" is too vague for an interview.',quality:'meh',xp:8}
+])}`
+]}
+];
+
+// =========== FLASHCARDS ===========
+const FLASHCARDS=[
+  {front:'Risk-Adjusted NPV (rNPV)',back:'Valuation method for pipeline drugs. Estimate peak sales, build a revenue ramp, apply probability of success at each clinical stage, and discount to present value. The standard for valuing pre-revenue biotech assets.'},
+  {front:'Medical Loss Ratio (MLR)',back:'Percentage of insurance premium revenue spent on actual medical claims. Key metric for managed care companies (UNH, ELV, HUM). Target range: 80-85%. Lower MLR = more profitable insurer.'},
+  {front:'PDUFA Date',back:'Prescription Drug User Fee Act date -- the FDA\'s deadline to act on a drug application. Typically 10 months (standard) or 6 months (priority review) after filing. A key binary catalyst for biotech stocks.'},
+  {front:'Loss of Exclusivity (LOE)',back:'When a drug\'s patent protection expires, allowing generic/biosimilar competition. Revenue can drop 70-90% for small molecules and 30-50% for biologics over subsequent years. Large-cap pharma\'s biggest recurring strategic challenge.'},
+  {front:'Sum-of-the-Parts (SOTP)',back:'Valuation approach that values each pipeline asset separately using rNPV, adds cash, subtracts debt and burn, then sums to get total equity value. Standard for multi-asset biotech companies.'},
+  {front:'GLP-1 Receptor Agonist',back:'A class of drugs that mimics the GLP-1 gut hormone, stimulating insulin, slowing gastric emptying, and reducing appetite. Key drugs: semaglutide (Novo), tirzepatide (Lilly). Obesity market projected >$100B by 2030.'},
+  {front:'Hazard Ratio (HR)',back:'Ratio of event rates between treatment and control groups. HR < 1.0 means treatment is better. HR 0.80 = 20% risk reduction. If 95% CI crosses 1.0, the result is NOT statistically significant.'},
+  {front:'Intent-to-Treat (ITT)',back:'Clinical trial analysis that includes ALL randomized patients regardless of compliance or dropout. FDA-preferred method. More conservative than per-protocol. If a company only shows PP data, be skeptical.'},
+  {front:'Biosimilar',back:'A biologic drug that is "highly similar" to an approved reference biologic. Not identical (unlike generic small molecules). Price discounts typically 15-35%. Slower adoption than generics due to complexity and rebate dynamics.'},
+  {front:'Inflation Reduction Act (IRA)',back:'2022 law enabling Medicare drug price negotiation on select high-spend drugs. Small molecules: 9-year threshold. Biologics: 13-year threshold. Also includes inflation rebates and $2,000 Part D OOP cap.'},
+  {front:'340B Program',back:'Federal program requiring drug manufacturers to sell outpatient drugs at reduced prices (25-50% off) to eligible safety-net hospitals and clinics. The spread between 340B acquisition cost and reimbursement is a major hospital revenue source.'},
+  {front:'Patent Cliff',back:'The sharp revenue decline when a blockbuster drug loses patent protection. Example: Humira ($20B+ peak) faced biosimilar competition in 2023. Keytruda ($25B) faces cliff ~2028. Forces pharma into constant pipeline replenishment.'},
+  {front:'Phase 2 Probability of Success',back:'Approximately 30% of drugs entering Phase 2 ultimately gain FDA approval. Phase 2 establishes initial efficacy and dose-finding in 100-300 patients. Positive Phase 2 data is a major stock catalyst for small biotechs.'},
+  {front:'EV/Revenue vs P/E',back:'Use EV/Revenue for commercial-stage biotech without profits. Use P/E for profitable large-cap pharma and managed care. Never use P/E for pre-revenue companies. For pre-revenue biotech, use SOTP/rNPV instead.'},
+  {front:'MEDACorp',back:'Leerink Partners\' proprietary network of 20,000+ physicians, researchers, and KOLs. Gives Leerink analysts differentiated, real-time intelligence on drug adoption, clinical practice trends, and competitive dynamics that other banks cannot replicate.'}
+];
+
+// =========== CONDITIONING ITEMS (50+) ===========
+const COND_ITEMS=[
+  // Speed round items
+  {id:'s1',q:'What does MLR stand for?',a:'Medical Loss Ratio',opts:['Medical Loss Ratio','Maximum Leverage Ratio','Margin Liability Reserve','Market Lending Rate'],ci:0,cat:'metrics',diff:'easy'},
+  {id:'s2',q:'Leerink Partners focuses exclusively on which sector?',a:'Healthcare',opts:['Healthcare','Technology','Energy','Financial Services'],ci:0,cat:'firm',diff:'easy'},
+  {id:'s3',q:'What is the standard p-value threshold for statistical significance?',a:'p < 0.05',opts:['p < 0.05','p < 0.10','p < 0.01','p < 0.50'],ci:0,cat:'clinical',diff:'easy'},
+  {id:'s4',q:'Who makes Ozempic and Wegovy?',a:'Novo Nordisk',opts:['Novo Nordisk','Eli Lilly','Amgen','Pfizer'],ci:0,cat:'glp1',diff:'easy'},
+  {id:'s5',q:'NDA stands for:',a:'New Drug Application',opts:['New Drug Application','National Drug Administration','Novel Drug Assessment','New Discovery Authorization'],ci:0,cat:'regulatory',diff:'easy'},
+  {id:'s6',q:'What is Phase 1 probability of eventual FDA approval?',a:'~10%',opts:['~10%','~30%','~60%','~90%'],ci:0,cat:'pipeline',diff:'easy'},
+  {id:'s7',q:'BLA is used for filing which type of drug?',a:'Biologics',opts:['Biologics','Small molecules','OTC drugs','Generic drugs'],ci:0,cat:'regulatory',diff:'easy'},
+  {id:'s8',q:'Tirzepatide targets which receptors?',a:'GIP and GLP-1 (dual agonist)',opts:['GIP and GLP-1 (dual agonist)','GLP-1 only','GIP only','GLP-2 and GIP'],ci:0,cat:'glp1',diff:'medium'},
+  {id:'s9',q:'Typical biosimilar price discount vs reference biologic?',a:'15-35%',opts:['15-35%','80-90%','50-60%','1-5%'],ci:0,cat:'regulatory',diff:'medium'},
+  {id:'s10',q:'Healthcare spending as % of U.S. GDP?',a:'~18%',opts:['~18%','~8%','~30%','~5%'],ci:0,cat:'macro',diff:'easy'},
+  {id:'s11',q:'Under IRA, small molecules face Medicare negotiation after how many years?',a:'9 years',opts:['9 years','13 years','5 years','20 years'],ci:0,cat:'policy',diff:'medium'},
+  {id:'s12',q:'What is the projected GLP-1/obesity market size by 2030?',a:'$100B+',opts:['$100B+','$10B','$500B','$25B'],ci:0,cat:'glp1',diff:'easy'},
+  {id:'s13',q:'HR < 1.0 in a clinical trial means:',a:'Treatment is better than control',opts:['Treatment is better than control','Control is better','No difference','Trial failed'],ci:0,cat:'clinical',diff:'medium'},
+  {id:'s14',q:'SOTP stands for:',a:'Sum-of-the-Parts',opts:['Sum-of-the-Parts','Standard Operating Treatment Plan','Stock Options Trading Protocol','Source of Total Profit'],ci:0,cat:'valuation',diff:'easy'},
+  {id:'s15',q:'Which analysis method does the FDA prefer for clinical trials?',a:'Intent-to-Treat (ITT)',opts:['Intent-to-Treat (ITT)','Per-Protocol','Ad hoc subgroup','Bayesian adaptive'],ci:0,cat:'clinical',diff:'medium'},
+  {id:'s16',q:'Keytruda faces patent cliff around what year?',a:'~2028',opts:['~2028','~2024','~2035','~2020'],ci:0,cat:'pharma',diff:'medium'},
+  {id:'s17',q:'What company owns MEDACorp?',a:'Leerink Partners',opts:['Leerink Partners','Goldman Sachs','McKinsey','Optum'],ci:0,cat:'firm',diff:'easy'},
+  {id:'s18',q:'PDUFA date is the FDA deadline for:',a:'Acting on a drug application',opts:['Acting on a drug application','Starting a clinical trial','Patent filing','Manufacturing inspection'],ci:0,cat:'regulatory',diff:'easy'},
+  {id:'s19',q:'SELECT trial showed semaglutide reduced MACE by:',a:'~20%',opts:['~20%','~50%','~5%','~75%'],ci:0,cat:'glp1',diff:'medium'},
+  {id:'s20',q:'Cash runway formula:',a:'Cash / Quarterly Burn Rate',opts:['Cash / Quarterly Burn Rate','Revenue / Expenses','EBITDA / Debt','Assets / Liabilities'],ci:0,cat:'valuation',diff:'easy'},
+  {id:'s21',q:'Phase 3 probability of eventual approval?',a:'~60%',opts:['~60%','~10%','~30%','~90%'],ci:0,cat:'pipeline',diff:'easy'},
+  {id:'s22',q:'Humira\\'s manufacturer?',a:'AbbVie',opts:['AbbVie','Pfizer','Merck','Amgen'],ci:0,cat:'pharma',diff:'easy'},
+  {id:'s23',q:'Priority FDA review timeline?',a:'6 months',opts:['6 months','10 months','3 months','18 months'],ci:0,cat:'regulatory',diff:'medium'},
+  {id:'s24',q:'What type of valuation is useless for pre-revenue biotech?',a:'P/E ratio',opts:['P/E ratio','rNPV','SOTP','DCF with PoS'],ci:0,cat:'valuation',diff:'easy'},
+  {id:'s25',q:'340B program benefits which type of healthcare organization?',a:'Safety-net hospitals and FQHCs',opts:['Safety-net hospitals and FQHCs','For-profit insurers','Pharmaceutical companies','Private equity firms'],ci:0,cat:'policy',diff:'medium'},
+  // Active recall items
+  {id:'r1',q:'Name the two main GLP-1 companies and their key drugs.',a:'Novo Nordisk (Ozempic/Wegovy) and Eli Lilly (Mounjaro/Zepbound)',cat:'glp1',diff:'medium',type:'recall'},
+  {id:'r2',q:'What are the 3 things GLP-1 drugs do physiologically?',a:'Stimulate insulin, slow gastric emptying, reduce appetite via brain',cat:'glp1',diff:'medium',type:'recall'},
+  {id:'r3',q:'Name 3 healthcare sub-sectors and a key metric for each.',a:'Pharma (revenue growth), Biotech (pipeline rNPV), Managed Care (MLR)',cat:'metrics',diff:'medium',type:'recall'},
+  {id:'r4',q:'What makes a clinical readout "messy"? Name 3 red flags.',a:'Borderline p-value, missed secondaries, emphasis on PP over ITT, high discontinuation, subgroup-driven',cat:'clinical',diff:'hard',type:'recall'},
+  {id:'r5',q:'Describe the SOTP valuation method in 3 steps.',a:'1) rNPV each pipeline asset, 2) Add cash minus debt/burn, 3) Divide by diluted shares',cat:'valuation',diff:'medium',type:'recall'},
+  {id:'r6',q:'What is Leerink\\'s competitive advantage? Name 2 key differentiators.',a:'MEDACorp (20,000+ KOLs) and scientific talent (PhDs, MDs as analysts)',cat:'firm',diff:'easy',type:'recall'},
+  {id:'r7',q:'Explain the "small molecule penalty" under IRA.',a:'Small molecules face Medicare negotiation after 9 years vs 13 for biologics, incentivizing biologic development',cat:'policy',diff:'hard',type:'recall'},
+  {id:'r8',q:'Why is cash runway critical for pre-revenue biotech?',a:'If runway < catalyst timeline, company must raise dilutive capital before data readout',cat:'valuation',diff:'medium',type:'recall'},
+  // Interview pressure items
+  {id:'p1',q:'Interviewer: "Why healthcare equity research specifically?"',a:'Catalyst-driven (FDA, clinical data), innovation-led, growing sector (~18% GDP), binary events create alpha opportunities, intellectual rigor combining science + finance',cat:'behavioral',diff:'medium',type:'pressure'},
+  {id:'p2',q:'Interviewer: "Why Leerink over a bulge bracket?"',a:'Healthcare-only focus means deeper expertise, MEDACorp gives differentiated access, scientific talent, #1 ECM franchise, employee-owned culture post-SVB',cat:'behavioral',diff:'medium',type:'pressure'},
+  {id:'p3',q:'Interviewer: "Tell me about a time you had to analyze complex data under a deadline."',a:'Use STAR format. Show analytical rigor, time management, and clear communication of findings. Connect to how equity research requires rapid analysis of clinical data.',cat:'behavioral',diff:'easy',type:'pressure'},
+  {id:'p4',q:'Interviewer: "What\\'s your biggest concern about Eli Lilly at current valuation?"',a:'60x+ forward P/E assumes flawless GLP-1 execution, competition from Amgen/others, manufacturing capacity constraints, potential payer pushback on cost, and label expansion not yet proven',cat:'technical',diff:'hard',type:'pressure'},
+  {id:'p5',q:'Interviewer: "How do you stay current on healthcare developments?"',a:'FDA calendar, ClinicalTrials.gov, medical conferences (ASCO, ASH, AHA), sell-side research, company 10-Ks/10-Qs, NEJM/Lancet for key trial publications',cat:'behavioral',diff:'easy',type:'pressure'},
+  {id:'p6',q:'Interviewer: "Walk me through how you\\'d initiate coverage on a new biotech."',a:'1) Understand disease/MOA, 2) Map pipeline with PoS/timelines, 3) Build SOTP/rNPV model, 4) Analyze cash position/runway, 5) Assess competitive landscape, 6) Talk to KOLs, 7) Set price target and rating',cat:'technical',diff:'hard',type:'pressure'},
+  // More speed items
+  {id:'s26',q:'What is the typical cost to develop a new drug from preclinical to approval?',a:'$1-2 billion',opts:['$1-2 billion','$10-20 million','$100 million','$10 billion'],ci:0,cat:'pipeline',diff:'medium'},
+  {id:'s27',q:'Intuitive Surgical (ISRG) is known for which medical device?',a:'da Vinci robotic surgery system',opts:['da Vinci robotic surgery system','Insulin pumps','MRI machines','Heart stents'],ci:0,cat:'medtech',diff:'easy'},
+  {id:'s28',q:'What percentage weight loss do GLP-1 drugs typically achieve in trials?',a:'15-25%',opts:['15-25%','1-3%','5-8%','40-50%'],ci:0,cat:'glp1',diff:'easy'},
+  {id:'s29',q:'Which pharma company is navigating the post-Humira patent cliff?',a:'AbbVie (ABBV)',opts:['AbbVie (ABBV)','Pfizer (PFE)','Merck (MRK)','Johnson & Johnson (JNJ)'],ci:0,cat:'pharma',diff:'medium'},
+  {id:'s30',q:'Vertex Pharmaceuticals dominates treatment for which disease?',a:'Cystic Fibrosis',opts:['Cystic Fibrosis','Diabetes','Cancer','Heart Disease'],ci:0,cat:'pharma',diff:'medium'},
+  {id:'s31',q:'Standard FDA review timeline?',a:'10 months',opts:['10 months','6 months','3 months','24 months'],ci:0,cat:'regulatory',diff:'medium'},
+  {id:'s32',q:'IRA Part D out-of-pocket cap for Medicare beneficiaries?',a:'$2,000/year',opts:['$2,000/year','$5,000/year','$500/year','$10,000/year'],ci:0,cat:'policy',diff:'medium'},
+  {id:'s33',q:'What is the Leitner box system used for?',a:'Spaced repetition learning',opts:['Spaced repetition learning','Drug pricing','Clinical trial design','Portfolio allocation'],ci:0,cat:'meta',diff:'easy'},
+  {id:'s34',q:'GLP-1 impact on bariatric surgery demand?',a:'Negative -- reduced demand',opts:['Negative -- reduced demand','Positive -- increased demand','No impact','Only impacts pediatric surgery'],ci:0,cat:'glp1',diff:'easy'},
+  {id:'s35',q:'If CI for hazard ratio crosses 1.0, the result is:',a:'Not statistically significant',opts:['Not statistically significant','Highly significant','Clinically meaningful','Ready for approval'],ci:0,cat:'clinical',diff:'medium'},
+  {id:'s36',q:'Leerink was founded in what year?',a:'1995',opts:['1995','2005','1985','2010'],ci:0,cat:'firm',diff:'easy'},
+  {id:'s37',q:'Revenue erosion for biologics post-LOE over 3-5 years?',a:'30-50%',opts:['30-50%','80-90%','5-10%','100%'],ci:0,cat:'regulatory',diff:'hard'},
+  {id:'s38',q:'Phase 2 trial typically enrolls how many patients?',a:'100-300',opts:['100-300','20-50','1,000-5,000','10,000+'],ci:0,cat:'pipeline',diff:'medium'},
+  {id:'s39',q:'Who backed Leerink\\'s buyout after SVB collapse?',a:'Seth Klarman / Baupost Group',opts:['Seth Klarman / Baupost Group','Warren Buffett','BlackRock','JPMorgan'],ci:0,cat:'firm',diff:'medium'},
+  {id:'s40',q:'Amgen\\'s GLP-1 candidate is called:',a:'MariTide',opts:['MariTide','Ozempic','Mounjaro','Wegovy'],ci:0,cat:'glp1',diff:'medium'},
+  {id:'s41',q:'Thermo Fisher Scientific is in which sub-sector?',a:'Life Sciences Tools',opts:['Life Sciences Tools','Managed Care','Biotech','Healthcare Services'],ci:0,cat:'metrics',diff:'easy'},
+  {id:'s42',q:'What is the typical WACC used for biotech rNPV?',a:'10-15%',opts:['10-15%','3-5%','20-30%','1-2%'],ci:0,cat:'valuation',diff:'hard'},
+  {id:'s43',q:'CagriSema is being developed by which company?',a:'Novo Nordisk',opts:['Novo Nordisk','Eli Lilly','Roche','Amgen'],ci:0,cat:'glp1',diff:'hard'},
+  {id:'s44',q:'Skyrizi and Rinvoq are AbbVie\\'s growth drivers replacing:',a:'Humira',opts:['Humira','Keytruda','Ozempic','Eliquis'],ci:0,cat:'pharma',diff:'medium'},
+  {id:'s45',q:'How many drugs were in the first batch of IRA Medicare negotiations?',a:'10',opts:['10','50','5','100'],ci:0,cat:'policy',diff:'medium'},
+  {id:'s46',q:'Journavx by Vertex is a non-opioid treatment for:',a:'Pain',opts:['Pain','Cancer','Diabetes','Heart failure'],ci:0,cat:'pharma',diff:'hard'},
+  {id:'s47',q:'What does KOL stand for?',a:'Key Opinion Leader',opts:['Key Opinion Leader','Kind of Liability','Known Outcome Likelihood','Kinetic Operational Level'],ci:0,cat:'clinical',diff:'easy'},
+  {id:'s48',q:'EV/Revenue is best for valuing which type of company?',a:'Commercial-stage biotech (profitable but young)',opts:['Commercial-stage biotech (profitable but young)','Pre-revenue biotech','Managed care','Banks'],ci:0,cat:'valuation',diff:'medium'},
+  {id:'s49',q:'The SELECT trial studied semaglutide\\'s impact on:',a:'Cardiovascular outcomes in obese patients',opts:['Cardiovascular outcomes in obese patients','Weight loss in diabetics','Cancer prevention','Sleep apnea'],ci:0,cat:'glp1',diff:'medium'},
+  {id:'s50',q:'Number of experts in Leerink\\'s MEDACorp network?',a:'20,000+',opts:['20,000+','500','5,000','100,000'],ci:0,cat:'firm',diff:'easy'},
+  {id:'s51',q:'What does FQHCs stand for in the context of 340B?',a:'Federally Qualified Health Centers',opts:['Federally Qualified Health Centers','Federal Quality Healthcare Companies','First Quarter Health Costs','Free Quality Hospital Care'],ci:0,cat:'policy',diff:'hard'},
+  {id:'s52',q:'Lilly\\'s Zepbound is being studied for which sleep condition?',a:'Sleep apnea (OSA)',opts:['Sleep apnea (OSA)','Insomnia','Narcolepsy','Restless leg syndrome'],ci:0,cat:'glp1',diff:'hard'}
+];
+
+// =========== NAVIGATION ===========
+function goMenu(){
+  S.ch=-1;S.st=0;upd();
+  let h=`<div class="in"><h2>48 Hours to Leerink</h2>
+  <p style="color:var(--dim)">Master healthcare equity research for your Leerink Partners interview.</p>
+  <div class="rs"><div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.xp}</div><div class="rs-l">Total XP</div></div>
+  <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.mx}</div><div class="rs-l">Best Streak</div></div>
+  <div class="rs-i"><div class="rs-v" style="color:var(--green)">${S.tot?Math.round(S.ok/S.tot*100):0}%</div><div class="rs-l">Accuracy</div></div></div>
+  <div class="ch-grid">`;
+  CH.forEach((c,i)=>{
+    const done=S.done.has(i);const unlocked=i===0||S.done.has(i-1)||done;
+    h+=`<div class="ch-i${done?' dn':''}${!unlocked?' lk':''}" ${unlocked?`onclick="goCh(${i})"`:''}><div class="ch-ic">${c.icon}</div><div class="ch-inf"><div class="ch-nm">${c.name}</div><div class="ch-ds">${c.desc}</div></div><div class="ch-st ${done?'dn':unlocked?'nw':'lk'}">${done?'DONE':unlocked?'START':'LOCKED'}</div></div>`;
+  });
+  h+=`</div>`;
+  // Flashcards button
+  h+=`<div style="margin-top:18px"><div class="ch-i" onclick="goFlash()"><div class="ch-ic">🃏</div><div class="ch-inf"><div class="ch-nm">Flashcards</div><div class="ch-ds">15 essential healthcare terms and concepts</div></div><div class="ch-st nw">STUDY</div></div></div>`;
+  // Conditioning mode button
+  h+=`<div style="margin-top:8px"><div class="ch-i" onclick="goCond()" style="border-color:rgba(167,139,250,.3)"><div class="ch-ic">🧠</div><div class="ch-inf"><div class="ch-nm" style="color:var(--purple)">Conditioning Mode</div><div class="ch-ds">6 cognitive science-based training modes</div></div><div class="ch-st" style="background:var(--purple-d);color:var(--purple)">TRAIN</div></div></div>`;
+  h+=`</div>`;
+  M().innerHTML=h;
+}
+
+function goCh(i){S.ch=i;S.st=0;upd();renderStep()}
+function nextStep(){S.st++;if(S.st>=CH[S.ch].steps.length){S.done.add(S.ch);upd();saveState();
+  M().innerHTML=`<div class="bx in tc"><h2 style="color:var(--green)">Chapter Complete!</h2><p>You've finished <strong>${CH[S.ch].name}</strong>.</p>
+  <div class="rs"><div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.xp}</div><div class="rs-l">Total XP</div></div>
+  <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.str}</div><div class="rs-l">Current Streak</div></div></div>
+  <div class="br" style="justify-content:center"><button class="btn btn-b" onclick="goMenu()">Back to Menu</button></div></div>`;
+}else renderStep()}
+function renderStep(){const html=CH[S.ch].steps[S.st]();
+  M().innerHTML=html+`<div class="br" style="justify-content:center;margin-top:16px"><button class="btn btn-g" onclick="goMenu()">Menu</button><button class="btn btn-b" onclick="nextStep()">Continue &rarr;</button></div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// =========== FLASHCARDS ===========
+let fcIdx=0;
+function goFlash(){
+  fcIdx=0;renderFlash();
+}
+function renderFlash(){
+  const fc=FLASHCARDS[fcIdx];
+  M().innerHTML=`<div class="in">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <h2 style="font-size:1.3em">Flashcards</h2>
+    <span style="color:var(--dim);font-size:.85em">${fcIdx+1} / ${FLASHCARDS.length}</span>
+  </div>
+  <div class="fcc" onclick="document.querySelector('.fcrd').classList.toggle('fl')">
+    <div class="fcrd">
+      <div class="fcf fcfr"><h3>${fc.front}</h3><div class="fch">Click to reveal answer</div></div>
+      <div class="fcf fcbk"><p>${fc.back}</p></div>
+    </div>
+  </div>
+  <div class="br" style="justify-content:center">
+    <button class="btn btn-g" onclick="goMenu()">Menu</button>
+    <button class="btn btn-g" ${fcIdx===0?'disabled style="opacity:.3"':''} onclick="fcIdx--;renderFlash()">&larr; Prev</button>
+    <button class="btn btn-b" ${fcIdx===FLASHCARDS.length-1?'disabled style="opacity:.3"':''} onclick="fcIdx++;renderFlash()">Next &rarr;</button>
+  </div></div>`;
+}
+
+// =========== CONDITIONING MODE ===========
+let condMode=null;
+let condTimer=null;
+let condTimeLeft=0;
+let condTotal=0;
+let condCorrect=0;
+let condCurrent=null;
+let leitnerBoxes={1:[],2:[],3:[],4:[],5:[]};
+
+function goCond(){
+  M().innerHTML=`<div class="in">
+  <h2>Conditioning Mode</h2>
+  <p style="color:var(--dim);margin-bottom:16px">Six cognitive science-based training modes to build deep, lasting knowledge.</p>
+  <div class="cond-bar" style="flex-direction:column">
+    <button class="cond-btn" onclick="startCond('speed')"><strong>Speed Round</strong><br><span style="color:var(--dim);font-size:.9em">6s easy / 4s hard -- rapid-fire healthcare facts</span></button>
+    <button class="cond-btn" onclick="startCond('recall')"><strong>Active Recall</strong><br><span style="color:var(--dim);font-size:.9em">10s timer -- type the answer from memory</span></button>
+    <button class="cond-btn" onclick="startCond('interleave')"><strong>Interleaving</strong><br><span style="color:var(--dim);font-size:.9em">Mixed topics to strengthen cross-connections</span></button>
+    <button class="cond-btn" onclick="startCond('pressure')"><strong>Interview Pressure</strong><br><span style="color:var(--dim);font-size:.9em">8s timer -- behavioral + technical mixed</span></button>
+    <button class="cond-btn" onclick="startCond('spaced')"><strong>Spaced Repetition</strong><br><span style="color:var(--dim);font-size:.9em">Leitner box system tracking mastery</span></button>
+    <button class="cond-btn" onclick="startCond('weak')"><strong>Weak Spots</strong><br><span style="color:var(--dim);font-size:.9em">Focuses on items you've missed most</span></button>
+  </div>
+  <div class="br" style="justify-content:center"><button class="btn btn-g" onclick="goMenu()">Back to Menu</button></div>
+  </div>`;
+}
+
+function getCondItems(mode){
+  let pool=[];
+  if(mode==='speed'){
+    pool=COND_ITEMS.filter(i=>i.opts&&!i.type);
+  }else if(mode==='recall'){
+    pool=COND_ITEMS.filter(i=>i.type==='recall');
+  }else if(mode==='interleave'){
+    pool=COND_ITEMS.filter(i=>i.opts&&!i.type);
+  }else if(mode==='pressure'){
+    pool=COND_ITEMS.filter(i=>i.type==='pressure'||i.type==='recall');
+  }else if(mode==='spaced'){
+    initLeitner();
+    return null; // handled separately
+  }else if(mode==='weak'){
+    const missed=Object.entries(S.condMisses).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+    if(missed.length===0){
+      return COND_ITEMS.filter(i=>i.opts&&!i.type).sort(()=>Math.random()-.5).slice(0,10);
+    }
+    const ids=missed.map(m=>m[0]);
+    pool=COND_ITEMS.filter(i=>ids.includes(i.id));
+    if(pool.length<5){
+      const extra=COND_ITEMS.filter(i=>!ids.includes(i.id)&&i.opts&&!i.type).sort(()=>Math.random()-.5).slice(0,5);
+      pool=pool.concat(extra);
+    }
+  }
+  return pool.sort(()=>Math.random()-.5).slice(0,12);
+}
+
+function startCond(mode){
+  condMode=mode;condTotal=0;condCorrect=0;
+  if(mode==='spaced'){initLeitner();renderLeitner();return;}
+  const items=getCondItems(mode);
+  if(!items||items.length===0){toast('No items available for this mode','r');return;}
+  window._condQueue=items;
+  window._condIdx=0;
+  renderCondItem();
+}
+
+function renderCondItem(){
+  const items=window._condQueue;
+  const idx=window._condIdx;
+  if(!items||idx>=items.length){
+    finishCond();return;
+  }
+  const item=items[idx];
+  condCurrent=item;
+  let timeLimit=0;
+  if(condMode==='speed')timeLimit=item.diff==='easy'?6000:4000;
+  else if(condMode==='recall')timeLimit=10000;
+  else if(condMode==='pressure')timeLimit=8000;
+  else if(condMode==='interleave')timeLimit=7000;
+  else if(condMode==='weak')timeLimit=6000;
+
+  let h=`<div class="in">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:.7em;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);font-weight:700">${condMode.toUpperCase()} MODE</span>
+    <span style="color:var(--dim);font-size:.82em">${idx+1}/${items.length} | Score: ${condCorrect}/${condTotal}</span>
+  </div>`;
+
+  if(timeLimit>0){
+    h+=`<div class="timer-bar"><div class="timer-fill green" id="condTimerBar" style="width:100%"></div></div>`;
+  }
+
+  if(item.type==='recall'||item.type==='pressure'){
+    h+=`<div class="bx"><div class="qz-q">${item.q}</div>
+    <input class="recall-input" id="recallInput" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')submitRecall()">
+    <div class="br"><button class="btn btn-b" onclick="submitRecall()">Submit</button>
+    <button class="btn btn-g" onclick="revealRecall()">Show Answer</button></div>
+    <div id="recallResult" class="hidden"></div></div>`;
+  }else{
+    const sh=item.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+    window._condSh=sh;
+    const L='ABCD';
+    h+=`<div class="qz"><div class="qz-q">${item.q}</div>
+    <div class="os">${sh.map((o,i)=>`<button class="o" id="co${i}" onclick="condAnswer(${i})">${'<span class="lt">'+L[i]+'</span><span>'+o.t+'</span>'}</button>`).join('')}</div>
+    <div id="condExp" class="hidden"></div></div>`;
+  }
+
+  h+=`<div class="br" style="justify-content:center;margin-top:8px"><button class="btn btn-g" onclick="goCond()">Quit</button></div></div>`;
+  M().innerHTML=h;
+
+  if(timeLimit>0)startCondTimer(timeLimit);
+  if(item.type==='recall'||item.type==='pressure'){
+    setTimeout(()=>{const inp=$('recallInput');if(inp)inp.focus()},100);
+  }
+}
+
+function startCondTimer(ms){
+  clearInterval(condTimer);
+  condTimeLeft=ms;
+  const total=ms;
+  condTimer=setInterval(()=>{
+    condTimeLeft-=100;
+    const bar=$('condTimerBar');
+    if(bar){
+      const pct=Math.max(0,condTimeLeft/total*100);
+      bar.style.width=pct+'%';
+      bar.className='timer-fill '+(pct>50?'green':pct>20?'yellow':'red');
+    }
+    if(condTimeLeft<=0){
+      clearInterval(condTimer);
+      condTimedOut();
+    }
+  },100);
+}
+
+function condTimedOut(){
+  if(condCurrent.type==='recall'||condCurrent.type==='pressure'){
+    revealRecall(true);
+  }else{
+    document.querySelectorAll('[id^="co"]').forEach(b=>{b.classList.add('lk');b.onclick=null});
+    const sh=window._condSh;
+    sh.forEach((o,i)=>{if(o.i===condCurrent.ci)$('co'+i).classList.add('ok')});
+    condTotal++;recordMiss(condCurrent.id);
+    toast('Time\\'s up!','r');
+    $('condExp').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> The answer was: ${condCurrent.a||condCurrent.opts[condCurrent.ci]}</div>`;
+    $('condExp').classList.remove('hidden');
+    setTimeout(()=>{window._condIdx++;renderCondItem()},2000);
+  }
+}
+
+window.condAnswer=function(pk){
+  clearInterval(condTimer);
+  const sh=window._condSh;
+  const ok=sh[pk].i===condCurrent.ci;
+  condTotal++;if(ok){condCorrect++;recordHit(condCurrent.id)}else{recordMiss(condCurrent.id)}
+  ding(ok);
+  sh.forEach((o,i)=>{const b=$('co'+i);b.classList.add('lk');b.onclick=null;if(o.i===condCurrent.ci)b.classList.add('ok');else if(i===pk)b.classList.add('no')});
+  $('condExp').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Correct!</strong>':'<strong style="color:var(--red)">Wrong.</strong> The answer is: '+(condCurrent.a||condCurrent.opts[condCurrent.ci])}</div>`;
+  $('condExp').classList.remove('hidden');
+  setTimeout(()=>{window._condIdx++;renderCondItem()},1800);
+};
+
+window.submitRecall=function(){
+  clearInterval(condTimer);
+  const inp=$('recallInput');
+  if(!inp)return;
+  const ans=inp.value.trim();
+  if(!ans)return;
+  inp.disabled=true;
+  condTotal++;
+  // Show correct answer for self-evaluation
+  $('recallResult').innerHTML=`<div class="qz-e" style="margin-top:12px">
+    <strong style="color:var(--cyan)">Correct answer:</strong><br>${condCurrent.a}
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn btn-b" onclick="recallSelfScore(true)" style="font-size:.8em">I Got It Right</button>
+      <button class="btn btn-g" onclick="recallSelfScore(false)" style="font-size:.8em">I Got It Wrong</button>
+    </div>
+  </div>`;
+  $('recallResult').classList.remove('hidden');
+};
+
+window.revealRecall=function(timedOut){
+  clearInterval(condTimer);
+  const inp=$('recallInput');if(inp)inp.disabled=true;
+  condTotal++;recordMiss(condCurrent.id);
+  if(timedOut)toast('Time\\'s up!','r');
+  $('recallResult').innerHTML=`<div class="qz-e" style="margin-top:12px">
+    <strong style="color:var(--red)">${timedOut?'Time\\'s up!':'Revealed'}</strong><br>${condCurrent.a}
+    <div style="margin-top:10px"><button class="btn btn-b" onclick="window._condIdx++;renderCondItem()" style="font-size:.8em">Next</button></div>
+  </div>`;
+  $('recallResult').classList.remove('hidden');
+};
+
+window.recallSelfScore=function(correct){
+  if(correct){condCorrect++;ding(true);recordHit(condCurrent.id)}else{ding(false);recordMiss(condCurrent.id)}
+  setTimeout(()=>{window._condIdx++;renderCondItem()},800);
+};
+
+function finishCond(){
+  clearInterval(condTimer);
+  const pct=condTotal?Math.round(condCorrect/condTotal*100):0;
+  M().innerHTML=`<div class="bx in tc">
+    <h2 style="color:var(--purple)">Conditioning Complete!</h2>
+    <p>Mode: <strong>${condMode.toUpperCase()}</strong></p>
+    <div class="rs"><div class="rs-i"><div class="rs-v" style="color:var(--green)">${condCorrect}/${condTotal}</div><div class="rs-l">Correct</div></div>
+    <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${pct}%</div><div class="rs-l">Accuracy</div></div>
+    <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">Total XP</div></div></div>
+    <div class="br" style="justify-content:center"><button class="btn btn-g" onclick="goCond()">More Training</button><button class="btn btn-b" onclick="goMenu()">Menu</button></div></div>`;
+}
+
+// =========== LEITNER SPACED REPETITION ===========
+function initLeitner(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('leerink_v2_leitner'));
+    if(saved){leitnerBoxes=saved;return;}
+  }catch(e){}
+  leitnerBoxes={1:[],2:[],3:[],4:[],5:[]};
+  const pool=COND_ITEMS.filter(i=>i.opts&&!i.type);
+  pool.forEach(item=>{leitnerBoxes[1].push(item.id)});
+  saveLeitner();
+}
+function saveLeitner(){try{localStorage.setItem('leerink_v2_leitner',JSON.stringify(leitnerBoxes))}catch(e){}}
+
+function renderLeitner(){
+  const counts=Object.keys(leitnerBoxes).map(k=>leitnerBoxes[k].length);
+  // Pick from lowest non-empty box
+  let box=1;
+  for(let b=1;b<=5;b++){if(leitnerBoxes[b].length>0){box=b;break;}}
+  const pool=leitnerBoxes[box];
+  if(pool.length===0){
+    M().innerHTML=`<div class="bx in tc"><h2 style="color:var(--green)">All Mastered!</h2><p>Every item has been promoted to Box 5. You're ready.</p>
+    <div class="br" style="justify-content:center"><button class="btn btn-g" onclick="resetLeitner()">Reset Boxes</button><button class="btn btn-b" onclick="goCond()">Back</button></div></div>`;
+    return;
+  }
+
+  const itemId=pool[Math.floor(Math.random()*pool.length)];
+  const item=COND_ITEMS.find(i=>i.id===itemId);
+  if(!item){pool.splice(pool.indexOf(itemId),1);saveLeitner();renderLeitner();return;}
+  condCurrent=item;
+  window._leitnerBox=box;
+
+  let h=`<div class="in">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:.7em;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);font-weight:700">SPACED REPETITION</span>
+    <span style="color:var(--dim);font-size:.82em">Box ${box}</span>
+  </div>
+  <div class="leitner-boxes">${[1,2,3,4,5].map(b=>`<div class="lbox" style="${b===box?'border-color:var(--purple)':''}"><div class="lbox-n">${leitnerBoxes[b].length}</div><div class="lbox-l">Box ${b}</div></div>`).join('')}</div>`;
+
+  const sh=item.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+  window._condSh=sh;
+  const L='ABCD';
+  h+=`<div class="qz"><div class="qz-q">${item.q}</div>
+  <div class="os">${sh.map((o,i)=>`<button class="o" id="co${i}" onclick="leitnerAnswer(${i})">${'<span class="lt">'+L[i]+'</span><span>'+o.t+'</span>'}</button>`).join('')}</div>
+  <div id="condExp" class="hidden"></div></div>`;
+  h+=`<div class="br" style="justify-content:center;margin-top:8px"><button class="btn btn-g" onclick="goCond()">Quit</button></div></div>`;
+  M().innerHTML=h;
+}
+
+window.leitnerAnswer=function(pk){
+  const sh=window._condSh;
+  const ok=sh[pk].i===condCurrent.ci;
+  const box=window._leitnerBox;
+  ding(ok);
+
+  // Move item between boxes
+  const itemId=condCurrent.id;
+  leitnerBoxes[box]=leitnerBoxes[box].filter(id=>id!==itemId);
+  if(ok){
+    const newBox=Math.min(box+1,5);
+    leitnerBoxes[newBox].push(itemId);
+    recordHit(itemId);
+  }else{
+    leitnerBoxes[1].push(itemId);
+    recordMiss(itemId);
+  }
+  saveLeitner();
+
+  sh.forEach((o,i)=>{const b=$('co'+i);b.classList.add('lk');b.onclick=null;if(o.i===condCurrent.ci)b.classList.add('ok');else if(i===pk)b.classList.add('no')});
+  const moveMsg=ok?`Promoted to Box ${Math.min(box+1,5)}`:'Sent back to Box 1';
+  $('condExp').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Correct!</strong> '+moveMsg:'<strong style="color:var(--red)">Wrong.</strong> '+moveMsg+'. The answer is: '+(condCurrent.a||condCurrent.opts[condCurrent.ci])}</div>`;
+  $('condExp').classList.remove('hidden');
+  setTimeout(()=>renderLeitner(),2000);
+};
+
+window.resetLeitner=function(){
+  leitnerBoxes={1:[],2:[],3:[],4:[],5:[]};
+  COND_ITEMS.filter(i=>i.opts&&!i.type).forEach(item=>{leitnerBoxes[1].push(item.id)});
+  saveLeitner();
+  renderLeitner();
+};
+
+// =========== INIT ===========
+window.goMenu=goMenu;
+window.goCh=goCh;
+window.nextStep=nextStep;
+window.renderStep=renderStep;
+window.goFlash=goFlash;
+window.renderFlash=renderFlash;
+window.goCond=goCond;
+window.startCond=startCond;
+window.renderCondItem=renderCondItem;
+window.renderLeitner=renderLeitner;
+window.finishCond=finishCond;
+
+goMenu();
+upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Pitch Bootcamp</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+:root{
+  --bg:#08090d;--card:#10131a;--card2:#161b26;--border:#1e2536;
+  --text:#c9d1d9;--dim:#6b7b8d;--bright:#ecf0f5;
+  --blue:#3b82f6;--blue-d:rgba(59,130,246,.15);
+  --cyan:#22d3ee;--cyan-d:rgba(34,211,238,.1);
+  --green:#34d399;--green-d:rgba(52,211,153,.12);
+  --gold:#fbbf24;--gold-d:rgba(251,191,36,.12);
+  --red:#f87171;--red-d:rgba(248,113,113,.12);
+  --purple:#a78bfa;--purple-d:rgba(167,139,250,.1);
+  --orange:#fb923c;--orange-d:rgba(251,146,60,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::selection{background:var(--blue);color:#fff}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.amb{position:fixed;pointer-events:none;z-index:0}
+.a1{top:-30%;right:-15%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.06),transparent 70%)}
+.a2{bottom:-20%;left:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.04),transparent 70%)}
+#app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:14px 18px 60px}
+
+.top{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.logo{font-family:'Playfair Display',serif;font-size:1.05em;font-weight:800;color:var(--bright)}.logo span{color:var(--blue)}
+.badge{font-size:.6em;background:var(--blue-d);color:var(--blue);padding:2px 8px;border-radius:8px;font-weight:600;letter-spacing:.5px;margin-left:8px}
+.stats{display:flex;gap:16px}
+.st{text-align:center}.st-v{font-size:1em;font-weight:800}.st-l{font-size:.55em;text-transform:uppercase;letter-spacing:1px;color:var(--dim)}
+.st-v.xp{color:var(--cyan)}.st-v.str{color:var(--gold)}.st-v.ch{color:var(--green)}
+
+.pips{display:flex;gap:3px;margin:8px 0 14px}
+.pip{height:4px;flex:1;border-radius:2px;background:var(--border);transition:.4s}
+.pip.done{background:var(--green)}.pip.on{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+
+.in{animation:up .35s ease}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999;padding:10px 22px;border-radius:10px;font-size:.85em;font-weight:700;animation:toastIn .4s ease,toastOut .4s ease 2s forwards;pointer-events:none}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(-20px)}}
+.toast-g{background:var(--green-d);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+.toast-r{background:var(--red-d);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+.toast-b{background:var(--gold-d);color:var(--gold);border:1px solid rgba(251,191,36,.3)}
+
+.bx{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:12px}
+.bx2{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0;position:relative;overflow:hidden}
+.bx2::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:3px}
+.bx2.bl::before{background:var(--blue)}.bx2.gr::before{background:var(--green)}.bx2.go::before{background:var(--gold)}.bx2.cy::before{background:var(--cyan)}.bx2.pu::before{background:var(--purple)}.bx2.re::before{background:var(--red)}.bx2.or::before{background:var(--orange)}
+.tag{font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:5px;display:block}
+.tag-bl{color:var(--blue)}.tag-gr{color:var(--green)}.tag-go{color:var(--gold)}.tag-cy{color:var(--cyan)}.tag-pu{color:var(--purple)}.tag-re{color:var(--red)}.tag-or{color:var(--orange)}
+h2{font-family:'Playfair Display',serif;font-size:1.7em;font-weight:800;color:var(--bright);line-height:1.2;margin-bottom:10px}
+h4{font-size:.98em;color:var(--bright);margin-bottom:5px}
+p,li{font-size:.88em;line-height:1.75;margin-bottom:8px}
+ul{padding-left:16px}li{margin-bottom:4px}
+.chap-tag{font-size:.68em;text-transform:uppercase;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:5px}
+.hl{color:var(--cyan);font-weight:600}
+.an{color:var(--cyan);border-left:2px solid var(--cyan);padding:6px 0 6px 14px;margin:10px 0;font-size:.88em;line-height:1.7;font-style:italic}
+.funny{color:var(--gold);font-size:.82em;margin-top:4px;font-style:italic}
+
+.dl{display:flex;gap:10px;margin:12px 0;animation:up .3s}
+.dl-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:700;flex-shrink:0;border:2px solid var(--border)}
+.dl-av.you{background:linear-gradient(135deg,#3f3a1e,#6c5a2d);border-color:var(--gold);color:var(--gold)}
+.dl-av.coach{background:linear-gradient(135deg,#1e3f1e,#2d6c2d);border-color:var(--green);color:var(--green)}
+.dl-av.int{background:linear-gradient(135deg,#1e1e3f,#2d2d6c);border-color:var(--purple);color:var(--purple)}
+.dl-bb{background:var(--card2);border:1px solid var(--border);border-radius:11px;padding:10px 14px;flex:1}
+.dl-n{font-size:.7em;font-weight:700;margin-bottom:2px}
+.dl-n.you{color:var(--gold)}.dl-n.coach{color:var(--green)}.dl-n.int{color:var(--purple)}
+.dl-t{font-size:.86em;line-height:1.6}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;font-family:inherit;font-weight:600;font-size:.86em;cursor:pointer;transition:.2s;border:none}
+.btn-b{background:var(--blue);color:#fff}.btn-b:hover{box-shadow:0 0 20px rgba(59,130,246,.3);transform:translateY(-1px)}
+.btn-g{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-g:hover{border-color:var(--blue);color:var(--blue)}
+.br{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+.qz{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin:12px 0;animation:up .3s}
+.qz-tag{font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.qz-q{font-size:1.02em;font-weight:600;color:var(--bright);line-height:1.5;margin-bottom:14px}
+.os{display:flex;flex-direction:column;gap:7px}
+.o{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:.2s;font-size:.86em;display:flex;align-items:center;gap:10px;font-family:inherit;color:var(--text);text-align:left;width:100%}
+.o:hover:not(.lk){border-color:var(--blue);background:var(--blue-d)}
+.o .lt{min-width:25px;height:25px;border-radius:7px;background:rgba(59,130,246,.1);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8em;flex-shrink:0}
+.o.ok{border-color:var(--green)!important;background:var(--green-d)!important;animation:pop .3s}.o.ok .lt{background:var(--green);color:#000}
+.o.no{border-color:var(--red)!important;background:var(--red-d)!important;animation:shake .3s}.o.no .lt{background:var(--red);color:#fff}
+.o.lk{cursor:default;opacity:.55}
+.qz-e{margin-top:11px;padding:13px;background:var(--cyan-d);border:1px solid rgba(34,211,238,.15);border-radius:10px;font-size:.84em;line-height:1.7;animation:up .3s}
+.qz-e strong{color:var(--cyan)}
+
+.sc-wrap{margin:12px 0}
+.sc-choice{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px 15px;cursor:pointer;transition:.2s;margin-bottom:7px;font-size:.88em;line-height:1.5;font-family:inherit;color:var(--text);text-align:left;width:100%;display:block}
+.sc-choice:hover:not(.lk){border-color:var(--gold);background:var(--gold-d)}
+.sc-choice.picked{border-color:var(--green);background:var(--green-d)}
+.sc-choice.lk{cursor:default;opacity:.5}
+.sc-result{padding:14px;border-radius:10px;margin-top:10px;font-size:.85em;line-height:1.7;animation:up .3s}
+.sc-result.good{background:var(--green-d);border:1px solid rgba(52,211,153,.2);color:var(--green)}
+.sc-result.meh{background:var(--gold-d);border:1px solid rgba(251,191,36,.2);color:var(--gold)}
+.sc-result.bad{background:var(--red-d);border:1px solid rgba(248,113,113,.2);color:var(--red)}
+
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+.m-item{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:.2s;font-size:.82em;text-align:center;font-family:inherit;color:var(--text);min-height:48px;display:flex;align-items:center;justify-content:center}
+.m-item:hover:not(.lk):not(.matched){border-color:var(--blue);background:var(--blue-d)}
+.m-item.sel{border-color:var(--gold);background:var(--gold-d);color:var(--gold)}
+.m-item.matched{border-color:var(--green);background:var(--green-d);color:var(--green);cursor:default;opacity:.7}
+.m-item.wrong{animation:shake .3s;border-color:var(--red)}
+.m-item.lk{cursor:default}
+
+.tf-wrap{display:flex;gap:8px;margin-top:10px}
+.tf-btn{flex:1;padding:14px;border-radius:12px;font-family:inherit;font-weight:700;font-size:1em;cursor:pointer;border:2px solid var(--border);background:var(--card2);transition:.2s;color:var(--text)}
+.tf-btn:hover:not(.lk){transform:translateY(-2px)}
+.tf-btn.t:hover:not(.lk){border-color:var(--green);color:var(--green);background:var(--green-d)}
+.tf-btn.f:hover:not(.lk){border-color:var(--red);color:var(--red);background:var(--red-d)}
+.tf-btn.ok{border-color:var(--green)!important;background:var(--green-d)!important;color:var(--green)!important}
+.tf-btn.no{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important}
+.tf-btn.lk{cursor:default;opacity:.5}
+
+.ch-grid{display:grid;gap:8px;margin:14px 0}
+.ch-i{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:12px}
+.ch-i:hover{border-color:var(--blue);transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,130,246,.07)}
+.ch-i.lk{opacity:.35;cursor:default}.ch-i.lk:hover{border-color:var(--border);transform:none;box-shadow:none}
+.ch-i.dn{border-color:rgba(52,211,153,.25)}
+.ch-ic{font-size:1.5em;width:38px;text-align:center}
+.ch-inf{flex:1}.ch-nm{font-weight:700;font-size:.9em;color:var(--bright)}.ch-ds{font-size:.75em;color:var(--dim);margin-top:1px}
+.ch-st{font-size:.65em;font-weight:600;padding:3px 9px;border-radius:7px}
+.ch-st.dn{background:var(--green-d);color:var(--green)}.ch-st.nw{background:var(--blue-d);color:var(--blue)}.ch-st.lk{background:rgba(107,123,141,.08);color:var(--dim)}
+
+.rs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.rs-i{background:var(--card2);border-radius:10px;padding:10px;text-align:center}
+.rs-v{font-size:1.2em;font-weight:800}.rs-l{font-size:.6em;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-top:2px}
+
+.fcc{perspective:1000px;margin:14px 0;cursor:pointer}
+.fcrd{width:100%;min-height:200px;position:relative;transition:transform .6s;transform-style:preserve-3d}
+.fcrd.fl{transform:rotateX(180deg)}
+.fcf{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:26px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column}
+.fcfr{background:linear-gradient(135deg,#1a2744,#1e3a5c);border:1px solid rgba(59,130,246,.2)}
+.fcbk{background:var(--card);border:1px solid var(--border);transform:rotateX(180deg);text-align:left;align-items:flex-start}
+.fcfr h3{font-size:1.15em;color:var(--bright);font-family:'Playfair Display',serif}
+.fch{font-size:.72em;color:var(--dim);margin-top:8px}
+.fcbk p{font-size:.86em;line-height:1.7}
+
+/* Conditioning Mode */
+.cm-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:10px 0}
+.cm-fill{height:100%;border-radius:3px;transition:width .3s;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.cm-timer{font-size:2.2em;font-weight:900;font-family:'Playfair Display',serif;text-align:center;margin:8px 0}
+.cm-timer.warn{color:var(--gold);animation:pop .3s}.cm-timer.crit{color:var(--red);animation:shake .4s}
+.cm-prompt{font-size:1.1em;font-weight:700;color:var(--bright);text-align:center;line-height:1.5;margin:14px 0}
+.cm-input{width:100%;padding:14px;border-radius:12px;border:2px solid var(--border);background:var(--card2);color:var(--bright);font-family:inherit;font-size:1em;text-align:center;outline:none;transition:.2s}
+.cm-input:focus{border-color:var(--blue);box-shadow:0 0 16px rgba(59,130,246,.15)}
+.cm-input.ok{border-color:var(--green)!important;background:var(--green-d)!important}
+.cm-input.no{border-color:var(--red)!important;background:var(--red-d)!important;animation:shake .3s}
+.cm-sci{font-size:.7em;color:var(--dim);padding:8px 12px;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.12);border-radius:8px;margin:8px 0;line-height:1.6}
+.cm-sci strong{color:var(--purple)}
+.cm-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.cm-opt{padding:14px 10px;border-radius:12px;border:2px solid var(--border);background:var(--card2);cursor:pointer;font-family:inherit;font-size:.92em;font-weight:600;color:var(--text);text-align:center;transition:.15s}
+.cm-opt:hover:not(.lk){border-color:var(--blue);background:var(--blue-d);transform:translateY(-1px)}
+.cm-opt.ok{border-color:var(--green)!important;background:var(--green-d)!important;color:var(--green)!important;animation:pop .3s}
+.cm-opt.no{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important;animation:shake .3s}
+.cm-opt.lk{cursor:default;opacity:.5}
+.cm-diff{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.cm-diff-btn{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card2);cursor:pointer;font-family:inherit;font-size:.8em;font-weight:600;color:var(--text);transition:.15s}
+.cm-diff-btn:hover{transform:translateY(-1px)}
+.cm-diff-btn.easy{border-color:rgba(52,211,153,.3);color:var(--green)}.cm-diff-btn.easy:hover{background:var(--green-d)}
+.cm-diff-btn.hard{border-color:rgba(248,113,113,.3);color:var(--red)}.cm-diff-btn.hard:hover{background:var(--red-d)}
+.cm-diff-btn.mid{border-color:rgba(251,191,36,.3);color:var(--gold)}.cm-diff-btn.mid:hover{background:var(--gold-d)}
+.cm-streak-bar{display:flex;gap:4px;justify-content:center;margin:8px 0}
+.cm-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:.3s}
+.cm-dot.hit{background:var(--green);box-shadow:0 0 6px var(--green)}.cm-dot.miss{background:var(--red)}
+.cm-phase{font-size:.65em;text-transform:uppercase;letter-spacing:2px;font-weight:700;text-align:center;margin-bottom:4px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.cm-live{animation:pulse 1s infinite}
+
+.hidden{display:none!important}.tc{text-align:center}
+@media(max-width:600px){h2{font-size:1.35em}#app{padding:10px 12px 50px}.match-grid{grid-template-columns:1fr}.rs{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="amb a1"></div><div class="amb a2"></div>
+<div id="app">
+  <div class="top">
+    <div style="display:flex;align-items:center"><div class="logo">Stock Pitch <span>Bootcamp</span></div><span class="badge">MASTER THE PITCH</span></div>
+    <div class="stats">
+      <div class="st"><div class="st-v xp" id="xp">0</div><div class="st-l">XP</div></div>
+      <div class="st"><div class="st-v str" id="str">0</div><div class="st-l">Streak</div></div>
+      <div class="st"><div class="st-v ch" id="chdone">0/6</div><div class="st-l">Done</div></div>
+    </div>
+  </div>
+  <div class="pips" id="pips"></div>
+  <div id="m"></div>
+</div>
+<script>
+const _saved=JSON.parse(localStorage.getItem('stock_pitch_prep')||'null');
+const S=_saved?{..._saved,done:new Set(_saved.done)}:{xp:0,str:0,mx:0,ok:0,tot:0,ch:-1,st:0,done:new Set(),fcIdx:0};
+function save(){localStorage.setItem('stock_pitch_prep',JSON.stringify({...S,done:[...S.done]}))};
+const $=id=>document.getElementById(id);
+const M=()=>$('m');
+const upd=()=>{$('xp').textContent=S.xp;$('str').textContent=S.str;$('chdone').textContent=S.done.size+'/'+CH.length;
+let p='';for(let i=0;i<CH.length;i++)p+=`<div class="pip ${S.done.has(i)?'done':S.ch===i?'on':''}"></div>`;$('pips').innerHTML=p};
+
+function toast(msg,type='g'){const t=document.createElement('div');t.className=`toast toast-${type}`;t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
+function ding(ok){S.tot++;if(ok){S.ok++;S.str++;if(S.str>S.mx)S.mx=S.str;const b=Math.min(S.str,5);S.xp+=10+b*2;
+if(S.str===3)toast('3x Streak!','b');if(S.str===5)toast('5x Streak! On fire!','b');if(S.str===8)toast('8x STREAK! UNSTOPPABLE!','b');
+}else S.str=0;upd();save()}
+
+function D(w,t){
+  const av={you:'YOU',coach:'C',int:'INT'};
+  const nm={you:'You',coach:'Your Pitch Coach',int:'Interviewer'};
+  return `<div class="dl"><div class="dl-av ${w}">${av[w]}</div><div class="dl-bb"><div class="dl-n ${w}">${nm[w]}</div><div class="dl-t">${t}</div></div></div>`;
+}
+
+// MINI-GAME BUILDERS
+function mkQ(id,q,opts,ci,exp){
+  const sh=opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+  window['_sh_'+id]=sh;
+  const L='ABCD';
+  return `<div class="qz" id="${id}" data-exp="${exp}"><div class="qz-tag" style="color:var(--gold)">Knowledge Check</div>
+  <div class="qz-q">${q}</div>
+  <div class="os">${sh.map((o,i)=>`<button class="o" id="${id}${i}" onclick="doQ('${id}',${i},${ci})"><span class="lt">${L[i]}</span><span>${o.t}</span></button>`).join('')}</div>
+  <div id="${id}e" class="hidden"></div></div>`;
+}
+window.doQ=function(id,pk,ci){
+  const sh=window['_sh_'+id];const ok=sh[pk].i===ci;ding(ok);
+  sh.forEach((o,i)=>{const b=$(id+i);b.classList.add('lk');b.onclick=null;if(o.i===ci)b.classList.add('ok');else if(i===pk)b.classList.add('no')});
+  const exp=$(id).dataset.exp||'';
+  $(id+'e').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Nailed it!</strong>':'<strong style="color:var(--red)">Not quite!</strong>'} ${exp}</div>`;
+  $(id+'e').classList.remove('hidden');
+};
+
+function mkSc(id,prompt,choices){
+  window['_sc_'+id]=choices;
+  return `<div class="bx in" id="${id}"><div class="qz-tag" style="color:var(--orange)">What Would You Do?</div>
+  <p style="font-size:.95em;font-weight:600;color:var(--bright);margin-bottom:12px">${prompt}</p>
+  <div class="sc-wrap">${choices.map((c,i)=>`<button class="sc-choice" id="${id}c${i}" onclick="doSc('${id}',${i})">${c.text}</button>`).join('')}</div>
+  <div id="${id}r" class="hidden"></div></div>`;
+}
+window.doSc=function(id,pk){
+  const choices=window['_sc_'+id];if(!choices)return;
+  const c=choices[pk];
+  document.querySelectorAll(`[id^="${id}c"]`).forEach((b,i)=>{b.classList.add('lk');b.onclick=null;if(i===pk)b.classList.add('picked')});
+  S.xp+=(c.xp||5);S.tot++;if(c.quality==='good')S.ok++;upd();
+  $(id+'r').innerHTML=`<div class="sc-result ${c.quality}">${c.result}</div>`;
+  $(id+'r').classList.remove('hidden');
+  if(c.quality==='good')toast('+'+c.xp+' XP!');
+};
+
+function mkTF(id,statement,isTrue,exp){
+  return `<div class="qz" id="${id}" data-exp="${exp}"><div class="qz-tag" style="color:var(--purple)">True or False?</div>
+  <p style="font-size:1em;font-weight:600;color:var(--bright);line-height:1.5">${statement}</p>
+  <div class="tf-wrap">
+    <button class="tf-btn t" id="${id}t" onclick="doTF('${id}',true,${isTrue})">TRUE</button>
+    <button class="tf-btn f" id="${id}f" onclick="doTF('${id}',false,${isTrue})">FALSE</button>
+  </div>
+  <div id="${id}e" class="hidden"></div></div>`;
+}
+window.doTF=function(id,picked,answer){
+  const ok=picked===answer;ding(ok);
+  $(id+'t').classList.add('lk');$(id+'f').classList.add('lk');
+  $(id+'t').onclick=null;$(id+'f').onclick=null;
+  if(answer)$(id+'t').classList.add('ok');else $(id+'f').classList.add('ok');
+  if(!ok){if(picked)$(id+'t').classList.add('no');else $(id+'f').classList.add('no')}
+  const exp=$(id).dataset.exp||'';
+  $(id+'e').innerHTML=`<div class="qz-e">${ok?'<strong style="color:var(--green)">Correct!</strong>':'<strong style="color:var(--red)">Nope!</strong>'} ${exp}</div>`;
+  $(id+'e').classList.remove('hidden');
+};
+
+function mkMatch(id,pairs){
+  const lefts=pairs.map((p,i)=>({t:p.left,id:i})).sort(()=>Math.random()-.5);
+  const rights=pairs.map((p,i)=>({t:p.right,id:i})).sort(()=>Math.random()-.5);
+  window['_m_'+id]={lefts,rights,sel:null,matched:0,total:pairs.length};
+  let h=`<div class="bx in" id="${id}"><div class="qz-tag" style="color:var(--cyan)">Match Game -- tap a left item, then its match on the right</div>
+  <div class="match-grid">
+    <div>${lefts.map((l,i)=>`<div class="m-item" id="${id}L${i}" onclick="doMatch('${id}','L',${i},${l.id})" style="margin-bottom:6px">${l.t}</div>`).join('')}</div>
+    <div>${rights.map((r,i)=>`<div class="m-item" id="${id}R${i}" onclick="doMatch('${id}','R',${i},${r.id})" style="margin-bottom:6px">${r.t}</div>`).join('')}</div>
+  </div>
+  <div id="${id}msg" style="text-align:center;margin-top:8px;font-size:.82em;color:var(--dim)">Tap a term on the left, then its match on the right</div></div>`;
+  return h;
+}
+window.doMatch=function(id,side,idx,pairId){
+  const st=window['_m_'+id];if(!st)return;
+  const el=$(id+side+idx);if(el.classList.contains('matched'))return;
+  if(!st.sel){st.sel={side,idx,pairId,el};el.classList.add('sel');return}
+  if(st.sel.side===side){st.sel.el.classList.remove('sel');if(st.sel.idx===idx){st.sel=null;return}
+    st.sel={side,idx,pairId,el};el.classList.add('sel');return}
+  const prev=st.sel;prev.el.classList.remove('sel');
+  if(prev.pairId===pairId){prev.el.classList.add('matched');el.classList.add('matched');st.matched++;ding(true);
+    if(st.matched===st.total){$(id+'msg').innerHTML='<span style="color:var(--green);font-weight:700">All matched! Nice work.</span>';toast('Perfect matching!')}
+  }else{prev.el.classList.add('wrong');el.classList.add('wrong');ding(false);
+    setTimeout(()=>{prev.el.classList.remove('wrong');el.classList.remove('wrong')},500)}
+  st.sel=null;
+};
+
+// =====================
+// CHAPTERS
+// =====================
+const CH=[
+// CH0: THE ANATOMY OF A PITCH
+{icon:'🏗️',name:'The Anatomy of a Pitch',desc:'Learn the 5-part framework that every great stock pitch follows.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 1 of 6</div>
+  <h2>The Anatomy of a Pitch</h2>
+  <p>Every great stock pitch -- whether you're interviewing at BMO, Leerink, Goldman, or a hedge fund -- follows the same fundamental structure. Master this framework and you can pitch <em>any</em> stock.</p>
+  ${D('you',"I have interviews at BMO (consumer staples equity research) and Leerink (healthcare equity research). They'll probably ask me for a stock pitch, right?")}
+  ${D('coach',"Almost certainly. 'Walk me through your best stock idea' is THE most common equity research interview question. Let's make sure your answer is bulletproof.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The Framework</span>
+  <h4>The 5-Part Stock Pitch Structure</h4>
+  <p>Think of a stock pitch like a legal argument. You need a clear claim, evidence, and you need to anticipate the opposing counsel's objections.</p>
+  <ol>
+    <li><strong class="hl">Company Overview</strong> -- What does this company do? One to two sentences. Set the stage so the interviewer knows what you're talking about.</li>
+    <li><strong class="hl">Thesis / Why Now</strong> -- Your investment thesis. Why is this stock mispriced TODAY? What does the market not understand?</li>
+    <li><strong class="hl">Key Catalysts</strong> -- What specific events will cause the stock to move in your direction? These need to be concrete and time-bound.</li>
+    <li><strong class="hl">Valuation</strong> -- Is the stock cheap or expensive? How do you know? What's your target price or upside/downside?</li>
+    <li><strong class="hl">Risks &amp; Mitigants</strong> -- What could go wrong, and why do you still believe in the thesis despite those risks?</li>
+  </ol>
+  <div class="an">The best pitches feel like a story. You're not just listing facts -- you're building a narrative about why the market is wrong and you're right.</div>
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">Pro Tip</span>
+  <h4>Why "Why Now" Is the Most Important Part</h4>
+  <p>Anyone can say "Costco is a great company." That's not a stock pitch. A stock pitch requires a <strong>variant perception</strong> -- a view that differs from what the market already believes.</p>
+  <p>The "Why Now" answers: <em>If this is such a good idea, why hasn't the stock already moved?</em> Maybe there's an upcoming catalyst. Maybe the market is overreacting to short-term noise. Maybe there's a structural change that hasn't been fully priced in.</p>
+  <div class="funny">Saying "Apple is a good company" in an interview is like saying "water is wet" -- technically correct, completely useless as a stock pitch.</div>
+</div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Match the Framework</h2>
+  <p>Let's make sure you've internalized the five parts. Match each section to its purpose.</p>
+</div>
+${mkMatch('c0m0',[
+  {left:'Company Overview',right:'Sets the stage -- what does the company do?'},
+  {left:'Thesis / Why Now',right:'Your variant perception -- why is the market wrong?'},
+  {left:'Key Catalysts',right:'Specific events that will move the stock'},
+  {left:'Valuation',right:'Is it cheap or expensive? What\\'s the target?'},
+  {left:'Risks & Mitigants',right:'What could go wrong and why you still believe'}
+])}
+${mkQ('c0q0','What makes a strong "Why Now" in a stock pitch?',
+  ['The company has been around for a long time','There is a specific, time-bound reason the market is mispricing the stock today','The stock price has gone up recently','The company has a recognizable brand name'],1,
+  'A strong Why Now identifies a <strong>specific catalyst or misperception</strong> that creates a time-sensitive opportunity. Generic statements about company quality are not investment theses.')}
+${mkTF('c0tf0',
+  '"A good stock pitch only needs a thesis and valuation -- the other parts are optional."',
+  false,
+  'All five parts work together. Without catalysts, your thesis has no trigger. Without risks, you look naive. Without company context, your interviewer is lost. The <strong>complete framework</strong> is what separates a polished pitch from a ramble.')}`,
+
+()=>`<div class="bx in">
+  ${D('coach',"Here's something most candidates don't realize: how you STRUCTURE the pitch matters as much as the content. Let me show you the difference.")}
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Bad Example</span>
+  <h4>The Rambling Pitch</h4>
+  <p><em>"So, um, I like Costco. It's a really well-run company. They have this membership thing where people pay to shop there, and their stock has done well. I think it's a buy because they're growing internationally and... yeah, the valuation is kind of high but I think it's worth it."</em></p>
+  <p>Problems: no structure, no conviction, no specific catalysts, hand-waves valuation, no risks discussed.</p>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Good Example</span>
+  <h4>The Structured Pitch</h4>
+  <p><em>"My best idea is a <strong>long on Costco</strong>, ticker COST, currently trading around $950. Costco operates membership-based warehouse clubs with 900+ locations globally.</em></p>
+  <p><em>My thesis is that the market underappreciates the embedded value of their next membership fee increase, which historically occurs every 5-7 years and is now overdue. Each dollar increase in the annual fee drops almost entirely to the bottom line given 130+ million cardholders and a 90%+ renewal rate.</em></p>
+  <p><em>Key catalysts include: the fee increase announcement likely in 2025-2026, continued international expansion with 30+ new warehouses planned, and accelerating e-commerce penetration.</em></p>
+  <p><em>On valuation, COST trades at ~50x forward earnings, premium to peers. However, I believe this is justified given consistent 10-12% EPS growth and the recurring, high-margin nature of membership revenue.</em></p>
+  <p><em>The main risk is a broad market de-rating of premium multiples in a risk-off environment. I'd mitigate this by noting Costco's defensive characteristics -- consumers trade DOWN to Costco in recessions, so volume actually benefits."</em></p>
+</div>
+${mkQ('c0q1','How long should a stock pitch be in an interview?',
+  ['5-10 minutes -- be thorough','60-90 seconds for the initial pitch, then expect follow-up questions','Under 15 seconds -- keep it super brief','As long as possible to show depth'],1,
+  'The initial pitch should be <strong>60-90 seconds</strong> -- concise and structured. The interviewer will then ask follow-up questions, which is where you show your depth. Going too long upfront suggests you can\\'t prioritize information.')}`
+]},
+
+// CH1: FINDING YOUR EDGE
+{icon:'🔍',name:'Finding Your Edge',desc:'How to pick a stock that actually impresses interviewers.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 2 of 6</div>
+  <h2>Finding Your Edge</h2>
+  <p>The hardest part of a stock pitch isn't the delivery -- it's picking the right stock in the first place. Here's what separates a forgettable pitch from one that gets you hired.</p>
+  ${D('you',"How do I even pick a stock to pitch? Should I just pick Apple or Tesla since I know them?")}
+  ${D('coach',"That's the instinct most candidates have -- and it's exactly the wrong one. Let me explain why.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Stock Selection</span>
+  <h4>What Makes a Great Pitch Stock</h4>
+  <p>The best pitch stocks have three characteristics:</p>
+  <ul>
+    <li><strong class="hl">Controversy or Misunderstanding</strong> -- The market disagrees about something. Maybe bears think margins are peaking, but you see a path to expansion. Controversy means there's a debate you can take a side on.</li>
+    <li><strong class="hl">Clear Catalyst</strong> -- Something specific is about to happen that will prove your thesis right. An earnings report, a product launch, a regulatory decision, a management change.</li>
+    <li><strong class="hl">Differentiated Narrative</strong> -- Your take isn't just "the company is good." You see something the consensus is missing. This is called a <strong>variant perception</strong>.</li>
+  </ul>
+  <div class="an">A variant perception is any investment thesis that differs from the consensus view. If every analyst on Wall Street agrees with your thesis, the stock is already priced for it and there's no money to be made.</div>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Interview Context</span>
+  <h4>Match Your Pitch to the Firm</h4>
+  <p>For <strong>BMO (consumer staples)</strong>: Pick a consumer staples stock -- grocery, food, beverages, household products. Kelly Bania covers Costco, Walmart, Kroger, Dollar General. Showing you know their coverage universe is a power move.</p>
+  <p>For <strong>Leerink (healthcare)</strong>: Pick a healthcare stock -- biotech, pharma, med devices, managed care. Leerink specializes in healthcare, so this is expected. Pick something with a clear clinical or regulatory catalyst.</p>
+  <div class="funny">Pitching a tech stock to a consumer staples team is like bringing a surfboard to a ski resort. Technically you're prepared for a sport, just not the right one.</div>
+</div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Picking Your BMO Pitch</h2>
+</div>
+${mkSc('c1s0','You need a consumer staples pitch for your BMO interview with Ben Wood and Lucas Cohen. Which approach is the strongest?',[
+  {text:'Pick the biggest company in the sector -- everyone knows Procter & Gamble, so it will be easy to discuss.',quality:'meh',xp:5,result:'Not terrible, but picking the biggest company often means your thesis will be consensus. Ben Wood (ex-Point72 hedge fund) will immediately probe for what YOU see that the market doesn\\'t. Large-cap names require a much sharper variant perception to stand out.'},
+  {text:'Pick a stock with a clear near-term catalyst and a thesis where you disagree with consensus -- like Costco ahead of a membership fee increase cycle.',quality:'good',xp:20,result:'Excellent! This checks all three boxes: controversy (is Costco\\'s premium valuation justified?), catalyst (fee increase cycle), and differentiation (you can argue the fee increase impact is underappreciated). Ben Wood will respect this -- it shows you think like an investor.'},
+  {text:'Pick whatever stock you\\'ve heard of in the news recently.',quality:'bad',xp:2,result:'Dangerous. If you pick a stock just because it was in the news, you probably don\\'t have a differentiated view. Every other candidate saw the same headline. And if Ben or Lucas ask a specific question, your shallow research will be exposed immediately.'},
+  {text:'Find the cheapest stock on a P/E basis and pitch it as undervalued.',quality:'meh',xp:5,result:'Cheap stocks are cheap for a reason. A low P/E alone is not a thesis. Ben Wood spent time at Point72 -- he knows that "it\\'s cheap" is the laziest pitch in investing. You need to explain WHY it\\'s cheap AND why the market is wrong about the reason.'}
+])}`,
+
+()=>`<div class="bx in">
+  ${D('coach',"Let's talk about one of the biggest misconceptions candidates have about stock pitches.")}
+</div>
+${mkTF('c1tf0',
+  '"A stock pitch should always be a Buy recommendation."',
+  false,
+  'Short (sell) pitches actually show MORE sophistication. Most candidates only pitch longs because it feels safer. A well-constructed short pitch demonstrates you can think critically, identify overvaluation, and consider downside -- all crucial skills for equity research. Ben Wood, who worked at Point72 (a hedge fund), will particularly appreciate a short pitch.')}
+<div class="bx2 pu">
+  <span class="tag tag-pu">Differentiation</span>
+  <h4>Consensus vs. Variant Perception</h4>
+  <p>A <strong>consensus view</strong> is what the majority of analysts and investors already believe. It's priced into the stock.</p>
+  <p>A <strong>variant perception</strong> is where your view meaningfully differs from consensus. This is where money is made (or lost).</p>
+  <ul>
+    <li><strong>Consensus on Costco:</strong> "Great company, premium valuation deserved." -- This is already in the stock price.</li>
+    <li><strong>Variant perception:</strong> "The next membership fee increase will generate $1.5B+ in incremental high-margin revenue, and the market is underpricing this because the last increase was 7 years ago and investors have short memories." -- NOW you have a pitch.</li>
+  </ul>
+</div>
+${mkQ('c1q0','Which of these is the best example of a variant perception?',
+  ['Costco is a well-managed company with strong brand loyalty','Healthcare spending will continue to grow as the population ages','Dollar Tree\\'s margin compression is temporary -- the market overreacted to one bad quarter, and the new multi-price strategy will drive 200bps of margin expansion by 2027','The S&P 500 will go up because it always does long-term'],2,
+  'A variant perception must be <strong>specific, contrarian, and testable</strong>. The Dollar Tree example meets all three criteria: it disagrees with consensus (bearish), names a specific driver (multi-price strategy), and has a measurable outcome (200bps margin expansion by 2027).')}`
+]},
+
+// CH2: BUILDING THE BULL CASE
+{icon:'📈',name:'Building the Bull Case',desc:'Construct a complete Long pitch using Costco (COST) as the example.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 3 of 6</div>
+  <h2>Building the Bull Case</h2>
+  <p>Let's build a real stock pitch from scratch. We'll use <strong>Costco (COST)</strong> -- a stock Kelly Bania actually covers at BMO with an Outperform rating. Pitching a stock your potential boss covers shows you've done your homework.</p>
+  ${D('coach',"We'll go through each of the 5 parts of the framework. By the end, you'll have a complete, deliverable pitch ready for Ben Wood and Lucas Cohen.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Part 1: Company Overview</span>
+  <h4>Costco Wholesale (COST)</h4>
+  <p>Costco operates <strong>900+ membership-based warehouse clubs</strong> globally, selling bulk groceries, consumer goods, and services at low margins. Revenue: ~$250B. The company's competitive moat is its <strong>membership model</strong> -- customers pay $65-$130/year just for the right to shop there.</p>
+  <p>Keep this to 1-2 sentences in your actual pitch. You're setting context, not giving a Wikipedia summary.</p>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Part 2: Thesis / Why Now</span>
+  <h4>The Investment Thesis</h4>
+  <p>Your thesis should answer: <em>Why is Costco mispriced today?</em></p>
+  <p><strong>Core thesis:</strong> The market underappreciates three compounding tailwinds: (1) the <strong>membership fee increase cycle</strong> -- Costco raises fees every 5-7 years, and the next increase will drop almost entirely to the bottom line across 130M+ cardholders; (2) <strong>pricing power</strong> in an inflationary environment -- Costco's bulk model and Kirkland private label give consumers a reason to trade down TO Costco; (3) <strong>international expansion</strong> is still in early innings with significant whitespace in Asia and Europe.</p>
+  <div class="an">Notice how this thesis isn't "Costco is a great company." It identifies specific, measurable drivers of future stock appreciation that the market may be underweighting.</div>
+</div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Catalysts & Valuation</h2>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Part 3: Key Catalysts</span>
+  <h4>What Will Move the Stock?</h4>
+  <p>Catalysts must be <strong>specific</strong> and <strong>time-bound</strong>. Vague catalysts like "growth" don't count.</p>
+  <ul>
+    <li><strong>Membership fee increase</strong> -- Last increase was in September 2024 (from $60 to $65 for basic, $120 to $130 for Executive). The full revenue impact flows through over 12 months as memberships renew. Each $5 increase x 130M+ cardholders = massive incremental profit with near-zero cost.</li>
+    <li><strong>International store openings</strong> -- Costco is opening 25-30 new warehouses per year, with accelerating focus on China, Japan, and Europe. Each new warehouse generates $150-200M in annual revenue.</li>
+    <li><strong>E-commerce acceleration</strong> -- Costco's online business is growing 20%+ YoY from a low base. Same-day delivery via Instacart and Costco Logistics expands the addressable market beyond members willing to drive to a warehouse.</li>
+  </ul>
+</div>
+<div class="bx2 cy">
+  <span class="tag tag-cy">Part 4: Valuation</span>
+  <h4>Addressing the Elephant in the Room</h4>
+  <p>Costco trades at <strong>~50x forward P/E</strong>. This is expensive compared to Walmart (~35x) and Kroger (~15x). You WILL get pushback on this. Be ready.</p>
+  <p><strong>Why the premium is justified:</strong></p>
+  <ul>
+    <li>Consistent <strong>10-12% EPS growth</strong> compounding year after year</li>
+    <li><strong>90%+ membership renewal rate</strong> -- this is almost subscription-level recurring revenue</li>
+    <li>Membership fees are <strong>near-100% margin</strong> revenue, providing earnings stability</li>
+    <li>Costco's <strong>defensive characteristics</strong> mean it outperforms in downturns -- consumers trade DOWN to Costco</li>
+  </ul>
+  <p><strong>Target:</strong> With 12% EPS growth on a 48-50x multiple, you can see a path to $1,050-$1,100 over 12 months, representing 10-15% upside.</p>
+  <div class="funny">The classic Costco valuation debate: "Too expensive!" vs. "It's always too expensive, and it always keeps going up." This debate has been raging since Costco traded at $100.</div>
+</div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Risks & Defending Your Thesis</h2>
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Part 5: Risks & Mitigants</span>
+  <h4>What Could Go Wrong?</h4>
+  <ul>
+    <li><strong>Risk:</strong> Premium valuation vulnerable in a risk-off environment or rising rates. <strong>Mitigant:</strong> Costco's defensive nature means it typically falls less than the market in selloffs, and membership revenue provides earnings floor.</li>
+    <li><strong>Risk:</strong> Competition from Walmart+ and Amazon encroaching on the warehouse model. <strong>Mitigant:</strong> Costco's in-store treasure hunt experience and Kirkland brand loyalty create switching costs that digital competitors struggle to replicate.</li>
+    <li><strong>Risk:</strong> Same-store sales growth slows as lapping strong pandemic-era comps. <strong>Mitigant:</strong> International expansion and e-commerce provide new growth vectors independent of SSS.</li>
+  </ul>
+  <div class="an">ALWAYS present risks. Candidates who say "I don't see any risks" instantly lose credibility. The goal isn't to pretend risks don't exist -- it's to show you've thought about them and still have conviction.</div>
+</div>
+${mkQ('c2q0','Why does Costco trade at a premium to grocery peers like Kroger?',
+  ['Costco has more stores than Kroger','Costco\\'s membership model creates recurring, high-margin revenue and 90%+ renewal rates drive consistent 10-12% EPS growth','Costco is a newer company with more growth potential','Costco has higher gross margins than Kroger'],1,
+  'The <strong>membership model</strong> is the key differentiator. Membership fees are near-100% margin, renewal rates above 90% make it quasi-subscription revenue, and it enables consistent double-digit EPS growth. This is why the market pays 50x vs. 15x for Kroger.')}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Defending Under Pressure</h2>
+  ${D('coach',"Now let's practice the hardest part -- handling pushback. Ben Wood came from Point72, a major hedge fund. He's going to challenge you.")}
+</div>
+${mkSc('c2s0','Ben Wood leans forward and says: "Costco trades at 50x earnings. That\\'s insane for a retailer. Convince me that\\'s not a red flag."',[
+  {text:'"Well, I mean, the stock has always traded at a premium, so... I think it\\'s just the way it is."',quality:'bad',xp:2,result:'This is a non-answer. "It\\'s always been this way" is not a justification -- it\\'s an observation. Ben will lose interest immediately. You need to explain WHY the premium is deserved with specific data.'},
+  {text:'"You\\'re right, 50x is elevated. The premium is justified by three factors: (1) membership fees are near-100% margin, providing earnings durability you don\\'t get at Kroger or Walmart, (2) the 90%+ renewal rate makes this quasi-subscription revenue -- comparable to software companies that trade at similar multiples, and (3) Costco has compounded EPS at 10-12% for over a decade with remarkable consistency. If you DCF those cash flows, the implied growth rate is actually reasonable."',quality:'good',xp:20,result:'Outstanding. You acknowledged the concern, then provided THREE specific, data-driven reasons. Comparing membership revenue to software subscriptions is particularly sharp -- it reframes how Ben should think about the multiple. This is exactly how an equity research analyst should defend a call.'},
+  {text:'"I think the valuation will come down. I\\'m more focused on the fundamentals."',quality:'meh',xp:5,result:'This contradicts your own pitch. If you\\'re pitching a long on Costco, you can\\'t simultaneously say the valuation is too high. You need to either defend the multiple or argue it should expand further.'},
+  {text:'"I don\\'t really focus on valuation. I just think it\\'s a great company."',quality:'bad',xp:2,result:'In equity research, valuation IS the job. Saying you don\\'t focus on valuation is like a chef saying they don\\'t focus on ingredients. Ben Wood would end the interview in his head right here.'}
+])}
+${mkTF('c2tf0',
+  '"When pitching Costco, you should avoid mentioning risks because it weakens your conviction."',
+  false,
+  'Mentioning risks <strong>strengthens</strong> your pitch. It shows intellectual honesty and analytical rigor. Every institutional investor knows stocks have risks. By proactively addressing them with mitigants, you demonstrate you\\'ve done thorough work and aren\\'t just a cheerleader.')}`
+]},
+
+// CH3: BUILDING THE BEAR CASE
+{icon:'📉',name:'Building the Bear Case',desc:'Learn to construct a Short pitch -- the move that shows real sophistication.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 4 of 6</div>
+  <h2>Building the Bear Case</h2>
+  <p>Most candidates only prepare Long (buy) pitches. A well-constructed Short pitch demonstrates critical thinking, analytical depth, and the kind of skepticism that equity research teams value.</p>
+  ${D('you',"I've never shorted a stock. Is it really expected in interviews?")}
+  ${D('coach',"Not expected, but having one ready is a differentiator. Especially at Leerink (healthcare has tons of overvalued names) and for impressing Ben Wood at BMO, who came from Point72 -- a hedge fund that loves short ideas.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">Short Selling Basics</span>
+  <h4>How Shorting Works</h4>
+  <p>When you <strong>short</strong> a stock, you're betting the price will go DOWN. Mechanically: you borrow shares, sell them at today's price, then buy them back later (hopefully cheaper) to return them.</p>
+  <ul>
+    <li><strong>Profit:</strong> If stock drops from $50 to $30, you make $20/share</li>
+    <li><strong>Loss:</strong> If stock rises from $50 to $80, you lose $30/share</li>
+    <li><strong>Key risk:</strong> Losses are theoretically unlimited (stock can go to infinity). This is why timing and conviction matter more for shorts.</li>
+  </ul>
+  <div class="an">You don't need to actually short stocks to pitch a short. You just need to articulate why a stock is overvalued and what will cause the market to realize it. Think of it as a "sell/underperform" recommendation.</div>
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Example Short Pitch</span>
+  <h4>Short: FreshCo Holdings (Hypothetical Consumer Staples Name)</h4>
+  <p>Imagine a mid-cap packaged food company facing multiple headwinds:</p>
+  <ul>
+    <li><strong>Company:</strong> FreshCo Holdings -- a $5B market cap packaged snacks company trading at 22x forward earnings</li>
+    <li><strong>Thesis:</strong> The market is overestimating FreshCo's ability to maintain margins. Private label penetration in their core snack categories has risen from 18% to 25% in two years, and GLP-1 adoption is reducing snack consumption by 10%+ among users.</li>
+    <li><strong>Catalysts:</strong> Next earnings report will show volume declines accelerating; new private label launches from Walmart and Costco in their key categories; FreshCo's hedging contracts on cocoa and sugar roll off in Q2, exposing them to 40%+ commodity cost increases</li>
+    <li><strong>Valuation:</strong> Trading at 22x on consensus EPS of $2.50, but if margins compress 200bps (our estimate), EPS drops to $2.10, meaning the stock is really at 26x -- expensive for a declining volume story</li>
+    <li><strong>Risk to short:</strong> Activist investor could push for a sale; company could cut costs more aggressively than expected</li>
+  </ul>
+</div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Short-Specific Concepts</h2>
+</div>
+<div class="bx2 re">
+  <span class="tag tag-re">Shorting Mechanics</span>
+  <h4>Things You Must Know for Interviews</h4>
+  <ul>
+    <li><strong>Borrow cost:</strong> You pay a fee to borrow the shares you're shorting. Popular short targets can have borrow costs of 5-50%+ annualized, eating into your returns.</li>
+    <li><strong>Short squeeze:</strong> If too many people are short and the stock rallies, shorts are forced to buy back (cover) to limit losses. This buying pushes the stock even higher, creating a vicious cycle. GameStop (GME) in 2021 was the most famous example.</li>
+    <li><strong>Catalyst timing:</strong> Being early on a short is the same as being wrong. You need a catalyst within a reasonable timeframe (3-12 months) to justify the position.</li>
+    <li><strong>Short interest:</strong> The percentage of a company's float that is currently sold short. High short interest (>15-20%) signals crowded positioning and squeeze risk.</li>
+  </ul>
+</div>
+${mkQ('c3q0','What is a "short squeeze"?',
+  ['When a company buys back its own shares','When too many shorts are forced to cover, pushing the stock higher in a feedback loop','When a stock\\'s price drops quickly due to selling pressure','When a company reduces its outstanding share count'],1,
+  'A short squeeze occurs when a heavily shorted stock rallies, forcing short sellers to buy back shares to limit losses. This additional buying pressure drives the price even higher, forcing more shorts to cover. The GameStop saga in 2021 was a textbook example.')}
+${mkTF('c3tf0',
+  '"The maximum loss on a short position is the same as the maximum loss on a long position."',
+  false,
+  'On a long position, the most you can lose is 100% (stock goes to zero). On a short, your loss is <strong>theoretically unlimited</strong> because the stock price can rise infinitely. This asymmetric risk profile is why timing and risk management are even more critical for shorts.')}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Short Pitch Structure</h2>
+  ${D('coach',"A short pitch follows the same 5-part framework, but with some key differences in emphasis.")}
+</div>
+<div class="bx2 pu">
+  <span class="tag tag-pu">Short-Specific Tips</span>
+  <h4>How a Short Pitch Differs</h4>
+  <ul>
+    <li><strong>Catalyst is CRITICAL:</strong> For a long, you can be patient. For a short, you're paying borrow costs and facing squeeze risk. You need a clear, near-term catalyst for the stock to re-rate downward.</li>
+    <li><strong>Quantify the downside:</strong> Don't just say "the stock will go down." Say "if margins compress 200bps, consensus EPS drops from $2.50 to $2.10, and at a fair 18x multiple, that's $37.80 vs. the current $55 -- 30% downside."</li>
+    <li><strong>Address squeeze risk:</strong> Always mention the short interest level and why you believe the short isn't crowded.</li>
+    <li><strong>Timeline:</strong> Give a clear timeline. "Over the next 2-3 quarters as hedging contracts roll off and private label share gains accelerate."</li>
+  </ul>
+  <div class="an">The best short pitches identify companies where the consensus is extrapolating a trend that is about to reverse. Look for deteriorating fundamentals that the market is still pricing as temporary.</div>
+</div>
+${mkQ('c3q1','Which factor is MOST important for a short pitch that isn\\'t as critical for a long pitch?',
+  ['Company overview','Catalyst timing','Management quality','Brand strength'],1,
+  '<strong>Catalyst timing</strong> is disproportionately important for shorts because you\\'re paying borrow costs every day you hold the position, and you face unlimited loss potential. Being early on a short is functionally the same as being wrong.')}
+${mkTF('c3tf1',
+  '"High short interest (>20% of float) makes a stock a BETTER short candidate because it means many smart investors agree it\\'s overvalued."',
+  false,
+  'High short interest actually makes a stock a <strong>worse</strong> short candidate due to squeeze risk. If sentiment shifts even slightly, the covering cascade can cause massive losses. The best shorts are <strong>uncrowded</strong> -- you see something the market hasn\\'t widely recognized yet.')}`
+]},
+
+// CH4: THE DELIVERY
+{icon:'🎤',name:'The Delivery',desc:'How to present your pitch in 60-90 seconds and handle pushback.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 5 of 6</div>
+  <h2>The Delivery</h2>
+  <p>You've built the pitch. Now you need to deliver it under pressure, in a conversational interview setting, in 60-90 seconds. This is where most candidates fail -- not because they don't know the material, but because they can't communicate it clearly.</p>
+  ${D('you',"I always freeze up when someone asks me for my stock idea. How do I stop rambling?")}
+  ${D('coach',"Structure eliminates rambling. If you know the framework cold, your mouth just follows the structure. Let me give you the exact delivery formula.")}
+</div>
+<div class="bx2 bl">
+  <span class="tag tag-bl">The 60-Second Formula</span>
+  <h4>Hook -> Thesis -> Catalysts -> Valuation -> Risk + Mitigant</h4>
+  <p>Memorize this flow. Practice it until it's muscle memory.</p>
+  <ol>
+    <li><strong class="hl">Hook (5 seconds):</strong> "My best idea is a long/short on [Company], ticker [TICK], currently trading at $[X]."</li>
+    <li><strong class="hl">Thesis (15 seconds):</strong> One sentence on what the company does. Two sentences on why the market is wrong.</li>
+    <li><strong class="hl">Catalysts (15 seconds):</strong> "Three catalysts: First... Second... Third..."</li>
+    <li><strong class="hl">Valuation (15 seconds):</strong> Current multiple, why it's justified or not, target price/upside.</li>
+    <li><strong class="hl">Risk + Mitigant (10 seconds):</strong> "The main risk is [X], but I'd mitigate this by noting [Y]."</li>
+  </ol>
+  <div class="funny">Think of it like an elevator pitch for a stock. You have 60 seconds, the elevator is moving, and your interviewer is the one deciding what floor you get off on -- the "hired" floor or the "thanks for coming in" floor.</div>
+</div>
+<div class="bx2 gr">
+  <span class="tag tag-gr">Equity Research vs. Banking</span>
+  <h4>Tips Specific to ER Interviews</h4>
+  <p>Equity research interviews are different from investment banking interviews:</p>
+  <ul>
+    <li><strong>Show analytical depth:</strong> In banking, they want deal experience and technical skills. In ER, they want to see you THINK like an analyst. Your pitch should demonstrate sector knowledge and analytical rigor.</li>
+    <li><strong>Know the metrics:</strong> For consumer staples, know SSS, volume vs. price, organic growth, gross margins. For healthcare, know pipeline catalysts, FDA timelines, patent cliffs.</li>
+    <li><strong>Have an opinion and defend it:</strong> ER analysts get paid for their opinions. Don't be wishy-washy. Take a clear stance and be ready to defend it with data.</li>
+    <li><strong>Match the firm's style:</strong> At BMO, Kelly Bania focuses on Food Retail & Distribution. At Leerink, they're healthcare specialists. Your pitch should show you understand what the team covers.</li>
+  </ul>
+</div>`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Practice Under Pressure</h2>
+</div>
+${mkSc('c4s0','Lucas Cohen (BMO Senior Associate, CFA) says: "Walk me through your best stock idea."',[
+  {text:'"So I\\'ve been looking at Costco, and I think it\\'s a really good company. They have this membership model that\\'s really sticky, and people love shopping there. The stock is kind of expensive but I think it\\'s worth it because they keep growing."',quality:'meh',xp:5,result:'This sounds like a fan describing their favorite store, not an analyst making an investment case. There\\'s no structure, no specific data, no catalysts, and no valuation framework. Lucas (a CFA) will want numbers and rigor.'},
+  {text:'"My best idea is a long on Costco, ticker COST, currently around $950. Costco operates 900+ warehouse clubs globally with a membership-based model. My thesis is that the market underappreciates the embedded optionality of the membership fee increase cycle -- with 130M+ cardholders and 90%+ renewal rates, each dollar of fee increase drops nearly straight to the bottom line. Three catalysts: the 2024 fee increase flowing through over 12 months, international expansion with 25-30 new warehouses annually, and accelerating e-commerce via Instacart. On valuation, 50x forward earnings looks premium, but Costco\\'s consistent 10-12% EPS growth and subscription-like revenue quality justify it. The main risk is multiple compression in a risk-off environment, which I\\'d mitigate by noting Costco\\'s defensive positioning -- volumes actually benefit from consumer trade-down."',quality:'good',xp:20,result:'Textbook delivery. You hit all five parts in under 90 seconds. Lucas can now drill into any part he wants, and you\\'re prepared. The comparison to subscription revenue is particularly sharp for a CFA who thinks in DCF terms.'},
+  {text:'"I don\\'t really have a stock idea prepared. I\\'m more interested in learning about equity research."',quality:'bad',xp:2,result:'This is an instant disqualification. Coming to an equity research interview without a stock pitch is like coming to a cooking interview without having tasted food. Lucas and Ben will end the interview mentally, even if they continue politely.'},
+  {text:'"I\\'d short Tesla. It\\'s overvalued."',quality:'bad',xp:2,result:'Two problems: (1) Tesla is not a consumer staples stock, and you\\'re interviewing for a consumer staples team. (2) "It\\'s overvalued" is not a thesis. Lucas would immediately ask "Why? Relative to what? What\\'s the catalyst?" and you\\'d be exposed.'}
+])}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">Handling Pushback</h2>
+  ${D('coach',"After your initial pitch, expect 3-5 minutes of follow-up questions. This is where you really differentiate yourself. Let me walk you through the most common ones.")}
+</div>
+<div class="bx2 go">
+  <span class="tag tag-go">Common Pushback Questions</span>
+  <h4>Be Ready for These</h4>
+  <ul>
+    <li><strong>"What if you're wrong?"</strong> -- Describe your risk management. "If Costco's SSS growth decelerates below 5% for two consecutive quarters, I'd reassess. My stop-loss would be around $850, limiting downside to ~10%."</li>
+    <li><strong>"What's the bear case?"</strong> -- Demonstrate you've thought about both sides. A great answer includes the specific scenario that would make you change your mind.</li>
+    <li><strong>"Who's on the other side of this trade?"</strong> -- Identify who disagrees and why. "Bears argue the 50x multiple is unsustainable and that Walmart+ is eroding Costco's moat. I disagree because..."</li>
+    <li><strong>"How does this compare to [peer]?"</strong> -- Know the comp set. Costco vs. Walmart vs. Kroger on P/E, growth, margins, and valuation rationale.</li>
+    <li><strong>"What's your timeline?"</strong> -- Have one. "Over the next 12-18 months as the fee increase fully flows through and international expansion continues."</li>
+  </ul>
+</div>
+${mkQ('c4q0','An interviewer asks "Who is on the other side of this trade?" What is the best way to respond?',
+  ['Ignore the question and re-state your thesis more confidently','Name the specific bear arguments and explain why you disagree with each one, using data','Say you haven\\'t thought about it but you\\'re confident in your analysis','Admit the bears might be right and you could be wrong'],1,
+  'Understanding the other side of the trade is fundamental to investing. <strong>Naming specific bear arguments and rebutting them with data</strong> shows you\\'ve done thorough work and aren\\'t just reciting a one-sided pitch. This is exactly what equity research analysts do in their published reports.')}
+${mkTF('c4tf0',
+  '"If an interviewer challenges your valuation, you should immediately concede and agree with them to avoid conflict."',
+  false,
+  'Conceding immediately destroys your credibility. Equity research analysts are paid for conviction. When challenged, <strong>acknowledge the concern</strong>, then <strong>defend your position with data</strong>. "That\\'s a fair point. The 50x multiple looks elevated, but when you adjust for the near-100% margin membership revenue stream..." shows you can hold your own in a debate.')}`
+]},
+
+// CH5: BOSS BATTLE
+{icon:'⚔️',name:'Boss Battle -- Live Pitch Sim',desc:'Face Ben Wood and Lucas Cohen in a simulated pitch session.',
+steps:[
+()=>`<div class="bx in">
+  <div class="chap-tag">Chapter 6 of 6</div>
+  <h2>Boss Battle: Live Pitch Simulation</h2>
+  <p>This is it. You're sitting in the conference room. Ben Wood (VP Associate, ex-Point72) and Lucas Cohen (Senior Associate, CFA) are across the table. Time to deliver.</p>
+  ${D('int',"Thanks for coming in. We've reviewed your resume. Before we get into anything else -- walk me through your best stock idea.")}
+  ${D('coach',"(Whispered in your ear: Remember the framework. Hook, Thesis, Catalysts, Valuation, Risk. You've got this.)")}
+</div>
+${mkSc('c5s0','Ben Wood says: "Walk me through your best stock idea."',[
+  {text:'Deliver the full Costco pitch: "My best idea is a long on Costco, ticker COST, currently around $950. Costco operates 900+ warehouse clubs with a membership model that\\'s nearly unrivaled in retail. My thesis centers on three underappreciated tailwinds: the membership fee increase cycle, pricing power via Kirkland, and international expansion. Key catalysts include the 2024 fee increase flowing through, 25-30 new international warehouses annually, and accelerating e-commerce. At 50x forward, the premium is justified by consistent 10-12% EPS growth and 90%+ membership renewal rates. Main risk is multiple compression in a risk-off market, mitigated by Costco\\'s counter-cyclical consumer trade-down benefit."',quality:'good',xp:25,result:'Ben nods approvingly. "Good structure. I like that you addressed the valuation upfront." Lucas is writing notes. You\\'re off to a strong start. This is how a prepared candidate sounds.'},
+  {text:'"I like consumer staples stocks in general. They\\'re defensive and do well in downturns."',quality:'bad',xp:2,result:'Ben\\'s expression doesn\\'t change, but Lucas stops writing. This isn\\'t a stock pitch -- it\\'s a sector comment. They asked for your BEST stock idea, and you gave them a generic sector thesis. Every other candidate can say this.'},
+  {text:'"I\\'ve been following Costco. Great company, love shopping there. The stock has done well recently."',quality:'meh',xp:5,result:'Ben: "Okay... but what\\'s your thesis? Why should I buy it today versus a year ago?" You\\'ve described Costco as a consumer, not as an analyst. This is the #1 mistake candidates make -- talking about the company instead of the stock.'},
+  {text:'"Honestly, I\\'m still learning about consumer staples. I\\'d love to hear about what you cover and learn from you."',quality:'bad',xp:2,result:'Points for humility, but this is the wrong moment for it. They\\'re testing whether you can think independently about stocks. Not having a pitch prepared signals you didn\\'t prepare for the most predictable question in equity research interviews.'}
+])}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">The Follow-Up Barrage</h2>
+  ${D('int',"Interesting. Let me push back on a few things.")}
+</div>
+${mkSc('c5s1','Ben Wood: "50x for a retailer? I covered Costco at Point72 -- that multiple makes me nervous. What happens to your thesis if the market de-rates and Costco trades down to 40x?"',[
+  {text:'"If Costco de-rates to 40x on current consensus EPS of ~$19, that\\'s $760, roughly 20% downside from here. That\\'s a real risk, and I\\'d set a stop around $830 to manage it. However, I\\'d argue a de-rating to 40x would require either a significant deceleration in membership growth or a macro shock. In a recession scenario, Costco\\'s value proposition actually strengthens as consumers trade down, which should support the multiple. The stock actually outperformed the S&P during the 2022 correction."',quality:'good',xp:25,result:'Ben is impressed. "Good. You quantified the downside, set a stop-loss, and gave me a reason why the de-rating scenario is unlikely. That\\'s how you think about risk." Lucas nods. This is the level of rigor they want.'},
+  {text:'"I don\\'t think it will de-rate. The stock always trades at a premium."',quality:'bad',xp:2,result:'Ben: "That\\'s not an answer. \\'It won\\'t happen\\' is not risk management. At Point72, if you said that about a position, you\\'d be asked to close it." You\\'ve failed the test -- he wanted to see you think about downside scenarios rigorously.'},
+  {text:'"That\\'s a good point. Maybe Costco isn\\'t the best idea."',quality:'bad',xp:2,result:'You just abandoned your thesis under the first pushback. Ben was testing your conviction, and you folded. In equity research, you need to be able to defend your calls when challenged -- otherwise, why should institutional investors trust your recommendations?'},
+  {text:'"At 40x, Costco would be at fair value relative to its growth. I\\'d consider it a buying opportunity."',quality:'meh',xp:8,result:'Ben: "Okay, but you didn\\'t quantify the downside or explain your risk management. How much do I lose if you\\'re wrong?" Partial credit -- the buying opportunity point is decent, but you need specifics.'}
+])}`,
+
+()=>`<div class="bx in">
+  ${D('int',"Lucas jumps in with a more analytical question.")}
+</div>
+${mkSc('c5s2','Lucas Cohen: "Walk me through how you\\'d model the impact of the membership fee increase on Costco\\'s earnings."',[
+  {text:'"Costco has approximately 130 million cardholders. The basic membership went from $60 to $65, and Executive from $120 to $130. Assuming the fee increase rolls through as memberships renew over 12 months, the incremental annual revenue is roughly: 70% basic members x 130M x $5 increase + 30% Executive x 130M x $10 increase = ~$455M + ~$390M = ~$845M. Since membership fee revenue has near-zero incremental cost, almost all of this drops to operating income. On ~$8.7B in operating income, that\\'s roughly a 10% boost -- and that\\'s before considering new member additions."',quality:'good',xp:25,result:'Lucas puts down his pen and looks at Ben. "That\\'s a really solid back-of-envelope model. Most candidates can\\'t quantify the fee increase impact." You\\'ve shown you can do the analytical work that associates actually do every day. This is what a CFA wants to hear.'},
+  {text:'"More members paying higher fees means more revenue. It\\'s accretive to earnings."',quality:'meh',xp:5,result:'Lucas: "Can you quantify it?" This answer is directionally correct but lacks any specificity. In equity research, the difference between a good analyst and a great one is the ability to put numbers on things.'},
+  {text:'"I\\'d need to see the exact membership data. I don\\'t have the model in front of me."',quality:'meh',xp:5,result:'Lucas: "Fair, but can you do a rough back-of-envelope?" A good analyst should be able to estimate with publicly available data. The key numbers (130M cardholders, $5/$10 increase, ~70/30 basic/exec split) are in Costco\\'s 10-K and earnings calls.'},
+  {text:'"The fee increase is just one part of the thesis. I\\'m more focused on the bigger picture."',quality:'bad',xp:2,result:'Lucas frowns. He asked a specific analytical question and you deflected. In equity research, you can\\'t hand-wave away the details -- the details ARE the job. This signals you can\\'t do the work of a research associate.'}
+])}`,
+
+()=>`<div class="bx in">
+  <h2 style="font-size:1.3em">The Final Challenge</h2>
+  ${D('int',"One more question before we wrap up the stock discussion.")}
+</div>
+${mkSc('c5s3','Ben Wood: "Give me the other side. If you had to SHORT Costco, what would your thesis be?"',[
+  {text:'"If I had to build a bear case, I\\'d focus on three things: (1) Multiple vulnerability -- at 50x, any disappointment gets punished severely. If SSS growth dips below 5% for two quarters, the stock could easily see 15-20% downside. (2) Walmart+ is a real competitive threat -- they\\'re now at 50M+ subscribers and closing the value gap. (3) E-commerce competition -- Amazon\\'s grocery push could erode Costco\\'s non-food categories over time. The catalyst would be a weaker-than-expected earnings report showing membership growth deceleration."',quality:'good',xp:25,result:'Ben grins. "That\\'s exactly the debate we have internally. The fact that you can argue both sides tells me you\\'ve done the work." Lucas adds: "The Walmart+ point is particularly relevant -- Kelly has written about this." You\\'ve just passed the hardest test in the interview: proving you can think like an analyst, not a salesperson.'},
+  {text:'"I wouldn\\'t short Costco. I believe in my long thesis."',quality:'meh',xp:5,result:'Ben: "I respect the conviction, but I\\'m testing whether you can think about both sides. Every good analyst should be able to argue the bear case on their own best ideas." It\\'s a fair point -- you\\'re in equity research, not equity sales.'},
+  {text:'"I guess if Amazon starts competing more aggressively? I\\'m not really sure."',quality:'bad',xp:2,result:'Ben: "That\\'s vague. What specifically about Amazon? When? What metrics would you watch?" This answer shows you haven\\'t thought deeply about the risks, which undermines your entire long pitch.'},
+  {text:'"The stock is too expensive. That\\'s the short thesis."',quality:'meh',xp:5,result:'Ben: "Expensive relative to what? What\\'s the catalyst? People have been saying Costco is expensive for 20 years." \\'Too expensive\\' is not a thesis -- it\\'s a feeling. A proper short pitch needs specific catalysts and measurable downside.'}
+])}
+<div class="bx2 gr" style="margin-top:14px">
+  <span class="tag tag-gr">Final Tips</span>
+  <h4>What Ben and Lucas Are Really Evaluating</h4>
+  <ul>
+    <li><strong>Ben Wood (ex-Point72):</strong> Can you think like an investor? Do you have conviction but also intellectual humility? Can you quantify risk?</li>
+    <li><strong>Lucas Cohen (CFA):</strong> Can you do the analytical work? Are you rigorous with numbers? Can you model impacts?</li>
+    <li><strong>Both:</strong> Do you have a genuine interest in the sector? Have you done your homework on the team and coverage?</li>
+    <li><strong>The meta-message:</strong> Your stock pitch isn't just about the stock. It's a proxy for how you'll approach the job. Structured thinking, data-driven analysis, intellectual curiosity, and the ability to defend your views -- these are what make a great equity research analyst.</li>
+  </ul>
+</div>`
+]}
+];
+
+// =====================
+// FLASHCARDS
+// =====================
+const FC=[
+{f:"The 5-Part Pitch Framework",b:"(1) Company Overview -- what does it do? (2) Thesis / Why Now -- why is the market wrong? (3) Key Catalysts -- specific, time-bound events. (4) Valuation -- cheap or expensive? Target price. (5) Risks & Mitigants -- what could go wrong and why you still believe."},
+{f:"Variant Perception",b:"An investment view that differs from the consensus. If every analyst agrees with your thesis, it's already priced in. A variant perception is WHERE you disagree with the market and WHY. Example: 'The market underestimates the impact of Costco's fee increase cycle.'"},
+{f:"Catalyst",b:"A specific, time-bound event that will cause a stock to move in your predicted direction. Good catalysts: earnings report, product launch, regulatory decision, fee increase, M&A. Bad catalysts: 'growth' or 'good management' (too vague)."},
+{f:"Margin of Safety",b:"The gap between a stock's intrinsic value and its market price. If you calculate intrinsic value at $100 and the stock trades at $70, you have a 30% margin of safety. The concept comes from Benjamin Graham. It protects you if your analysis is slightly wrong."},
+{f:"Short Squeeze",b:"When heavily shorted stock rises, forcing short sellers to buy back shares (cover) to limit losses. This additional buying pressure pushes the price higher, causing more shorts to cover. Creates a feedback loop. GameStop (2021) was the most famous example."},
+{f:"P/E Ratio (Price-to-Earnings)",b:"Stock price divided by earnings per share. Costco ~50x (premium, justified by growth), Walmart ~35x (moderate premium), Kroger ~15x (cheap, lower growth). Higher P/E = market expects higher growth or more durable earnings."},
+{f:"Same-Store Sales (SSS / Comps)",b:"Revenue growth from stores open at least one year, excluding new store openings. THE key retail metric. Broken into traffic (more customers) and ticket (higher spend per visit). Healthy SSS for staples: 3-5%. Shows organic demand, not just store expansion."},
+{f:"Borrow Cost (Shorting)",b:"The fee paid to borrow shares when shorting a stock. Ranges from <1% (easy to borrow) to 50%+ (hard to borrow). High borrow costs eat into short profits. Popular short targets often have high borrow costs because demand to borrow exceeds supply."},
+{f:"Bull Case vs. Bear Case",b:"Bull case: reasons to be long (buy). Bear case: reasons to be short (sell). Great analysts can argue BOTH sides of any stock. In interviews, being asked to argue the other side is the ultimate test. It proves you've done thorough, unbiased analysis."},
+{f:"DCF (Discounted Cash Flow)",b:"Valuation method that projects future free cash flows and discounts them back to present value using WACC. Shows what a company is worth based on its future cash generation. Common interview question: 'Walk me through a DCF.' Key inputs: revenue growth, margins, WACC, terminal value."},
+{f:"Consumer Trade-Down",b:"When consumers switch from premium to cheaper alternatives. In a recession, shoppers move from Whole Foods to Costco/Walmart, from name brands to private label. Trade-down BENEFITS value retailers like Costco and Dollar General. It's a key theme in consumer staples."},
+{f:"Equity Research vs. Investment Banking",b:"ER analysts publish stock recommendations, build financial models, write research notes, and advise institutional investors. Bankers execute deals (M&A, IPOs, debt offerings). ER interviews test INVESTMENT THINKING and analytical rigor. Banking interviews test technical skills and deal knowledge."},
+];
+
+// =====================
+// NAV
+// =====================
+function goMenu(){
+  S.ch=-1;S.st=0;upd();
+  let h=`<div class="bx tc" style="padding:26px 22px">
+    <h2 style="font-size:1.4em">Stock Pitch Bootcamp</h2>
+    <p>Learn to build and deliver equity stock pitches that get you hired. Designed for interviews at BMO Capital Markets and Leerink Partners.</p>
+    <p style="color:var(--cyan);font-size:.82em;margin-top:8px">BMO (Consumer Staples ER) &bull; Leerink (Healthcare ER)</p>
+  </div>
+  <div class="ch-grid">`;
+  CH.forEach((c,i)=>{
+    const dn=S.done.has(i),lk=i>0&&!S.done.has(i-1)&&!dn;
+    h+=`<div class="ch-i ${dn?'dn':''} ${lk?'lk':''}" onclick="${lk?'':'go('+i+')'}">
+      <div class="ch-ic">${c.icon}</div>
+      <div class="ch-inf"><div class="ch-nm">${c.name}</div><div class="ch-ds">${c.desc}</div></div>
+      <div class="ch-st ${dn?'dn':lk?'lk':'nw'}">${dn?'Done':lk?'Locked':'Play'}</div>
+    </div>`;
+  });
+  h+=`</div><div class="br" style="justify-content:center;margin-top:6px">
+    <button class="btn btn-g" onclick="renderFC()">Flashcards (${FC.length})</button>
+    <button class="btn btn-b" onclick="condMenu()" style="background:linear-gradient(135deg,var(--purple),var(--blue))">🧠 Conditioning Mode</button></div>`;
+  if(S.tot>0){const p=Math.round(S.ok/S.tot*100);
+    const missHist=JSON.parse(localStorage.getItem('sp_cond_misses')||'{}');
+    const missCount=Object.keys(missHist).length;
+    h+=`<div class="bx" style="margin-top:12px"><div class="rs">
+      <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">XP</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--green)">${p}%</div><div class="rs-l">Accuracy</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.mx}</div><div class="rs-l">Best Streak</div></div>
+    </div></div>`;
+    if(missCount>0)h+=`<p style="text-align:center;margin-top:6px;font-size:.78em;color:var(--red)">${missCount} weak spot${missCount>1?'s':''} detected -- <a href="#" onclick="event.preventDefault();condMenu()" style="color:var(--red);text-decoration:underline">drill them</a></p>`}
+  h+=`<div style="text-align:center;margin-top:16px"><button style="background:none;border:none;color:var(--dim);font-size:.7em;cursor:pointer;font-family:inherit;text-decoration:underline" onclick="if(confirm('Reset all progress? This cannot be undone.')){localStorage.removeItem('stock_pitch_prep');localStorage.removeItem('sp_cond_misses');location.reload()}">Reset Progress</button></div>`;
+  M().innerHTML=h;
+}
+function go(i){S.ch=i;S.st=0;upd();rend()}
+function rend(){
+  const c=CH[S.ch];
+  if(S.st>=c.steps.length){S.done.add(S.ch);save();upd();
+    const p=S.tot?Math.round(S.ok/S.tot*100):0;
+    M().innerHTML=`<div class="bx in tc" style="padding:34px 22px">
+      <div style="font-size:2.2em;margin-bottom:6px">${c.icon}</div>
+      <h2 style="font-size:1.3em">Chapter Complete: ${c.name}</h2>
+      <div class="rs" style="margin-top:14px">
+        <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${S.xp}</div><div class="rs-l">XP</div></div>
+        <div class="rs-i"><div class="rs-v" style="color:var(--green)">${p}%</div><div class="rs-l">Accuracy</div></div>
+        <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${S.done.size}/${CH.length}</div><div class="rs-l">Chapters</div></div>
+      </div>
+      ${S.done.size===CH.length?'<p style="margin-top:14px;color:var(--gold);font-weight:700">ALL CHAPTERS COMPLETE. You now know how to build a structured stock pitch, construct both bull and bear cases, handle tough pushback from interviewers, and deliver with confidence. Ben Wood and Lucas Cohen are going to be impressed. Go get that offer.</p>':''}
+      <div class="br" style="justify-content:center;margin-top:14px">
+        <button class="btn btn-b" onclick="goMenu()">Menu</button>
+        ${S.ch<CH.length-1?`<button class="btn btn-g" onclick="go(${S.ch+1})">Next Chapter</button>`:''}
+      </div>
+    </div>`;
+    toast('Chapter complete! +bonus XP','b');S.xp+=15;upd();return}
+  const ct=c.steps[S.st]();
+  M().innerHTML=`<div class="in">
+    <div class="br" style="margin-bottom:10px">
+      <button class="btn btn-g" onclick="goMenu()">← Menu</button>
+      <span style="flex:1"></span>
+      <span style="color:var(--dim);font-size:.8em;align-self:center">${c.name} · ${S.st+1}/${c.steps.length}</span>
+    </div>
+    ${ct}
+    <div class="br" style="margin-top:18px;justify-content:flex-end">
+      ${S.st>0?'<button class="btn btn-g" onclick="S.st--;rend()">← Back</button>':''}
+      <button class="btn btn-b" onclick="S.st++;rend()">Continue →</button>
+    </div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderFC(){
+  const fc=FC[S.fcIdx];
+  M().innerHTML=`
+    <div class="br" style="margin-bottom:10px">
+      <button class="btn btn-g" onclick="goMenu()">← Menu</button>
+      <span style="flex:1"></span>
+      <span style="color:var(--dim);font-size:.8em;align-self:center">${S.fcIdx+1}/${FC.length}</span>
+    </div>
+    <div class="fcc" onclick="document.getElementById('fcd').classList.toggle('fl')">
+      <div class="fcrd" id="fcd">
+        <div class="fcf fcfr"><h3>${fc.f}</h3><div class="fch">Click to flip</div></div>
+        <div class="fcf fcbk"><p>${fc.b}</p></div>
+      </div>
+    </div>
+    <div class="br" style="justify-content:center;margin-top:8px">
+      <button class="btn btn-g" onclick="S.fcIdx=(S.fcIdx-1+FC.length)%FC.length;renderFC()">← Prev</button>
+      <button class="btn btn-g" onclick="for(let i=FC.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[FC[i],FC[j]]=[FC[j],FC[i]]}S.fcIdx=0;renderFC()">Shuffle</button>
+      <button class="btn btn-b" onclick="S.fcIdx=(S.fcIdx+1)%FC.length;renderFC()">Next →</button>
+    </div>`;
+}
+
+// =====================
+// CONDITIONING MODE
+// =====================
+
+const COND={
+  items:[],phase:0,round:0,idx:0,timer:null,timeLeft:0,totalTime:0,
+  correct:0,wrong:0,streak:0,bestStreak:0,history:[],sessionXP:0,
+  modes:['speed','recall','reverse','interview'],modeIdx:0
+};
+
+const COND_ITEMS=[
+// Pitch framework
+{q:"The 5 parts of a stock pitch: Company Overview, Thesis/Why Now, Key Catalysts, ___, Risks & Mitigants",a:"Valuation",cat:"framework",hints:["Is it cheap or expensive?","Target price"]},
+{q:"A view that differs from market consensus is called a ___",a:"variant perception",cat:"framework",hints:["Differentiated view","Disagreeing with the crowd"]},
+{q:"The initial stock pitch delivery should be ___-___ seconds",a:"60-90",cat:"framework",hints:["About a minute","Not too long, not too short"]},
+{q:"The most important part of the thesis is answering 'Why ___?'",a:"Now",cat:"framework",hints:["Timing question","Why today, not yesterday?"]},
+{q:"After the initial pitch, expect ___-___ minutes of follow-up questions",a:"3-5",cat:"framework",hints:["Several minutes","Where depth shows"]},
+{q:"The 60-second formula: Hook -> ___ -> Catalysts -> Valuation -> Risk",a:"Thesis",cat:"framework",hints:["Your investment argument","Why the market is wrong"]},
+
+// Valuation concepts
+{q:"Costco trades at approximately ___x forward P/E",a:"50",cat:"valuation",hints:["Premium multiple","Higher than Walmart"]},
+{q:"Walmart trades at approximately ___x forward P/E",a:"35",cat:"valuation",hints:["Below Costco","Mid-thirties"]},
+{q:"Kroger trades at approximately ___x forward P/E",a:"15",cat:"valuation",hints:["Cheapest of the three","Mid-teens"]},
+{q:"P/E stands for Price to ___",a:"Earnings",cat:"valuation",hints:["Bottom line metric","EPS denominator"]},
+{q:"DCF stands for Discounted ___ Flow",a:"Cash",cat:"valuation",hints:["Money generated","Free ___"]},
+{q:"The gap between intrinsic value and market price is called margin of ___",a:"safety",cat:"valuation",hints:["Protection concept","Benjamin Graham term"]},
+{q:"When future cash flows are brought back to present value, the rate used is called ___",a:"WACC",cat:"valuation",hints:["Weighted average","Cost of capital"]},
+
+// Costco pitch
+{q:"Costco operates ___+ warehouse clubs globally",a:"900",cat:"costco",hints:["Three digits","Just under a thousand"]},
+{q:"Costco's membership renewal rate is above ___%",a:"90",cat:"costco",hints:["Over ninety","Extremely sticky"]},
+{q:"Costco has approximately ___ million cardholders",a:"130",cat:"costco",hints:["Over a hundred million","Huge base"]},
+{q:"Costco raises membership fees approximately every ___-___ years",a:"5-7",cat:"costco",hints:["Half a decade or more","Not annual"]},
+{q:"Costco's private label brand is called ___",a:"Kirkland",cat:"costco",hints:["Named after a city","Kirkland Signature"]},
+{q:"Costco's EPS growth has been consistently ___-___% annually",a:"10-12",cat:"costco",hints:["Double digits","Low teens"]},
+{q:"Costco is opening ___-___ new warehouses per year internationally",a:"25-30",cat:"costco",hints:["Two to three dozen","Expansion pace"]},
+{q:"Costco's basic membership increased from $60 to $___",a:"65",cat:"costco",hints:["Five dollar increase","Mid-sixties"]},
+{q:"Costco's Executive membership increased from $120 to $___",a:"130",cat:"costco",hints:["Ten dollar increase","One-thirty"]},
+
+// Shorting concepts
+{q:"When you short a stock, your maximum loss is theoretically ___",a:"unlimited",cat:"shorting",hints:["Stock can go up forever","No ceiling"]},
+{q:"The fee paid to borrow shares for shorting is called ___ cost",a:"borrow",cat:"shorting",hints:["Lending fee","Ranges from <1% to 50%+"]},
+{q:"A ___ squeeze forces short sellers to cover, pushing the stock higher",a:"short",cat:"shorting",hints:["Covering cascade","GameStop 2021"]},
+{q:"The percentage of float sold short is called short ___",a:"interest",cat:"shorting",hints:["How crowded is the short?","Measured as % of float"]},
+{q:"Being ___ on a short is the same as being wrong",a:"early",cat:"shorting",hints:["Timing problem","Paying borrow costs while waiting"]},
+{q:"High short interest (above ___-20% of float) signals squeeze risk",a:"15",cat:"shorting",hints:["Mid-teens threshold","Crowded positioning"]},
+{q:"The most famous short squeeze in history involved ___ (GME) in 2021",a:"GameStop",cat:"shorting",hints:["Video game retailer","Reddit-driven"]},
+
+// Delivery & interview
+{q:"In equity research, analysts are paid for their ___",a:"opinions",cat:"delivery",hints:["Recommendations","Investment views"]},
+{q:"When an interviewer challenges your valuation, you should ___ the concern then defend with data",a:"acknowledge",cat:"delivery",hints:["Don't dismiss","Show you hear them"]},
+{q:"For BMO interviews, pick a ___ staples stock to match Kelly Bania's coverage",a:"consumer",cat:"delivery",hints:["Grocery, food, household","Everyday products"]},
+{q:"Ben Wood previously worked at ___, a major hedge fund",a:"Point72",cat:"delivery",hints:["Steve Cohen's fund","Buy-side background"]},
+{q:"Lucas Cohen holds the ___ designation, showing analytical rigor",a:"CFA",cat:"delivery",hints:["Finance certification","Three levels"]},
+{q:"Kelly Bania rates Costco as ___ (BMO's equivalent of Buy)",a:"Outperform",cat:"delivery",hints:["Bullish rating","Better than market"]},
+{q:"The key retail metric for revenue at existing stores is ___-store sales",a:"same",cat:"delivery",hints:["Comps","Excluding new openings"]},
+{q:"A short pitch shows more ___ than a long-only pitch",a:"sophistication",cat:"delivery",hints:["Advanced thinking","Critical analysis"]},
+{q:"When asked 'Who is on the other side of this trade?' you should name specific ___ arguments",a:"bear",cat:"delivery",hints:["Opposing view","Counter-thesis"]},
+{q:"ER interviews test investment ___ while banking interviews test technical skills",a:"thinking",cat:"delivery",hints:["How you analyze","Idea generation"]},
+
+// Advanced concepts
+{q:"Revenue growth from existing operations (excluding M&A and FX) is called ___ growth",a:"organic",cat:"advanced",hints:["Internal growth","Volume + price"]},
+{q:"When consumers switch from premium to cheaper alternatives, it's called trade-___",a:"down",cat:"advanced",hints:["Cheaper options","Recession behavior"]},
+{q:"A company that has raised dividends 25+ consecutive years is a dividend ___",a:"aristocrat",cat:"advanced",hints:["Royalty term","P&G qualifies"]},
+{q:"The ability to raise prices without losing customers is called ___ power",a:"pricing",cat:"advanced",hints:["Inelastic demand","Charge more"]},
+{q:"SSS stands for Same-___ Sales",a:"Store",cat:"advanced",hints:["Existing locations","Comps metric"]},
+];
+
+function initCond(){
+  COND.items=COND_ITEMS.map((item,i)=>({
+    ...item,id:i,box:0,lastSeen:0,timesCorrect:0,timesWrong:0,nextDue:0
+  }));
+  COND.round=0;COND.idx=0;COND.correct=0;COND.wrong=0;COND.streak=0;COND.bestStreak=0;COND.history=[];COND.sessionXP=0;
+  for(let i=COND.items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[COND.items[i],COND.items[j]]=[COND.items[j],COND.items[i]]}
+}
+
+function getDueItems(){
+  return COND.items.filter(it=>{
+    if(it.box===0) return true;
+    const interval=[1,2,4,8][Math.min(it.box,3)];
+    return (COND.round - it.lastSeen) >= interval;
+  });
+}
+
+function condMenu(){
+  M().innerHTML=`<div class="in">
+    <div class="br" style="margin-bottom:10px">
+      <button class="btn btn-g" onclick="goMenu()">← Menu</button>
+    </div>
+    <div class="bx tc" style="padding:28px 22px">
+      <div style="font-size:2.2em;margin-bottom:6px">🧠</div>
+      <h2 style="font-size:1.4em">Conditioning Mode</h2>
+      <p style="margin-top:8px">Train your subconscious to KNOW pitch concepts -- not just recognize them, but retrieve them instantly under interview pressure.</p>
+      <div class="cm-sci" style="margin-top:14px;text-align:left">
+        <strong>The Science Behind This Mode:</strong><br>
+        <strong>Spaced Repetition</strong> (Ebbinghaus, 1885) -- Items you get wrong come back sooner. Items you nail get spaced out.<br>
+        <strong>Active Recall</strong> (Roediger & Karpicke, 2006) -- Retrieving info from memory strengthens it 3x more than re-reading.<br>
+        <strong>Interleaving</strong> (Rohrer & Taylor, 2007) -- Mixing topics randomly builds stronger neural connections.<br>
+        <strong>Desirable Difficulty</strong> (Bjork, 1994) -- Timed pressure drives deeper encoding.<br>
+        <strong>Testing Effect</strong> (Roediger & Butler, 2011) -- Being tested beats re-studying by 50%+ for long-term retention.
+      </div>
+    </div>
+    <div class="ch-grid" style="margin-top:12px">
+      <div class="ch-i" onclick="startCond('speed')">
+        <div class="ch-ic">⚡</div>
+        <div class="ch-inf"><div class="ch-nm">Speed Round</div><div class="ch-ds">6-second timer. React, don't think. Build automatic reflexes.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('recall')">
+        <div class="ch-ic">✍️</div>
+        <div class="ch-inf"><div class="ch-nm">Active Recall</div><div class="ch-ds">Type answers from memory. No multiple choice crutch.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('reverse')">
+        <div class="ch-ic">🔄</div>
+        <div class="ch-inf"><div class="ch-nm">Interleaving</div><div class="ch-ds">Given the answer, recall the question. Builds bidirectional memory.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('interview')">
+        <div class="ch-ic">🎤</div>
+        <div class="ch-inf"><div class="ch-nm">Interview Pressure</div><div class="ch-ds">Questions phrased as Ben Wood or Lucas Cohen would ask.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('marathon')">
+        <div class="ch-ic">🏃</div>
+        <div class="ch-inf"><div class="ch-nm">Spaced Repetition</div><div class="ch-ds">All modes interleaved with Leitner box spacing. The ultimate session.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+      <div class="ch-i" onclick="startCond('weak')">
+        <div class="ch-ic">🎯</div>
+        <div class="ch-inf"><div class="ch-nm">Weak Spots</div><div class="ch-ds">Targets ONLY items you've gotten wrong before.</div></div>
+        <div class="ch-st nw">Go</div>
+      </div>
+    </div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startCond(mode){
+  initCond();
+  COND.mode=mode;
+  COND.round=0;
+  if(mode==='weak'){
+    const hist=JSON.parse(localStorage.getItem('sp_cond_misses')||'{}');
+    const hasWeaks=COND.items.some(it=>hist[it.q]);
+    if(!hasWeaks){
+      M().innerHTML=`<div class="bx in tc" style="padding:30px 22px">
+        <div style="font-size:2em;margin-bottom:8px">🎯</div>
+        <h2 style="font-size:1.2em">No Weak Spots Yet</h2>
+        <p style="margin-top:8px">Run a Speed Round or Spaced Repetition session first -- then Weak Spots will target items you missed.</p>
+        <div class="br" style="justify-content:center;margin-top:14px">
+          <button class="btn btn-b" onclick="condMenu()">← Back</button>
+        </div>
+      </div>`;
+      return;
+    }
+    COND.items.forEach(it=>{
+      if(hist[it.q])it.box=0;
+      else it.box=3;
+    });
+  }
+  nextCondItem();
+}
+
+function nextCondItem(){
+  COND.round++;
+  if(COND.timer){clearInterval(COND.timer);COND.timer=null}
+
+  let due=getDueItems();
+  if(due.length===0) return condComplete();
+
+  due.sort((a,b)=>a.box-b.box);
+  const weights=due.map(it=>Math.max(4-it.box,1));
+  const totalW=weights.reduce((s,w)=>s+w,0);
+  let r=Math.random()*totalW,cum=0;
+  let picked=due[0];
+  for(let i=0;i<due.length;i++){cum+=weights[i];if(r<=cum){picked=due[i];break}}
+
+  COND.current=picked;
+
+  let presentMode=COND.mode;
+  if(COND.mode==='marathon'){
+    const modes=['speed','recall','reverse','interview'];
+    presentMode=modes[Math.floor(Math.random()*modes.length)];
+  }
+
+  const done=COND.items.filter(it=>it.box>=2).length;
+  const total=COND.items.length;
+  const pct=Math.round(done/total*100);
+  const catColors={framework:'var(--blue)',valuation:'var(--cyan)',costco:'var(--green)',shorting:'var(--red)',delivery:'var(--gold)',advanced:'var(--purple)'};
+  const catNames={framework:'FRAMEWORK',valuation:'VALUATION',costco:'COSTCO',shorting:'SHORTING',delivery:'DELIVERY',advanced:'ADVANCED'};
+  const catTag=`<span style="font-size:.6em;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:${catColors[picked.cat]||'var(--dim)'}">${catNames[picked.cat]||picked.cat}</span>`;
+
+  let topBar=`<div class="br" style="margin-bottom:10px">
+    <button class="btn btn-g" onclick="if(COND.timer)clearInterval(COND.timer);condMenu()">← Back</button>
+    <span style="flex:1"></span>
+    <span style="color:var(--dim);font-size:.75em;align-self:center">${COND.correct+COND.wrong} answered · ${done}/${total} locked</span>
+  </div>
+  <div class="cm-bar"><div class="cm-fill" style="width:${pct}%"></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0">
+    ${catTag}
+    <span style="font-size:.7em;color:var(--dim)">Box ${picked.box}/3 ${picked.box===0?'· New':picked.box===1?'· Learning':picked.box===2?'· Known':'· Mastered'}</span>
+  </div>
+  <div class="cm-streak-bar">${COND.history.slice(-20).map(h=>`<div class="cm-dot ${h?'hit':'miss'}"></div>`).join('')}</div>`;
+
+  if(presentMode==='speed') renderSpeed(topBar,picked);
+  else if(presentMode==='recall') renderRecall(topBar,picked);
+  else if(presentMode==='reverse') renderReverse(topBar,picked);
+  else if(presentMode==='interview') renderInterview(topBar,picked);
+}
+
+// ---- SPEED DRILL ----
+function renderSpeed(topBar,item){
+  const timeLimit=item.box>=2?4:6;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+
+  const wrongs=COND.items.filter(it=>it.id!==item.id).sort(()=>Math.random()-.5).slice(0,3).map(it=>it.a);
+  const opts=[item.a,...wrongs].sort(()=>Math.random()-.5);
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Speed Round</strong> -- Automaticity training. React in under ${timeLimit}s. Speed builds reflexive knowledge that survives interview pressure (Bjork, 1994).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div>
+    <div class="cm-prompt">${item.q.replace('___','______')}</div>
+    <div class="cm-box">${opts.map((o,i)=>`<button class="cm-opt" id="cmO${i}" onclick="condSpeedPick(${i},'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+    <div id="cm-fb"></div>
+  </div>`;
+
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=3&&t>1.5)el.className='cm-timer warn';
+    else if(t<=1.5)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      document.querySelectorAll('.cm-opt').forEach(b=>{b.classList.add('lk');b.onclick=null});
+      $('cm-fb').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong></div>`;
+      setTimeout(nextCondItem,2000);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condSpeedPick=function(idx,picked){
+  if(COND.timer)clearInterval(COND.timer);
+  const item=COND.current;
+  const ok=picked===item.a;
+  condAnswer(ok);
+  document.querySelectorAll('.cm-opt').forEach((b,i)=>{
+    b.classList.add('lk');b.onclick=null;
+    if(b.textContent===item.a)b.classList.add('ok');
+    else if(i===idx&&!ok)b.classList.add('no');
+  });
+  const speed=(COND.totalTime-COND.timeLeft).toFixed(1);
+  $('cm-fb').innerHTML=`<div class="qz-e">${ok?`<strong style="color:var(--green)">Correct!</strong> ${speed}s reaction time.`:`<strong style="color:var(--red)">Wrong.</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong>`}</div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- ACTIVE RECALL ----
+function renderRecall(topBar,item){
+  const timeLimit=10;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Active Recall</strong> -- Typing the answer from memory creates 3x stronger memory traces than recognition (Roediger & Karpicke, 2006).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div>
+    <div class="cm-prompt">${item.q.replace('___','______')}</div>
+    <input class="cm-input" id="cm-inp" placeholder="Type your answer..." autocomplete="off" onkeydown="if(event.key==='Enter')condRecallSubmit()">
+    <div class="br" style="justify-content:center;margin-top:8px">
+      <button class="btn btn-g" onclick="condRecallHint()" id="cm-hint">Hint (-5 XP)</button>
+      <button class="btn btn-b" onclick="condRecallSubmit()">Submit</button>
+    </div>
+    <div id="cm-fb"></div>
+  </div>`;
+  $('cm-inp').focus();
+
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=5&&t>2.5)el.className='cm-timer warn';
+    else if(t<=2.5)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      $('cm-inp').classList.add('no');$('cm-inp').disabled=true;
+      $('cm-fb').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong></div>`;
+      setTimeout(nextCondItem,2500);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condRecallHint=function(){
+  const item=COND.current;
+  const hint=item.hints[Math.floor(Math.random()*item.hints.length)];
+  COND.sessionXP=Math.max(0,COND.sessionXP-5);
+  $('cm-hint').disabled=true;$('cm-hint').textContent='Hint: '+hint;
+};
+
+window.condRecallSubmit=function(){
+  if(COND.timer)clearInterval(COND.timer);
+  const item=COND.current;
+  const inp=$('cm-inp');if(!inp||inp.disabled)return;
+  const val=inp.value.trim().toLowerCase();
+  inp.disabled=true;
+
+  const answer=item.a.toLowerCase();
+  const ok=val===answer || val.includes(answer) || (answer.includes(val) && val.length>=Math.min(3,answer.length)) || (val.replace(/[^a-z0-9]/g,'')===answer.replace(/[^a-z0-9]/g,''));
+
+  condAnswer(ok);
+  inp.classList.add(ok?'ok':'no');
+  $('cm-fb').innerHTML=`<div class="qz-e">${ok?`<strong style="color:var(--green)">Correct!</strong>`:`<strong style="color:var(--red)">Not quite.</strong> The answer is: <strong style="color:var(--cyan)">${item.a}</strong>`}</div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- REVERSE CARDS (Interleaving) ----
+function renderReverse(topBar,item){
+  const timeLimit=10;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+
+  const qShort=item.q.replace(/___/g,'').replace(/\s+/g,' ').trim();
+  const wrongQs=COND.items.filter(it=>it.id!==item.id&&it.cat!==item.cat).sort(()=>Math.random()-.5).slice(0,3).map(it=>it.q.replace(/___/g,'').replace(/\s+/g,' ').trim());
+  const opts=[qShort,...wrongQs].sort(()=>Math.random()-.5);
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Interleaving</strong> -- Bidirectional recall builds stronger neural pathways. Answer to question forces deeper encoding (Bjork & Bjork, 1992).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--purple),var(--blue))"></div></div>
+    <div class="cm-prompt">The answer is: <span style="color:var(--cyan);font-size:1.2em">${item.a}</span><br><span style="font-size:.8em;color:var(--dim)">What was the question?</span></div>
+    <div style="display:flex;flex-direction:column;gap:7px">${opts.map((o,i)=>`<button class="cm-opt" style="text-align:left;padding:12px 14px;font-size:.84em;font-weight:400" id="cmR${i}" onclick="condReversePick(${i})">${o}</button>`).join('')}</div>
+    <div id="cm-fb"></div>
+  </div>`;
+
+  COND._revOpts=opts;COND._revCorrect=qShort;
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=3.5&&t>1.5)el.className='cm-timer warn';
+    else if(t<=1.5)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      document.querySelectorAll('.cm-opt').forEach(b=>{b.classList.add('lk');b.onclick=null});
+      $('cm-fb').innerHTML=`<div class="qz-e"><strong style="color:var(--red)">Time's up!</strong> It was: <strong style="color:var(--cyan)">${qShort}</strong></div>`;
+      setTimeout(nextCondItem,2500);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condReversePick=function(idx){
+  if(COND.timer)clearInterval(COND.timer);
+  const picked=COND._revOpts[idx];
+  const ok=picked===COND._revCorrect;
+  condAnswer(ok);
+  document.querySelectorAll('.cm-opt').forEach((b,i)=>{
+    b.classList.add('lk');b.onclick=null;
+    if(b.textContent===COND._revCorrect)b.classList.add('ok');
+    else if(i===idx&&!ok)b.classList.add('no');
+  });
+  $('cm-fb').innerHTML=`<div class="qz-e">${ok?`<strong style="color:var(--green)">Correct!</strong>`:`<strong style="color:var(--red)">Wrong.</strong> It was: <strong style="color:var(--cyan)">${COND._revCorrect}</strong>`}</div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- INTERVIEW PRESSURE ----
+const INTERVIEW_FRAMES=[
+  q=>`Ben Wood leans forward: "${q.replace('___','what?')}"`,
+  q=>`Lucas Cohen, CFA, tests your recall: "${q.replace('___','fill in the blank?')}"`,
+  q=>`Ben, ex-Point72, wants speed: "${q.replace('___','...')}"`,
+  q=>`Lucas probes your pitch knowledge: "${q.replace('___','what exactly?')}"`,
+  q=>`Ben raises an eyebrow: "Every good candidate knows this. ${q.replace('___','what?')}"`,
+  q=>`Lucas checks your homework: "${q.replace('___','...')}?"`,
+  q=>`Ben tests your conviction: "You tell me -- ${q.replace('___','what?')}"`,
+  q=>`Lucas pauses mid-note: "${q.replace('___','go ahead')}"`,
+  q=>`Ben, channeling his hedge fund days: "Walk me through it. ${q.replace('___','...')}"`,
+  q=>`A Leerink interviewer asks: "For your pitch -- ${q.replace('___','what?')}"`,
+  q=>`Kelly Bania herself jumps in: "${q.replace('___','tell me')}"`,
+  q=>`The managing director looks up from your resume: "${q.replace('___','...')}"`,
+];
+
+function renderInterview(topBar,item){
+  const timeLimit=8;
+  COND.timeLeft=timeLimit;COND.totalTime=timeLimit;
+  const frame=INTERVIEW_FRAMES[Math.floor(Math.random()*INTERVIEW_FRAMES.length)](item.q);
+
+  M().innerHTML=`<div class="in">${topBar}
+    <div class="cm-sci"><strong>Interview Pressure</strong> -- Practicing under social pressure conditions your stress response. The testing effect under arousal creates the strongest memories (Cahill & McGaugh, 1998).</div>
+    <div class="cm-timer" id="cm-time">${timeLimit}</div>
+    <div class="cm-bar"><div class="cm-fill" id="cm-tbar" style="width:100%;background:linear-gradient(90deg,var(--orange),var(--gold))"></div></div>
+    <div class="dl"><div class="dl-av int">INT</div><div class="dl-bb"><div class="dl-n int">Interviewer</div><div class="dl-t">${frame}</div></div></div>
+    <input class="cm-input" id="cm-inp" placeholder="Your answer..." autocomplete="off" onkeydown="if(event.key==='Enter')condInterviewSubmit()">
+    <div class="br" style="justify-content:center;margin-top:8px">
+      <button class="btn btn-b" onclick="condInterviewSubmit()">Answer</button>
+    </div>
+    <div id="cm-fb"></div>
+  </div>`;
+  $('cm-inp').focus();
+
+  COND.timer=setInterval(()=>{
+    COND.timeLeft-=0.1;
+    const el=$('cm-time');const bar=$('cm-tbar');
+    if(!el){clearInterval(COND.timer);return}
+    const t=Math.max(0,COND.timeLeft);
+    el.textContent=t.toFixed(1);
+    bar.style.width=(t/COND.totalTime*100)+'%';
+    if(t<=4&&t>2)el.className='cm-timer warn';
+    else if(t<=2)el.className='cm-timer crit';
+    if(COND.timeLeft<=0){
+      clearInterval(COND.timer);
+      condAnswer(false);
+      $('cm-inp').classList.add('no');$('cm-inp').disabled=true;
+      $('cm-fb').innerHTML=`<div class="dl" style="margin-top:10px"><div class="dl-av int">INT</div><div class="dl-bb"><div class="dl-n int" style="color:var(--red)">Interviewer</div><div class="dl-t">The answer was <strong>${COND.current.a}</strong>. Let's move on...</div></div></div>`;
+      setTimeout(nextCondItem,2500);
+    }
+  },100);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.condInterviewSubmit=function(){
+  if(COND.timer)clearInterval(COND.timer);
+  const item=COND.current;
+  const inp=$('cm-inp');if(!inp||inp.disabled)return;
+  const val=inp.value.trim().toLowerCase();
+  inp.disabled=true;
+  const answer=item.a.toLowerCase();
+  const ok=val===answer||val.includes(answer)||(answer.includes(val)&&val.length>=Math.min(3,answer.length));
+  condAnswer(ok);
+  inp.classList.add(ok?'ok':'no');
+  $('cm-fb').innerHTML=`<div class="dl" style="margin-top:10px"><div class="dl-av int">INT</div><div class="dl-bb"><div class="dl-n int" style="color:var(${ok?'--green':'--red'})">${ok?'Interviewer (impressed)':'Interviewer'}</div><div class="dl-t">${ok?`"That's right -- <strong>${item.a}</strong>. Good." `:`"Actually, it's <strong>${item.a}</strong>. Let's keep going."`}</div></div></div>`;
+  setTimeout(nextCondItem,ok?1200:2500);
+};
+
+// ---- CORE CONDITIONING LOGIC ----
+function condAnswer(ok){
+  const item=COND.current;
+  item.lastSeen=COND.round;
+  if(ok){
+    item.box=Math.min(item.box+1,3);
+    item.timesCorrect++;
+    COND.correct++;
+    COND.streak++;
+    if(COND.streak>COND.bestStreak)COND.bestStreak=COND.streak;
+    COND.sessionXP+=10+(item.box*5);
+    S.xp+=10;
+    if(COND.streak===5)toast('5x Conditioning Streak!','b');
+    if(COND.streak===10)toast('10x STREAK! Your synapses are FIRING!','b');
+    if(COND.streak===15)toast('15x!! UNSTOPPABLE NEURAL PATHWAYS!','b');
+    if(item.box===3)toast('Item MASTERED! Locked in long-term memory.','g');
+  }else{
+    item.box=Math.max(item.box-1,0);
+    item.timesWrong++;
+    COND.wrong++;
+    COND.streak=0;
+    const hist=JSON.parse(localStorage.getItem('sp_cond_misses')||'{}');
+    hist[item.q]=(hist[item.q]||0)+1;
+    localStorage.setItem('sp_cond_misses',JSON.stringify(hist));
+  }
+  COND.history.push(ok);
+  upd();
+}
+
+function condComplete(){
+  if(COND.timer)clearInterval(COND.timer);
+  const mastered=COND.items.filter(it=>it.box>=3).length;
+  const conditioned=COND.items.filter(it=>it.box>=2).length;
+  const pct=Math.round(COND.correct/(COND.correct+COND.wrong)*100)||0;
+
+  M().innerHTML=`<div class="bx in tc" style="padding:34px 22px">
+    <div style="font-size:2.5em;margin-bottom:6px">🧠</div>
+    <h2 style="font-size:1.3em">Session Complete</h2>
+    <p style="margin-top:6px;color:var(--dim)">Your pitch knowledge just got a serious upgrade.</p>
+    <div class="rs" style="margin-top:14px">
+      <div class="rs-i"><div class="rs-v" style="color:var(--green)">${pct}%</div><div class="rs-l">Accuracy</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--cyan)">${COND.bestStreak}</div><div class="rs-l">Best Streak</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--gold)">${COND.sessionXP}</div><div class="rs-l">Session XP</div></div>
+    </div>
+    <div class="rs" style="margin-top:8px">
+      <div class="rs-i"><div class="rs-v" style="color:var(--purple)">${mastered}</div><div class="rs-l">Mastered</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--blue)">${conditioned}</div><div class="rs-l">Conditioned</div></div>
+      <div class="rs-i"><div class="rs-v" style="color:var(--dim)">${COND.items.length-conditioned}</div><div class="rs-l">Need Work</div></div>
+    </div>
+    <div class="cm-sci" style="margin-top:14px;text-align:left">
+      <strong>What just happened in your brain:</strong><br>
+      Every correct retrieval strengthened the neural pathway to that memory. Items you got wrong were re-queued at shorter intervals. Run this again in 30-60 minutes for maximum long-term encoding (spacing effect).
+    </div>
+    ${(()=>{
+      const weak=COND.items.filter(it=>it.timesWrong>0).sort((a,b)=>b.timesWrong-a.timesWrong).slice(0,5);
+      if(weak.length===0)return '<div class="bx2 gr" style="margin-top:12px"><span class="tag tag-gr">PERFECT SESSION</span><p>Zero misses. Your neural pathways are locked in. You\\'re ready to pitch.</p></div>';
+      return '<div class="bx2 re" style="margin-top:12px"><span class="tag tag-re">YOUR WEAK SPOTS</span><p style="margin-bottom:8px">These came back to haunt you -- hit "Weak Spots" mode to drill them:</p><ul>'+weak.map(w=>`<li style="font-size:.84em"><strong>${w.q.replace(/___/g,'___')}</strong> → <span style="color:var(--cyan)">${w.a}</span> <span style="color:var(--red);font-size:.8em">(missed ${w.timesWrong}x)</span></li>`).join('')+'</ul></div>';
+    })()}
+    <div class="br" style="justify-content:center;margin-top:14px">
+      <button class="btn btn-b" onclick="startCond(COND.mode)">Run Again</button>
+      <button class="btn btn-g" onclick="startCond('weak')">Weak Spots</button>
+      <button class="btn btn-g" onclick="condMenu()">Change Mode</button>
+      <button class="btn btn-g" onclick="goMenu()">Main Menu</button>
+    </div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+upd();goMenu();
+</script>
+</body>
+</html>
