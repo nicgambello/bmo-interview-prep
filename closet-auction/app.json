@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Closet Auction",
+    "slug": "closet-auction",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "closetauction",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0b0b10"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.closetauction.app",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "We need access to your photos so you can list clothing items for auction.",
+        "NSCameraUsageDescription": "We need camera access so you can photograph clothing items to list."
+      }
+    },
+    "android": {
+      "package": "com.closetauction.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#0b0b10"
+      },
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Closet Auction accesses your photos so you can list items.",
+          "cameraPermission": "Closet Auction uses the camera so you can photograph items."
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      }
+    }
+  }
+}
