@@ -10,7 +10,8 @@ import type { Group } from '@/types/database';
 type GroupRow = Group & { member_count: number; live_count: number };
 
 export default function GroupsList() {
-  const { signOut } = useAuth();
+  // signOut moved to profile screen
+  useAuth();
   const [groups, setGroups] = useState<GroupRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -51,8 +52,8 @@ export default function GroupsList() {
         options={{
           title: 'Your groups',
           headerRight: () => (
-            <Pressable onPress={signOut} hitSlop={8}>
-              <Text style={{ color: theme.dim }}>Sign out</Text>
+            <Pressable onPress={() => router.push('/profile')} hitSlop={8}>
+              <Text style={{ color: theme.accent, fontWeight: '700' }}>Profile</Text>
             </Pressable>
           ),
         }}

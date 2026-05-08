@@ -42,7 +42,14 @@
           "cameraPermission": "Closet Auction uses the camera so you can photograph items."
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ff6b8a"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

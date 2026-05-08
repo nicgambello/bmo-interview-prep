@@ -2,7 +2,11 @@
 
 Invite friends into a private group, photograph clothing from your closet, and let everyone bid for the time window you choose. Top bid when the timer runs out wins the item.
 
-Built with **Expo (React Native)** + **Supabase** (Postgres, Auth, Storage, Realtime). The path from this codebase to TestFlight / App Store is below.
+Built with **Expo (React Native)** + **Supabase** (Postgres, Auth, Storage, Realtime).
+
+> **Shipping to the App Store?** Follow [`SHIPPING.md`](./SHIPPING.md) — it's the actual checklist with timing.
+>
+> **Need a privacy policy?** Start from [`PRIVACY.md`](./PRIVACY.md) — required before App Review.
 
 ## What's in the box
 
@@ -10,9 +14,13 @@ Built with **Expo (React Native)** + **Supabase** (Postgres, Auth, Storage, Real
 - Create or join groups by 6-character invite code
 - Upload a photo (camera or library), title, description, starting bid, and auction length (15m / 1h / 6h / 1d / 3d)
 - Live item grid per group with countdowns
-- Bidding screen with live realtime updates, bid history, quick-bid buttons, and haptic feedback
+- Bidding screen with realtime updates, bid history, quick-bid buttons, haptic feedback
 - Server-side validation: minimum bid, deadline enforcement, seller-can't-bid, member-only — all in a single SQL `place_bid` RPC
 - Auction settlement: `settle_due_auctions` RPC marks expired auctions and records the winner
+- **Push notifications**: "you've been outbid", "new bid on your listing", "you won" — fired from a Postgres trigger via `pg_net` to the Expo Push API
+- **Profile screen** with display-name editing, blocked-user list, sign out, **delete account** (full cascade)
+- **Moderation**: report items, block sellers (Apple Guideline 1.2 compliant)
+- **Cancel auction** by the seller before bids end
 
 ## One-time backend setup (Supabase, ~10 min)
 

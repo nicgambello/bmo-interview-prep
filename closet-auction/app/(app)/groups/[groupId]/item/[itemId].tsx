@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -115,6 +115,76 @@ export default function ItemDetail() {
     load();
   }
 
+  function openMenu() {
+    if (!item) return;
+    const options: { label: string; destructive?: boolean; onPress: () => void }[] = [];
+
+    if (item.seller_id === userId) {
+      if (item.status === 'live') {
+        options.push({
+          label: 'Cancel auction',
+          destructive: true,
+          onPress: () =>
+            Alert.alert('Cancel auction?', 'This ends the listing immediately.', [
+              { text: 'Keep it', style: 'cancel' },
+              {
+                text: 'Cancel listing',
+                style: 'destructive',
+                onPress: async () => {
+                  const { error } = await supabase.rpc('cancel_auction', { _item_id: item.id });
+                  if (error) Alert.alert('Could not cancel', error.message);
+                  else load();
+                },
+              },
+            ]),
+        });
+      }
+    } else {
+      options.push({
+        label: 'Report this item',
+        onPress: () => promptReportReason(async (reason) => {
+          const { error } = await supabase.rpc('report_item', { _item_id: item.id, _reason: reason });
+          Alert.alert(error ? 'Report failed' : 'Report received', error?.message ?? 'Thanks. We review reports within 24 hours.');
+        }),
+      });
+      options.push({
+        label: 'Block seller',
+        destructive: true,
+        onPress: () =>
+          Alert.alert(
+            'Block this seller?',
+            "You won't see their listings anymore. You can unblock from your profile.",
+            [
+              { text: 'Cancel', style: 'cancel' },
+              {
+                text: 'Block',
+                style: 'destructive',
+                onPress: async () => {
+                  const { error } = await supabase.rpc('block_user', { _user_id: item.seller_id });
+                  if (error) {
+                    Alert.alert('Could not block', error.message);
+                    return;
+                  }
+                  router.back();
+                },
+              },
+            ],
+          ),
+      });
+    }
+
+    if (options.length === 0) return;
+
+    Alert.alert('Item options', undefined, [
+      ...options.map((o) => ({
+        text: o.label,
+        style: (o.destructive ? 'destructive' : 'default') as 'destructive' | 'default',
+        onPress: o.onPress,
+      })),
+      { text: 'Cancel', style: 'cancel' as const },
+    ]);
+  }
+
   if (loading || !item) {
     return (
       <SafeAreaView style={styles.safe}>
@@ -132,7 +202,16 @@ export default function ItemDetail() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <Stack.Screen options={{ title: item.title }} />
+      <Stack.Screen
+        options={{
+          title: item.title,
+          headerRight: () => (
+            <Pressable onPress={openMenu} hitSlop={8}>
+              <Text style={{ color: theme.text, fontSize: 22, paddingHorizontal: 4 }}>⋯</Text>
+            </Pressable>
+          ),
+        }}
+      />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
           <SignedImage path={item.image_path} style={styles.hero} />
@@ -243,6 +322,21 @@ export default function ItemDetail() {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
+}
+
+function promptReportReason(cb: (reason: string) => void) {
+  const reasons: { label: string; value: string }[] = [
+    { label: 'Inappropriate', value: 'inappropriate' },
+    { label: 'Spam', value: 'spam' },
+    { label: 'Counterfeit', value: 'counterfeit' },
+    { label: 'Fraud', value: 'fraud' },
+    { label: 'Harassment', value: 'harassment' },
+    { label: 'Other', value: 'other' },
+  ];
+  Alert.alert('Why are you reporting this?', undefined, [
+    ...reasons.map((r) => ({ text: r.label, onPress: () => cb(r.value) })),
+    { text: 'Cancel', style: 'cancel' as const },
+  ]);
 }
 
 function mapBidError(msg: string): string {

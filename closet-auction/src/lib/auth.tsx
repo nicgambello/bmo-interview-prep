@@ -1,5 +1,6 @@
 import { Session } from '@supabase/supabase-js';
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { registerForPushAndStoreToken } from './push';
 import { supabase } from './supabase';
 
 type AuthContextValue = {
@@ -19,9 +20,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);
+      if (data.session?.user.id) {
+        registerForPushAndStoreToken(data.session.user.id).catch(() => {});
+      }
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
       setSession(s);
+      if (event === 'SIGNED_IN' && s?.user.id) {
+        registerForPushAndStoreToken(s.user.id).catch(() => {});
+      }
     });
     return () => sub.subscription.unsubscribe();
   }, []);
